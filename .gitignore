@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.venv/
+venv/
+.env
+.env.*
+
+# VS Code
+.vscode/
+.history/
+
+# OS / Misc
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node (if later used)
+node_modules/
+dist/
+build/
