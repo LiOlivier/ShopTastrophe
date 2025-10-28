@@ -1,15 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from shop import ProductRepository, CartRepository, CartService, SessionManager, UserRepository
-
+from core import cart_service, sessions, products # on importe nos services partagés
+    
 router = APIRouter(prefix="/cart", tags=["cart"])
-
-products = ProductRepository()
-carts = CartRepository()
-sessions = SessionManager()
-users = UserRepository()
-cart_service = CartService(carts, products)
-
 
 class AddCartRequest(BaseModel):
     token: str
@@ -32,7 +25,6 @@ def add_to_cart(req: AddCartRequest):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
 @router.get("/view")
 def view_cart(token: str):
     user_id = sessions.get_user_id(token)
@@ -44,7 +36,6 @@ def view_cart(token: str):
         "items": [vars(it) for it in cart.items.values()],
         "total_cents": cart.total_cents(products)
     }
-
 
 @router.delete("/remove")
 def remove_from_cart(req: RemoveCartRequest):
