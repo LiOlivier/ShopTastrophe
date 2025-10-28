@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # Utiliser un import relatif car `backend` est un package (voir __init__.py)
 from shop import Product, ProductRepository, CatalogService
 from dataclasses import asdict
+from api import auth
 
 app = FastAPI(title="ShopTastrophe 😏")
 
@@ -14,6 +15,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(auth.router)
 
 # Initialisation du backend en mémoire
 products = ProductRepository()
@@ -33,3 +36,4 @@ def root():
 def list_products():
     # Convertir les dataclasses en dicts pour une sérialisation JSON propre
     return [asdict(p) for p in catalog.list_products()]
+
