@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # Utiliser un import relatif car `backend` est un package (voir __init__.py)
-from .shop import Product, ProductRepository, CatalogService  # import depuis shop.py
+from shop import Product, ProductRepository, CatalogService
 from dataclasses import asdict
 
 app = FastAPI(title="ShopTastrophe 😏")
