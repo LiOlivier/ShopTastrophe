@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # Utiliser un import relatif car `backend` est un package (voir __init__.py)
 from shop import Product, ProductRepository, CatalogService
 from dataclasses import asdict
-from api import auth
+from api import auth, cart
 
 app = FastAPI(title="ShopTastrophe 😏")
 
@@ -17,6 +17,7 @@ app.add_middleware(
 )
 
 app.include_router(auth.router)
+app.include_router(cart.router)
 
 # Initialisation du backend en mémoire
 products = ProductRepository()
