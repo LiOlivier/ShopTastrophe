@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from shop import Product
-from api import auth, cart
+from api import auth, cart, orders
 from core import products, catalog_service 
 from dataclasses import asdict
 
@@ -17,6 +17,7 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(cart.router)
+app.include_router(orders.router)
 
 # Quelques produits de test
 p1 = Product(id="1", name="T-Shirt Ironique", description="Coton bio", price_cents=1999, stock_qty=12)
