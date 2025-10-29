@@ -1,12 +1,12 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from core import sessions, cart_service, products
+from core import sessions, users, carts, products  
 from shop import OrderRepository, PaymentRepository, InvoiceRepository, BillingService, DeliveryService, PaymentGateway, OrderService, UserRepository
 
 router = APIRouter(prefix="/orders", tags=["orders"])
 
 # --- Instances nécessaires ---
-users = UserRepository()
+
 orders = OrderRepository()
 payments = PaymentRepository()
 invoices = InvoiceRepository()
@@ -15,10 +15,9 @@ billing = BillingService(invoices)
 delivery_svc = DeliveryService()
 gateway = PaymentGateway()
 order_service = OrderService(
-    orders, products, cart_service.carts, payments, invoices,
+    orders, products, carts, payments, invoices,
     billing, delivery_svc, gateway, users
 )
-
 # --- Requêtes ---
 class CheckoutRequest(BaseModel):
     token: str
