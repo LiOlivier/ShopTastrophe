@@ -1,44 +1,55 @@
 // src/components/Navbar.jsx
 import { Link } from "react-router-dom";
+import "./Navbar.css";
 
 export default function Navbar() {
   return (
-    <nav className="bg-neutral-900 text-white sticky top-0 z-50 shadow-md">
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <nav className="navbar">
+      <div className="navbar-inner">
         {/* Gauche - Logo */}
-        <div className="text-2xl font-semibold tracking-tight">
-          <Link to="/">ShopTastrophe 😏</Link>
+        <div className="navbar-logo">
+          <Link to="/" className="brand">
+            <img src="/logo.png" alt="ShopTastrophe" className="logo" />
+          </Link>
         </div>
 
         {/* Centre - Liens */}
-        <ul className="hidden md:flex gap-8 text-sm font-medium">
+        <ul className="navbar-links" aria-label="Navigation principale">
           <li>
-            <Link to="/" className="hover:text-blue-400 transition">
+            <Link to="/" className="nav-link">
               Accueil
             </Link>
           </li>
           <li>
-            <Link to="/home" className="hover:text-blue-400 transition">
+            <Link to="/home" className="nav-link">
               Produits
             </Link>
           </li>
           <li>
-            <Link to="/orders" className="hover:text-blue-400 transition">
+            <Link to="/orders" className="nav-link">
               Commandes
             </Link>
           </li>
         </ul>
 
         {/* Droite - Icônes */}
-        <div className="flex items-center gap-4 text-lg">
-          <button title="Langue" className="hover:text-blue-400 transition">
-            🌍
+        <div className="navbar-actions">
+          <button title="Langue" className="icon-btn" aria-label="Langue">
+            <img
+              src="/fr.png"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = "/france.png";
+              }}
+              alt="Langue"
+              className="icon-img"
+            />
           </button>
-          <button title="Profil" className="hover:text-blue-400 transition">
-            👤
+            <button title="Panier" className="icon-btn" aria-label="Panier">
+            <img src="/sac.png" alt="Panier" className="icon-img" />
           </button>
-          <button title="Panier" className="hover:text-blue-400 transition">
-            🛍️
+          <button title="Profil" className="icon-btn" aria-label="Profil">
+            <img src="/profil.png" alt="Profil" className="icon-img" />
           </button>
         </div>
       </div>

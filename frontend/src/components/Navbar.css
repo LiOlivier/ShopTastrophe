@@ -1,9 +1,9 @@
 :root {
-  --nav-bg: #0f172a; /* slate-900-ish */
-  --nav-fg: #ffffff;
-  --nav-muted: #cbd5e1; /* slate-300 */
-  --nav-accent: #3b82f6; /* blue-500 */
-  --maxw: 1100px;
+  --nav-bg: #ffffff; /* white */
+  --nav-fg: #111827; /* slate-900 */
+  --nav-muted: #4b5563; /* slate-600 */
+  --nav-accent: #2563eb; /* blue-600 */
+  --border: #e5e7eb; /* gray-200 */
 }
 
 .navbar {
@@ -12,38 +12,40 @@
   z-index: 50;
   background: var(--nav-bg);
   color: var(--nav-fg);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  border-bottom: 1px solid var(--border);
+  width: 100%;
+  overflow: hidden; 
 }
 
 .navbar-inner {
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 12px 20px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
   gap: 16px;
 }
 
-/* Logo */
+
 .navbar-logo .brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   text-decoration: none;
   color: inherit;
 }
+.navbar-logo, .navbar-logo .brand {
+  padding: 0;
+  margin: 0;
+  line-height: 0; 
+}
+
 .logo {
-  height: 36px;
+  height: 100px;              
   width: auto;
+  object-fit: contain;
   display: block;
-  border-radius: 6px;
 }
-.brand-text {
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-}
+.brand-text { display: none; }
 
 /* Links */
 .navbar-links {
@@ -51,11 +53,11 @@
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: center;
-  gap: 24px;
+  justify-content: center; 
+  justify-self: center;
 }
 .navbar-links .nav-link {
-  color: var(--nav-muted);
+  color: var(--nav-fg);
   text-decoration: none;
   font-weight: 500;
   font-size: 0.95rem;
@@ -72,27 +74,39 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  justify-self: end;
+  padding-right: 6px; /* léger espace à droite sans dépasser */
 }
 .icon-btn {
   background: transparent;
   color: var(--nav-muted);
   font-size: 1.15rem;
   border: none;
-  padding: 6px;
+  padding: 0; /* aucun padding pour minimiser la hauteur */
   border-radius: 6px;
   cursor: pointer;
   transition: color 0.2s ease, background 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0; /* évite l'espace vertical dû à la ligne de base */
 }
 .icon-btn:hover,
 .icon-btn:focus {
   color: var(--nav-fg);
-  background: rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.06);
   outline: none;
+}
+
+.icon-img {
+  width: 18px;
+  height: 18px;
+  display: block;
+  object-fit: contain;
 }
 
 /* Small screens */
 @media (max-width: 640px) {
-  .brand-text { display: none; }
   .navbar-links { gap: 14px; }
-  .navbar-inner { padding: 10px 14px; }
+  .navbar-inner { padding: 0 ; }
 }
