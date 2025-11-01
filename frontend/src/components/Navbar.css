@@ -21,8 +21,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 24px;
-  gap: 16px;
+  padding: 0px 60px;
+  gap: 12px;
 }
 
 
@@ -45,22 +45,26 @@
   object-fit: contain;
   display: block;
 }
-.brand-text { display: none; }
 
-/* Links */
+.brand-text { 
+    display: none; 
+}
+
+
 .navbar-links {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center; 
-  justify-self: center;
+  justify-self: center;    
+  gap: 70px;
 }
 .navbar-links .nav-link {
   color: var(--nav-fg);
   text-decoration: none;
-  font-weight: 500;
-  font-size: 0.95rem;
+  font-weight: 600;
+  font-size: 1.3rem; /* taille augmentée des liens */
   transition: color 0.2s ease;
 }
 .navbar-links .nav-link:hover,
@@ -73,9 +77,9 @@
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 24px;
   justify-self: end;
-  padding-right: 6px; /* léger espace à droite sans dépasser */
+  padding-right: 6px; /
 }
 .icon-btn {
   background: transparent;
@@ -99,10 +103,16 @@
 }
 
 .icon-img {
-  width: 18px;
-  height: 18px;
+  width: 28px;
+  height: 28px;
   display: block;
   object-fit: contain;
+}
+
+/* Profile icon slightly smaller for visual balance */
+.profile-icon {
+  width: 24px;
+  height: 24px;
 }
 
 /* Small screens */

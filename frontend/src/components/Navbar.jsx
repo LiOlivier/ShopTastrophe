@@ -8,7 +8,7 @@ export default function Navbar() {
       <div className="navbar-inner">
         {/* Gauche - Logo */}
         <div className="navbar-logo">
-          <Link to="/" className="brand">
+          <Link to="/" className="brand" aria-label="Accueil">
             <img src="/logo.png" alt="ShopTastrophe" className="logo" />
           </Link>
         </div>
@@ -16,18 +16,18 @@ export default function Navbar() {
         {/* Centre - Liens */}
         <ul className="navbar-links" aria-label="Navigation principale">
           <li>
-            <Link to="/" className="nav-link">
-              Accueil
-            </Link>
-          </li>
-          <li>
             <Link to="/home" className="nav-link">
-              Produits
+              Catalogues
             </Link>
           </li>
           <li>
             <Link to="/orders" className="nav-link">
               Commandes
+            </Link>
+          </li>
+          <li>
+            <Link to="/about" className="nav-link">
+              À propos
             </Link>
           </li>
         </ul>
@@ -49,7 +49,7 @@ export default function Navbar() {
             <img src="/sac.png" alt="Panier" className="icon-img" />
           </button>
           <button title="Profil" className="icon-btn" aria-label="Profil">
-            <img src="/profil.png" alt="Profil" className="icon-img" />
+            <img src="/profil.png" alt="Profil" className="icon-img profile-icon" />
           </button>
         </div>
       </div>
