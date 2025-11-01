@@ -1,9 +1,9 @@
 :root {
   --nav-bg: #ffffff;
-  --nav-fg: #111827; 
-  --nav-muted: #4b5563; 
+  --nav-fg: #111827;
+  --nav-muted: #4b5563;
   --nav-accent: #2563eb;
-  --border: #e5e7eb; 
+  --border: #e5e7eb;
 }
 
 .navbar {
@@ -46,8 +46,8 @@
   display: block;
 }
 
-.brand-text { 
-    display: none; 
+.brand-text {
+  display: none;
 }
 
 
@@ -108,7 +108,6 @@
   height: 24px;
 }
 
-/* Profile dropdown */
 .profile-menu {
   position: absolute;
   right: 0;

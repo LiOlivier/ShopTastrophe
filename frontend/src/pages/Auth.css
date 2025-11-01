@@ -1,10 +1,10 @@
 :root {
   --bg: #ffffff;
-  --ink: #111827; /* slate-900 */
-  --muted: #f3f4f6; /* gray-100 */
-  --line: #e5e7eb; /* gray-200 */
-  --accent: #27A7D5; /* brand blue */
-  --muted-text: #6b7280; /* slate-500 */
+  --ink: #111827;
+  --muted: #f3f4f6;
+  --line: #e5e7eb;
+  --accent: #27A7D5;
+  --muted-text: #6b7280;
 }
 
 .login-page {
