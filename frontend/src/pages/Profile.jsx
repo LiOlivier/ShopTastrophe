@@ -16,7 +16,7 @@ export default function Profile() {
     <div style={{ padding: 24 }}>
       <h1>Profil utilisateur</h1>
       <div style={{ marginTop: 12 }}>
-        <div><strong>Nom:</strong> {user?.name || "-"}</div>
+        <div><strong>Prénom:</strong> {user?.name || "-"}</div>
         <div><strong>Email:</strong> {user?.email}</div>
       </div>
       <div style={{ marginTop: 20, display: "flex", gap: 12 }}>

@@ -34,7 +34,7 @@ export default function Register() {
 					<h1>Inscription</h1>
 					<form onSubmit={onSubmit}>
 						<label>
-							Nom
+							Prénom
 							<input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
 						</label>
 						<label>

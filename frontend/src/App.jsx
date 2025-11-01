@@ -1,6 +1,6 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
@@ -10,11 +10,13 @@ import { AuthProvider } from "./context/AuthContext";
 import Profile from "./pages/Profile";
 
 function App() {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
   return (
     <AuthProvider>
       <div className="App">
         <Navbar />
-        <main style={{ padding: "2rem" }}>
+        <main className={`app-main${isHome ? " home" : ""}`}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Navigate to="/" replace />} />
