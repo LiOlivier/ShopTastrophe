@@ -3,14 +3,15 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
+  // Initialize synchronously from localStorage so a page refresh keeps the session
+  const [user, setUser] = useState(() => {
     try {
       const raw = localStorage.getItem("auth:user");
-      if (raw) setUser(JSON.parse(raw));
-    } catch (_) {}
-  }, []);
+      return raw ? JSON.parse(raw) : null;
+    } catch (_) {
+      return null;
+    }
+  });
 
   useEffect(() => {
     try {
@@ -31,8 +32,15 @@ export function AuthProvider({ children }) {
 
   const logout = () => setUser(null);
 
+  const updateUser = (patch) => {
+    setUser((prev) => {
+      if (!prev) return prev;
+      return { ...prev, ...patch };
+    });
+  };
+
   const value = useMemo(
-    () => ({ user, isAuthenticated: !!user, login, register, logout }),
+    () => ({ user, isAuthenticated: !!user, login, register, logout, updateUser }),
     [user]
   );
 
