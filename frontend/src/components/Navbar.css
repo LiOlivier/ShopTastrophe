@@ -1,9 +1,9 @@
 :root {
-  --nav-bg: #ffffff; /* white */
-  --nav-fg: #111827; /* slate-900 */
-  --nav-muted: #4b5563; /* slate-600 */
-  --nav-accent: #2563eb; /* blue-600 */
-  --border: #e5e7eb; /* gray-200 */
+  --nav-bg: #ffffff;
+  --nav-fg: #111827; 
+  --nav-muted: #4b5563; 
+  --nav-accent: #2563eb;
+  --border: #e5e7eb; 
 }
 
 .navbar {
@@ -73,33 +73,27 @@
   outline: none;
 }
 
-/* Right icons */
 .navbar-actions {
   display: flex;
   align-items: center;
   gap: 24px;
   justify-self: end;
-  padding-right: 6px; /
+  padding-right: 6px;
+  position: relative;
 }
 .icon-btn {
   background: transparent;
   color: var(--nav-muted);
   font-size: 1.15rem;
   border: none;
-  padding: 0; /* aucun padding pour minimiser la hauteur */
+  padding: 0; 
   border-radius: 6px;
   cursor: pointer;
   transition: color 0.2s ease, background 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  line-height: 0; /* évite l'espace vertical dû à la ligne de base */
-}
-.icon-btn:hover,
-.icon-btn:focus {
-  color: var(--nav-fg);
-  background: rgba(0,0,0,0.06);
-  outline: none;
+  line-height: 0; 
 }
 
 .icon-img {
@@ -109,13 +103,40 @@
   object-fit: contain;
 }
 
-/* Profile icon slightly smaller for visual balance */
 .profile-icon {
   width: 24px;
   height: 24px;
 }
 
-/* Small screens */
+/* Profile dropdown */
+.profile-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 8px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px;
+  display: none;
+  min-width: 220px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  z-index: 100;
+}
+.profile-menu.open { display: block; }
+.profile-menu .menu-item {
+  width: 100%;
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 10px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--nav-fg);
+}
+.profile-menu .menu-item:hover { background: #f3f4f6; }
+.profile-menu .menu-item.danger { color: #b91c1c; }
+
 @media (max-width: 640px) {
   .navbar-links { gap: 14px; }
   .navbar-inner { padding: 0 ; }

@@ -1,8 +1,23 @@
 // src/components/Navbar.jsx
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const onProfileClick = () => {
+    if (!isAuthenticated) navigate("/login");
+    else navigate("/profile");
+  };
+
+  const onLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-inner">
@@ -48,9 +63,10 @@ export default function Navbar() {
             <button title="Panier" className="icon-btn" aria-label="Panier">
             <img src="/sac.png" alt="Panier" className="icon-img" />
           </button>
-          <button title="Profil" className="icon-btn" aria-label="Profil">
+          <button title="Profil" className="icon-btn" aria-label="Profil" onClick={onProfileClick}>
             <img src="/profil.png" alt="Profil" className="icon-img profile-icon" />
           </button>
+          {/* Plus de menu déroulant: on redirige vers une page dédiée */}
         </div>
       </div>
     </nav>
