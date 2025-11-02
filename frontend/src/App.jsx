@@ -1,5 +1,6 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
@@ -28,6 +29,7 @@ function App() {
             <Route path="*" element={<div>Page introuvable</div>} />
           </Routes>
         </main>
+        <Footer />
       </div>
     </AuthProvider>
   );
