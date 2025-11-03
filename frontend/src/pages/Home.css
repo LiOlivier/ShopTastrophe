@@ -31,6 +31,7 @@
   background: rgba(255, 255, 255, 0.9);
   color: #15487D;
   user-select: none;
+  transition: background-color 200ms ease, color 200ms ease, transform 180ms ease, box-shadow 200ms ease, border-color 200ms ease;
 }
 
 .home-cta .label {
@@ -53,9 +54,22 @@
 .home-cta:hover {
   background: #15487D;
   color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(21, 72, 125, 0.18);
 }
 .home-cta:hover .arrow {
   border-left-color: #ffffff;
+}
+
+.home-cta:focus-visible {
+  outline: none;
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 3px rgba(21, 72, 125, 0.25), 0 10px 20px rgba(21, 72, 125, 0.18);
+}
+
+.home-cta:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 14px rgba(21, 72, 125, 0.16);
 }
 
 @media (max-width: 768px) {
