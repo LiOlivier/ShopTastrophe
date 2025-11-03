@@ -11,6 +11,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
+import Products from "./pages/Products";
 
 function App() {
   const location = useLocation();
@@ -25,6 +26,7 @@ function App() {
             <Route path="/home" element={<Navigate to="/" replace />} />
             <Route path="/about" element={<About />} />
             <Route path="/faq" element={<FAQ />} />
+            <Route path="/products" element={<Products />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/profile" element={<Profile />} />

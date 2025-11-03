@@ -51,7 +51,7 @@ export default function Navbar() {
         {/* Liens (desktop) */}
         <ul className="navbar-links" aria-label="Navigation principale">
           <li>
-            <Link to="/home" className="nav-link">
+            <Link to="/products" className="nav-link">
               Nos produits
             </Link>
           </li>
@@ -108,7 +108,7 @@ export default function Navbar() {
         role="dialog"
         aria-modal={menuOpen ? "true" : "false"}
       >
-        <Link to="/home" className="mobile-link" onClick={() => setMenuOpen(false)}>
+        <Link to="/products" className="mobile-link" onClick={() => setMenuOpen(false)}>
           Nos produits
         </Link>
         <Link to="/about" className="mobile-link" onClick={() => setMenuOpen(false)}>

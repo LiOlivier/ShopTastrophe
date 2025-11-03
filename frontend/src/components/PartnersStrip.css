@@ -1,0 +1,50 @@
+.partners-strip {
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+.partners-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px 20px;
+}
+
+.partners-list {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 24px;
+  align-items: center;
+}
+
+.partner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 44px;
+}
+
+.partner-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: #1f2937;
+}
+
+.partner-name {
+  color: #e5e7eb;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 920px) {
+  .partners-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .partners-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -1,9 +1,13 @@
 .home-blank {
   position: relative;
-  /* Make hero fill the viewport height to stabilize bottom anchoring */
-  min-height: 100vh;
-  min-height: 100svh;
-  min-height: 100dvh;
+  min-height: 70vh;
+  max-height: 80vh;
+  /* Constrain the background to this section instead of the whole page */
+  background-image: url('/back.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden; /* ensure any positioned children don't spill visually */
 }
 
 .home-footer {
@@ -81,4 +85,25 @@
     padding: 10px 14px;
   }
   .home-cta .arrow { width: 48px; }
+}
+
+/* On small screens or portrait, use the vertical background variant */
+@media (max-width: 768px), (orientation: portrait) {
+  .home-blank {
+    background-image: url('/vbg.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center top;
+    background-color: #ffffff;
+  }
+}
+
+.home-cat-wrap {
+  background: #ffffff;
+}
+
+.home-cat-wrap .cat-grid-section {
+  margin: 0 auto;
+  padding-top: 28px;
+  padding-bottom: 48px;
 }

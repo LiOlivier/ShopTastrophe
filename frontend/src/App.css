@@ -15,20 +15,7 @@
 }
 .app-main.home {
 	padding: 0;
-	background-image: url('/back.png');
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
 }
 
 .app-main.home::before { content: ""; }
-@media (max-width: 768px), (orientation: portrait) {
-	.app-main.home {
-		background-image: url('/vbg.png');
-		background-repeat: no-repeat;
-		background-size: contain;
-		background-position: center top;
-		background-color: #ffffff;
-	}
-}
 
