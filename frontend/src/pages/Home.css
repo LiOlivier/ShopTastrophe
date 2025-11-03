@@ -10,7 +10,8 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: clamp(24px, 4vh, 80px);
+  /* Keep close to bottom, but avoid huge gaps on zoom/dezoom */
+  bottom: clamp(12px, 2.5vh, 40px);
   text-align: center;
   z-index: 20;
 }
@@ -58,6 +59,9 @@
 }
 
 @media (max-width: 768px) {
+  .home-footer {
+    bottom: calc(clamp(40px, 8vh, 120px) + env(safe-area-inset-bottom));
+  }
   .home-cta .label {
     font-size: 13px;
     padding: 10px 14px;
