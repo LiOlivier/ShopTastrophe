@@ -18,25 +18,13 @@
 }
 
 .navbar-inner {
-  display: grid;
-  grid-template-columns: auto 1fr auto; /* left | center | right */
+  position: relative;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 24px;
   gap: 12px;
 }
-
-.navbar-left {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.navbar-center {
-  justify-self: center;
-  text-align: center;
-}
-
-.navbar-right { justify-self: end; }
 
 
 .navbar-logo .brand {
@@ -192,6 +180,8 @@
   .navbar-burger { display: inline-flex; }
   .navbar-actions { gap: 12px; }
   .icon-img { width: 24px; height: 24px; }
+  /* Logo centré en mobile */
+  .navbar-logo { position: absolute; left: 50%; transform: translateX(-50%); }
 }
 
 @media (min-width: 1024px) {

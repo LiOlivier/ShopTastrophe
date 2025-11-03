@@ -23,47 +23,45 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-inner">
-        {/* Colonne gauche: Burger (mobile) + Liens (desktop) */}
-        <div className="navbar-left">
-          <button
-            className="navbar-burger"
-            aria-label="Ouvrir le menu"
-            aria-controls="mobile-menu"
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((v) => !v)}
-          >
-            <img src="/bar.png" alt="Menu" className="burger-img" />
-          </button>
-          <ul className="navbar-links" aria-label="Navigation principale">
-            <li>
-              <Link to="/home" className="nav-link">
-                Catalogues
-              </Link>
-            </li>
-            <li>
-              <Link to="/about" className="nav-link">
-                À propos
-              </Link>
-            </li>
-            <li>
-              <Link to="/contact" className="nav-link">
-                Contact
-              </Link>
-            </li>
-          </ul>
+        {/* Burger (mobile seulement) */}
+        <button
+          className="navbar-burger"
+          aria-label="Ouvrir le menu"
+          aria-controls="mobile-menu"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((v) => !v)}
+        >
+          <img src="/bar.png" alt="Menu" className="burger-img" />
+        </button>
+
+        {/* Logo (gauche en desktop, centré en mobile via CSS) */}
+        <div className="navbar-logo">
+          <Link to="/" className="brand" aria-label="Accueil">
+            <img src="/logo.png" alt="ShopTastrophe" className="logo" />
+          </Link>
         </div>
 
-        {/* Colonne centre: Logo centré */}
-        <div className="navbar-center">
-          <div className="navbar-logo">
-            <Link to="/" className="brand" aria-label="Accueil">
-              <img src="/logo.png" alt="ShopTastrophe" className="logo" />
+        {/* Liens (desktop) */}
+        <ul className="navbar-links" aria-label="Navigation principale">
+          <li>
+            <Link to="/home" className="nav-link">
+              Catalogues
             </Link>
-          </div>
-        </div>
+          </li>
+          <li>
+            <Link to="/about" className="nav-link">
+              À propos
+            </Link>
+          </li>
+          <li>
+            <Link to="/contact" className="nav-link">
+              Contact
+            </Link>
+          </li>
+        </ul>
 
-        {/* Colonne droite: Icônes */}
-        <div className="navbar-right navbar-actions">
+        {/* Icônes (droite) */}
+        <div className="navbar-actions">
           <button title="Langue" className="icon-btn" aria-label="Langue">
             <img
               src="/fr.png"

@@ -24,9 +24,12 @@
 .app-main.home::before { content: ""; }
 @media (max-width: 768px), (orientation: portrait) {
 	.app-main.home {
-		background-image: url('/vbg.png');
-		background-size: cover;
-		background-position: center top;
+		/* Layered backgrounds: vbg above, back below */
+		background-image: url('/vbg.png'), url('/back.png');
+		background-repeat: no-repeat, no-repeat;
+		/* Keep the vertical image fully visible; fill remainder with the base */
+		background-size: contain, cover;
+		background-position: center top, center top;
 	}
 }
 .home-blank {
