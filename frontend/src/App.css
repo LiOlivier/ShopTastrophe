@@ -18,5 +18,8 @@
 }
 .home-blank {
 	min-height: 100%;
-	background: #fff;
+	background-image: url('/bg.jpg');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 }
