@@ -72,7 +72,7 @@
   content: "";
   position: absolute;
   left: 0;
-  bottom: -2px;
+  bottom: -3px; /* small gap between text and underline */
   height: 2px;
   width: 100%;
   background-color: currentColor;
@@ -186,7 +186,7 @@
   content: "";
   position: absolute;
   left: 0;
-  bottom: -2px;
+  bottom: -3px; /* small gap between text and underline */
   height: 2px;
   width: 100%;
   background-color: currentColor;
