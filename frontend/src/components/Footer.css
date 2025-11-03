@@ -8,6 +8,7 @@
 .footer-col a:hover { text-decoration:underline; }
 .footer-socials .social-list { display:flex; gap:12px; align-items:center; }
 .social-btn { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:50%; background:transparent; border:1px solid rgba(255,255,255,.06); }
+.social-btn img { width:18px; height:18px; display:block; object-fit:contain; }
 .footer-payments .payments { display:flex; gap:10px; align-items:center; }
 .pay-icon svg { display:block; }
 .pay-icon img { display:block; height:20px; }
