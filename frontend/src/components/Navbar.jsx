@@ -23,35 +23,8 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-inner">
-        {/* Gauche - Logo */}
-        <div className="navbar-logo">
-          <Link to="/" className="brand" aria-label="Accueil">
-            <img src="/logo.png" alt="ShopTastrophe" className="logo" />
-          </Link>
-        </div>
-
-        {/* Centre - Liens */}
-        <ul className="navbar-links" aria-label="Navigation principale">
-          <li>
-            <Link to="/home" className="nav-link">
-              Catalogues
-            </Link>
-          </li>
-          <li>
-            <Link to="/about" className="nav-link">
-              À propos
-            </Link>
-          </li>
-          <li>
-            <Link to="/contact" className="nav-link">
-              Contact
-            </Link>
-          </li>
-        </ul>
-
-        {/* Droite - Icônes */}
-        <div className="navbar-actions">
-          {/* Burger (mobile) */}
+        {/* Colonne gauche: Burger (mobile) + Liens (desktop) */}
+        <div className="navbar-left">
           <button
             className="navbar-burger"
             aria-label="Ouvrir le menu"
@@ -61,6 +34,36 @@ export default function Navbar() {
           >
             <img src="/bar.png" alt="Menu" className="burger-img" />
           </button>
+          <ul className="navbar-links" aria-label="Navigation principale">
+            <li>
+              <Link to="/home" className="nav-link">
+                Catalogues
+              </Link>
+            </li>
+            <li>
+              <Link to="/about" className="nav-link">
+                À propos
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact" className="nav-link">
+                Contact
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        {/* Colonne centre: Logo centré */}
+        <div className="navbar-center">
+          <div className="navbar-logo">
+            <Link to="/" className="brand" aria-label="Accueil">
+              <img src="/logo.png" alt="ShopTastrophe" className="logo" />
+            </Link>
+          </div>
+        </div>
+
+        {/* Colonne droite: Icônes */}
+        <div className="navbar-right navbar-actions">
           <button title="Langue" className="icon-btn" aria-label="Langue">
             <img
               src="/fr.png"
@@ -72,13 +75,12 @@ export default function Navbar() {
               className="icon-img"
             />
           </button>
-            <button title="Panier" className="icon-btn" aria-label="Panier">
+          <button title="Panier" className="icon-btn" aria-label="Panier">
             <img src="/sac.png" alt="Panier" className="icon-img" />
           </button>
           <button title="Profil" className="icon-btn" aria-label="Profil" onClick={onProfileClick}>
             <img src="/profil.png" alt="Profil" className="icon-img profile-icon" />
           </button>
-          {/* Plus de menu déroulant: on redirige vers une page dédiée */}
         </div>
       </div>
 

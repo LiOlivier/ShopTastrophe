@@ -18,12 +18,25 @@
 }
 
 .navbar-inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* left | center | right */
   align-items: center;
-  justify-content: space-between;
   padding: 0 24px;
   gap: 12px;
 }
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.navbar-center {
+  justify-self: center;
+  text-align: center;
+}
+
+.navbar-right { justify-self: end; }
 
 
 .navbar-logo .brand {
