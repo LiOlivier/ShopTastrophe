@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import { useAuth } from "../context/AuthContext";
@@ -10,7 +9,6 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Close drawer on Escape key
   useEffect(() => {
     const handler = (e) => {
       if (e.key === "Escape") setMenuOpen(false);
@@ -54,7 +52,7 @@ export default function Navbar() {
         <ul className="navbar-links" aria-label="Navigation principale">
           <li>
             <Link to="/home" className="nav-link">
-              Catalogues
+              Nos produits
             </Link>
           </li>
           <li>
@@ -65,6 +63,11 @@ export default function Navbar() {
           <li>
             <Link to="/contact" className="nav-link">
               Contact
+            </Link>
+          </li>
+                    <li>
+            <Link to="/soutenir" className="nav-link">
+              Nous soutenir
             </Link>
           </li>
         </ul>
@@ -106,13 +109,16 @@ export default function Navbar() {
         aria-modal={menuOpen ? "true" : "false"}
       >
         <Link to="/home" className="mobile-link" onClick={() => setMenuOpen(false)}>
-          Catalogues
+          Nos produits
         </Link>
         <Link to="/about" className="mobile-link" onClick={() => setMenuOpen(false)}>
           À propos
         </Link>
         <Link to="/contact" className="mobile-link" onClick={() => setMenuOpen(false)}>
           Contact
+        </Link>
+        <Link to="/soutenir" className="mobile-link" onClick={() => setMenuOpen(false)}>
+          Nous soutenir
         </Link>
       </div>
     </nav>
