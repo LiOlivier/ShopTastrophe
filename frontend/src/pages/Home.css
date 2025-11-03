@@ -1,0 +1,66 @@
+.home-blank {
+  position: relative;
+  /* Make hero fill the viewport height to stabilize bottom anchoring */
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+}
+
+.home-footer {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: clamp(24px, 4vh, 80px);
+  text-align: center;
+  z-index: 20;
+}
+
+.home-actions {
+  margin-top: 1.25rem;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.9375rem;
+}
+
+.home-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border: 2px solid #15487D;
+  background: rgba(255, 255, 255, 0.9);
+  color: #15487D;
+  user-select: none;
+}
+
+.home-cta .label {
+  padding: 12px 18px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  font-size: 14px;
+}
+
+.home-cta .arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 100%;
+  border-left: 2px solid #15487D;
+  font-size: 18px;
+}
+
+.home-cta:hover {
+  background: #15487D;
+  color: #ffffff;
+}
+.home-cta:hover .arrow {
+  border-left-color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .home-cta .label {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+  .home-cta .arrow { width: 48px; }
+}

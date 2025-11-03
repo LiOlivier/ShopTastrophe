@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function Navbar() {
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const onProfileClick = () => {
     if (!isAuthenticated) navigate("/login");
@@ -36,11 +38,6 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link to="/orders" className="nav-link">
-              Commandes
-            </Link>
-          </li>
-          <li>
             <Link to="/about" className="nav-link">
               À propos
             </Link>
@@ -54,6 +51,16 @@ export default function Navbar() {
 
         {/* Droite - Icônes */}
         <div className="navbar-actions">
+          {/* Burger (mobile) */}
+          <button
+            className="navbar-burger"
+            aria-label="Ouvrir le menu"
+            aria-controls="mobile-menu"
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((v) => !v)}
+          >
+            <img src="/bar.png" alt="Menu" className="burger-img" />
+          </button>
           <button title="Langue" className="icon-btn" aria-label="Langue">
             <img
               src="/fr.png"
@@ -73,6 +80,24 @@ export default function Navbar() {
           </button>
           {/* Plus de menu déroulant: on redirige vers une page dédiée */}
         </div>
+      </div>
+
+      {/* Menu mobile */}
+      <div
+        id="mobile-menu"
+        className={`mobile-menu${menuOpen ? " open" : ""}`}
+        role="dialog"
+        aria-modal="false"
+      >
+        <Link to="/home" className="mobile-link" onClick={() => setMenuOpen(false)}>
+          Catalogues
+        </Link>
+        <Link to="/about" className="mobile-link" onClick={() => setMenuOpen(false)}>
+          À propos
+        </Link>
+        <Link to="/contact" className="mobile-link" onClick={() => setMenuOpen(false)}>
+          Contact
+        </Link>
       </div>
     </nav>
   );
