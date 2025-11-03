@@ -3,12 +3,21 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Close drawer on Escape key
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   const onProfileClick = () => {
     if (!isAuthenticated) navigate("/login");
@@ -82,12 +91,19 @@ export default function Navbar() {
         </div>
       </div>
 
+      {/* Backdrop (mobile) */}
+      <div
+        className={`mobile-backdrop${menuOpen ? " open" : ""}`}
+        onClick={() => setMenuOpen(false)}
+        aria-hidden="true"
+      />
+
       {/* Menu mobile */}
       <div
         id="mobile-menu"
         className={`mobile-menu${menuOpen ? " open" : ""}`}
         role="dialog"
-        aria-modal="false"
+        aria-modal={menuOpen ? "true" : "false"}
       >
         <Link to="/home" className="mobile-link" onClick={() => setMenuOpen(false)}>
           Catalogues
