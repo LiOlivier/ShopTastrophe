@@ -19,7 +19,7 @@ app.include_router(auth.router)
 app.include_router(cart.router)
 app.include_router(orders.router)
 
-# Quelques produits de test
+# Produits tests
 p1 = Product(id="1", name="T-Shirt Ironique", description="Coton bio", price_cents=2499, stock_qty=12)
 p2 = Product(id="2", name="Sweat Sarcastique", description="Molleton doux", price_cents=6499, stock_qty=8)
 p3 = Product(id="3", name="Casquette Stylée", description="Bleu marine, taille unique", price_cents=1999, stock_qty=20)
