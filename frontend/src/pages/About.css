@@ -15,12 +15,13 @@
   font-weight: 800;
   letter-spacing: -0.02em;
   margin: 0 0 clamp(16px, 3vw, 24px);
+  color: #15487D; /* bleu temporaire */
 }
 
 .about-container p {
   font-size: clamp(14px, 2.5vw, 18px);
   line-height: 1.75;
-  color: #222;
+  color: #15487D; /* bleu temporaire */
   margin: 0 0 clamp(14px, 2.5vw, 20px);
 }
 
