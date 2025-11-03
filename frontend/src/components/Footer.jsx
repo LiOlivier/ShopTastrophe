@@ -65,23 +65,16 @@ export default function Footer() {
             <h4>MODES DE PAIEMENT</h4>
             <div className="payments">
               <span className="pay-icon" title="Apple Pay" aria-hidden>
-                <svg width="56" height="20" viewBox="0 0 56 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M17.2 2.4c-.4.3-1.1.7-1.8.7-.9 0-2.1-.6-3.1-.6-1.6 0-3.6.9-4.7 2.2-2.3 2.7-.6 6.6 1.6 8.8 1 .9 2.2 1.9 3.8 1.9.9 0 1.9-.5 3.2-.5 1.3 0 2.3.5 3.2.5 1.4 0 2.8-1 3.8-1.9 1.9-1.8 3.2-4.6 3.2-7 0-.7-.1-1.3-.2-1.8-1.9.1-3.9-.7-5.1-1.7-1.7-1.5-3-2.1-4.9-2.3-.2 0-.7 0-1 .1-.1.1-.6.3-1 .6z" fill="#fff"/>
-                </svg>
+                <img src="/icone/applepay.svg" alt="Apple Pay" />
               </span>
-
               <span className="pay-icon" title="VISA" aria-hidden>
-                <svg width="56" height="20" viewBox="0 0 56 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="56" height="20" rx="2" fill="#ffffff"/>
-                  <text x="28" y="14" fill="#0a2540" fontSize="10" fontWeight="700" textAnchor="middle">VISA</text>
-                </svg>
+                <img src="/icone/visa.svg" alt="Visa" />
               </span>
-
+              <span className="pay-icon" title="Mastercard" aria-hidden>
+                <img src="/icone/mastercard.svg" alt="Mastercard" />
+              </span>
               <span className="pay-icon" title="PayPal" aria-hidden>
-                <svg width="64" height="20" viewBox="0 0 64 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="64" height="20" rx="2" fill="#003087"/>
-                  <text x="32" y="14" fill="#fff" fontSize="10" fontWeight="700" textAnchor="middle">PayPal</text>
-                </svg>
+                <img src="/icone/paypal.svg" alt="PayPal" />
               </span>
             </div>
           </div>
