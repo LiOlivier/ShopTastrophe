@@ -45,6 +45,11 @@ export default function Navbar() {
               À propos
             </Link>
           </li>
+          <li>
+            <Link to="/contact" className="nav-link">
+              Contact
+            </Link>
+          </li>
         </ul>
 
         {/* Droite - Icônes */}
