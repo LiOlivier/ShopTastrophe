@@ -2,6 +2,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Newsletter from "./components/Newsletter";
+import AddToCartModal from "./components/AddToCartModal";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
@@ -9,6 +10,7 @@ import Orders from "./pages/Orders";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { AuthProvider } from "./context/AuthContext";
+import { CartProvider } from "./context/CartContext";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
@@ -24,9 +26,10 @@ function App() {
   const isHome = location.pathname === "/";
   return (
     <AuthProvider>
-      <div className="App">
-        <Navbar />
-        <main className={`app-main${isHome ? " home" : ""}`}>
+      <CartProvider>
+        <div className="App">
+          <Navbar />
+          <main className={`app-main${isHome ? " home" : ""}`}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Navigate to="/" replace />} />
@@ -45,10 +48,12 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<div>Page introuvable</div>} />
           </Routes>
-        </main>
-        <Newsletter />
-        <Footer />
-      </div>
+          </main>
+    <Newsletter />
+    <AddToCartModal />
+          <Footer />
+        </div>
+      </CartProvider>
     </AuthProvider>
   );
 }

@@ -1,12 +1,15 @@
 #core.py sert à faire la transition des instances globales entre les modules 
 from shop import (
-    UserRepository, ProductRepository, CartRepository,
+    CartRepository,
     SessionManager, AuthService, CartService, CatalogService
 )
+from .persistence_sql import UserRepositorySQL, ProductRepositorySQL
+from .db import create_db_and_tables
 
 # Instances globales partagées
-users = UserRepository()
-products = ProductRepository()
+create_db_and_tables()
+users = UserRepositorySQL()
+products = ProductRepositorySQL()
 carts = CartRepository()
 sessions = SessionManager()
 

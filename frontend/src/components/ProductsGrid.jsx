@@ -1,5 +1,6 @@
 import React from "react";
 import "./ProductsGrid.css";
+import { useCart } from "../context/CartContext";
 
 const items = [
   { title: "T‑Shirt Noir", price: "€30,00", alt: "T-Shirt Noir (Front)", src: "/merch/TEESHIRT/BTF.png", href: "/products/tee-noir" },
@@ -9,6 +10,14 @@ const items = [
 ];
 
 export default function ProductsGrid({ className = "" }) {
+  const { addItem, parseEuroToCents } = useCart();
+  const idFor = (href) => {
+    if (href.includes("tee-")) return "1";
+    if (href.includes("sweat-")) return "2";
+    if (href.includes("casquette-")) return "3";
+    if (href.includes("tasse-")) return "4";
+    return href;
+  };
   return (
     <section className={`products-grid-section ${className}`.trim()}>
       <div className="grid-badge">Autumn 2025 Edition</div>
@@ -26,7 +35,7 @@ export default function ProductsGrid({ className = "" }) {
               <button
                 type="button"
                 className="add-to-cart-btn"
-                onClick={() => console.log("Ajouter au panier:", it.title)}
+                onClick={() => addItem({ id: idFor(it.href), name: it.title, priceCents: parseEuroToCents(it.price), slug: it.href.split("/").pop(), image: it.src })}
               >
                 Ajouter au panier
               </button>

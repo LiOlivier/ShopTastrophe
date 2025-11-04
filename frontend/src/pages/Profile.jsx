@@ -22,7 +22,7 @@ export default function Profil() {
       pays: user?.country || "",
       region: user?.state || "",
       codePostal: user?.zip || "",
-      appartement: user?.apartment || "",
+      adresse: user?.address || "",
       lieu: user?.location || "",
     };
   }, [user]);
@@ -41,7 +41,7 @@ export default function Profil() {
       country: form.pays,
       state: form.region,
       zip: form.codePostal,
-      apartment: form.appartement,
+      address: form.adresse,
       location: form.lieu,
     });
     setEdition(false);
@@ -86,7 +86,7 @@ export default function Profil() {
               <Champ libelle="Pays" name="pays" value={form.pays} onChange={setChamp} disabled={!edition} />
               <Champ libelle="Région / État" name="region" value={form.region} onChange={setChamp} disabled={!edition} />
               <Champ libelle="Code postal" name="codePostal" value={form.codePostal} onChange={setChamp} disabled={!edition} />
-              <Champ libelle="Appartement" name="appartement" value={form.appartement} onChange={setChamp} disabled={!edition} />
+              <Champ libelle="Adresse" name="adresse" value={form.adresse} onChange={setChamp} disabled={!edition} />
             </div>
           </div>
         </div>

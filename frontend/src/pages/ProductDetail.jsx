@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 import "./ProductDetail.css";
 
 // Helpers to build image paths using acronym convention for tees/sweats
@@ -106,6 +107,7 @@ export default function ProductDetail() {
   const { slug } = useParams();
   const product = productMap[slug];
   const navigate = useNavigate();
+  const { addItem, parseEuroToCents } = useCart();
 
   const [colorKey, setColorKey] = useState(product?.defaultColor ?? "");
   const [showBack, setShowBack] = useState(false);
@@ -124,7 +126,7 @@ export default function ProductDetail() {
     }
   }, [sel?.front, sel?.back]);
 
-  // When slug/product changes (e.g., via color selection navigation), sync selected color
+ 
   useEffect(() => {
     if (product?.defaultColor) {
       setColorKey(product.defaultColor);
@@ -132,22 +134,19 @@ export default function ProductDetail() {
     }
   }, [slug]);
 
-  // Compute the target slug for a given color based on current slug family
   const slugForColor = (baseSlug, color) => {
     if (!baseSlug) return baseSlug;
     if (baseSlug.startsWith("tee-")) {
-      return `tee-${color}`; // noir/blanc
+      return `tee-${color}`; 
     }
     if (baseSlug.startsWith("sweat-")) {
-      return `sweat-${color}`; // noir/blanc
+      return `sweat-${color}`; 
     }
     if (baseSlug.startsWith("tasse-")) {
-      // feminine for noir -> noire
       const part = color === "noir" ? "noire" : color;
-      return `tasse-${part}`; // noire/rouge
+      return `tasse-${part}`; 
     }
     if (baseSlug.startsWith("casquette-")) {
-      // feminine for blanc/noir
       const dict = { blanc: "blanche", noir: "noire", bleu: "bleu" };
       const part = dict[color] ?? color;
       return `casquette-${part}`;
@@ -254,7 +253,29 @@ export default function ProductDetail() {
           </div>
 
           <div className="pdp-actions">
-            <button className="primary-btn" type="button" onClick={() => console.log("Add to cart", slug, colorKey)}>
+            <button
+              className="primary-btn"
+              type="button"
+              onClick={() => {
+                const idMap = {
+                  tee: "1",
+                  sweat: "2",
+                  casquette: "3",
+                  tasse: "4",
+                };
+                const family = slug.split("-")[0];
+                const id = idMap[family] || family;
+                const priceCents = parseEuroToCents(product.price);
+                addItem({
+                  id,
+                  name: `${product.title} – ${sel?.label}`,
+                  priceCents,
+                  slug,
+                  colorKey,
+                  image: sel?.front,
+                }, 1);
+              }}
+            >
               Ajouter au panier
             </button>
           </div>

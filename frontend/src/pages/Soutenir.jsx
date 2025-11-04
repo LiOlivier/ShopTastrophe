@@ -20,14 +20,8 @@ export default function Soutenir() {
               <li>petites dépenses liées à la création</li>
             </ul>
             <form className="donate" onSubmit={(e) => e.preventDefault()}>
-              <div className="amounts" role="group" aria-label="Montant rapide">
-                <button type="button">5€</button>
-                <button type="button">10€</button>
-                <button type="button">20€</button>
-                <button type="button">50€</button>
-              </div>
               <div className="custom-amount">
-                <label htmlFor="don-amount">Autre montant</label>
+                <label htmlFor="don-amount">Saisissez le montant :</label>
                 <input id="don-amount" type="number" min="1" step="1" placeholder="€" />
               </div>
               <button className="btn-primary" type="submit">Soutenir</button>

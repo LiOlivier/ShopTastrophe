@@ -15,7 +15,6 @@ export default function Register() {
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		setError(null);
-		// Validation simple: mot de passe identique
 		if (password !== confirmPassword) {
 			setError("Les mots de passe ne correspondent pas");
 			return;

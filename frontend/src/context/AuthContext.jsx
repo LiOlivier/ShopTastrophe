@@ -13,6 +13,24 @@ export function AuthProvider({ children }) {
     }
   });
 
+  // Helper: per-user profile storage so data survives logout (client-side only)
+  const profileKey = (email) => `profile:${(email || "").toLowerCase()}`;
+  const loadProfile = (email) => {
+    try {
+      if (!email) return null;
+      const raw = localStorage.getItem(profileKey(email));
+      return raw ? JSON.parse(raw) : null;
+    } catch (_) {
+      return null;
+    }
+  };
+  const saveProfile = (email, data) => {
+    try {
+      if (!email) return;
+      localStorage.setItem(profileKey(email), JSON.stringify(data));
+    } catch (_) {}
+  };
+
   useEffect(() => {
     try {
       if (user) localStorage.setItem("auth:user", JSON.stringify(user));
@@ -21,12 +39,16 @@ export function AuthProvider({ children }) {
   }, [user]);
 
   const login = async ({ email, name }) => {
-    setUser({ email, name: name || email.split("@")[0] });
+    const base = { email, name: name || email.split("@")[0] };
+    const persisted = loadProfile(email) || {};
+    setUser({ ...base, ...persisted });
     return true;
   };
 
   const register = async ({ email, name, password }) => {
-    setUser({ email, name: name || email.split("@")[0] });
+    const base = { email, name: name || email.split("@")[0] };
+    const persisted = loadProfile(email) || {};
+    setUser({ ...base, ...persisted });
     return true;
   };
 
@@ -35,7 +57,9 @@ export function AuthProvider({ children }) {
   const updateUser = (patch) => {
     setUser((prev) => {
       if (!prev) return prev;
-      return { ...prev, ...patch };
+      const next = { ...prev, ...patch };
+      saveProfile(next.email, next);
+      return next;
     });
   };
 

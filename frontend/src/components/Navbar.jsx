@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -8,6 +9,7 @@ export default function Navbar() {
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { count } = useCart();
 
   useEffect(() => {
     const handler = (e) => {
@@ -30,7 +32,6 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-inner">
-        {/* Burger (mobile seulement) */}
         <button
           className="navbar-burger"
           aria-label="Ouvrir le menu"
@@ -41,14 +42,12 @@ export default function Navbar() {
           <img src="/bar.png" alt="Menu" className="burger-img" />
         </button>
 
-        {/* Logo (gauche en desktop, centré en mobile via CSS) */}
         <div className="navbar-logo">
           <Link to="/" className="brand" aria-label="Accueil">
             <img src="/logo.png" alt="ShopTastrophe" className="logo" />
           </Link>
         </div>
 
-        {/* Liens (desktop) */}
         <ul className="navbar-links" aria-label="Navigation principale">
           <li>
             <Link to="/products" className="nav-link">
@@ -72,7 +71,6 @@ export default function Navbar() {
           </li>
         </ul>
 
-        {/* Icônes (droite) */}
         <div className="navbar-actions">
           <button title="Langue" className="icon-btn" aria-label="Langue">
             <img
@@ -85,8 +83,9 @@ export default function Navbar() {
               className="icon-img"
             />
           </button>
-          <button title="Panier" className="icon-btn" aria-label="Panier">
+          <button title="Panier" className="icon-btn cart-btn" aria-label="Panier" onClick={() => navigate("/cart") }>
             <img src="/sac.png" alt="Panier" className="icon-img" />
+            {count > 0 ? <span className="cart-badge" aria-label={`${count} articles dans le panier`}>{count}</span> : null}
           </button>
           <button title="Profil" className="icon-btn" aria-label="Profil" onClick={onProfileClick}>
             <img src="/profil.png" alt="Profil" className="icon-img profile-icon" />
@@ -94,14 +93,12 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Backdrop (mobile) */}
       <div
         className={`mobile-backdrop${menuOpen ? " open" : ""}`}
         onClick={() => setMenuOpen(false)}
         aria-hidden="true"
       />
 
-      {/* Menu mobile */}
       <div
         id="mobile-menu"
         className={`mobile-menu${menuOpen ? " open" : ""}`}
