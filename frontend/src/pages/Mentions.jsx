@@ -4,7 +4,7 @@ export default function Mentions() {
   return (
     <section className="legal">
       <div className="legal-container">
-        <h1 className="legal-title">Mentions légales (À ne pas prendre au sérieux ^^)</h1>
+        <h1 className="legal-title">Mentions légales </h1>
 
         <div className="legal-block">
           <p><strong>Éditeur du site</strong></p>

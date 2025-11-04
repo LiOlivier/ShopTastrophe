@@ -13,7 +13,8 @@
 	text-align: center;
 	font-size: clamp(28px, 6vw, 42px);
 	font-weight: 900;
-	letter-spacing: 0.02em;
+	letter-spacing: 1px;
+	font-family: inherit; 
 	margin: 0 0 clamp(20px, 4vw, 32px);
 	color: #15487D;
 }
@@ -43,7 +44,7 @@
 .cgv-note {
 	margin-top: 20px;
 	color: #374151;
-}
+	font-weight: 800;
 
 @media (min-width: 1024px) {
 	.cgv-container {

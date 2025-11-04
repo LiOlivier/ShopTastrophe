@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import "./ProductDetail.css";
 
 // Helpers to build image paths using acronym convention for tees/sweats
@@ -8,7 +8,7 @@ const sweatImg = (code) => `/merch/SWEAT/${code}.png`; // e.g., BSF, WSB
 
 const productMap = {
   "tee-noir": {
-    title: "T‑Shirt",
+    title: "T‑Shirt Ironique",
     price: "€30,00",
     kind: "TEESHIRT",
     defaultColor: "noir",
@@ -17,8 +17,18 @@ const productMap = {
       { key: "blanc", label: "Blanc", sw: "#fff", front: teeImg("WTF"), back: teeImg("WTB") },
     ],
   },
+  "tee-blanc": {
+    title: "T‑Shirt Ironique",
+    price: "€30,00",
+    kind: "TEESHIRT",
+    defaultColor: "blanc",
+    colors: [
+      { key: "noir", label: "Noir", sw: "#111", front: teeImg("BTF"), back: teeImg("BTB") },
+      { key: "blanc", label: "Blanc", sw: "#fff", front: teeImg("WTF"), back: teeImg("WTB") },
+    ],
+  },
   "sweat-blanc": {
-    title: "Sweat",
+    title: "Sweat Sarcastique",
     price: "€60,00",
     kind: "SWEAT",
     defaultColor: "blanc",
@@ -27,8 +37,18 @@ const productMap = {
       { key: "noir", label: "Noir", sw: "#111", front: sweatImg("BSF"), back: sweatImg("BSB") },
     ],
   },
+  "sweat-noir": {
+    title: "Sweat Sarcastique",
+    price: "€60,00",
+    kind: "SWEAT",
+    defaultColor: "noir",
+    colors: [
+      { key: "blanc", label: "Blanc", sw: "#fff", front: sweatImg("WSF"), back: sweatImg("WSB") },
+      { key: "noir", label: "Noir", sw: "#111", front: sweatImg("BSF"), back: sweatImg("BSB") },
+    ],
+  },
   "casquette-blanche": {
-    title: "Casquette",
+    title: "Vide Tête",
     price: "€20,00",
     kind: "CASQUETTE",
     defaultColor: "blanc",
@@ -38,11 +58,43 @@ const productMap = {
       { key: "bleu", label: "Bleu marine", sw: "#0b2a4a", front: "/merch/CASQUETTE/bleum.png" },
     ],
   },
+  "casquette-noire": {
+    title: "Vide Tête",
+    price: "€20,00",
+    kind: "CASQUETTE",
+    defaultColor: "noir",
+    colors: [
+      { key: "noir", label: "Noir", sw: "#111", front: "/merch/CASQUETTE/noir.png" },
+      { key: "blanc", label: "Blanc", sw: "#fff", front: "/merch/CASQUETTE/blanc.png" },
+      { key: "bleu", label: "Bleu marine", sw: "#0b2a4a", front: "/merch/CASQUETTE/bleum.png" },
+    ],
+  },
+  "casquette-bleu": {
+    title: "Vide Tête",
+    price: "€20,00",
+    kind: "CASQUETTE",
+    defaultColor: "bleu",
+    colors: [
+      { key: "noir", label: "Noir", sw: "#111", front: "/merch/CASQUETTE/noir.png" },
+      { key: "blanc", label: "Blanc", sw: "#fff", front: "/merch/CASQUETTE/blanc.png" },
+      { key: "bleu", label: "Bleu marine", sw: "#0b2a4a", front: "/merch/CASQUETTE/bleum.png" },
+    ],
+  },
   "tasse-noire": {
-    title: "Tasse",
+    title: "ChataseTrophe",
     price: "€15,00",
     kind: "TASSE",
     defaultColor: "noir",
+    colors: [
+      { key: "noir", label: "Noir", sw: "#111", front: "/merch/TASSE/noir.png" },
+      { key: "rouge", label: "Rouge", sw: "#c5212b", front: "/merch/TASSE/rouge.png" },
+    ],
+  },
+  "tasse-rouge": {
+    title: "ChataseTrophe",
+    price: "€15,00",
+    kind: "TASSE",
+    defaultColor: "rouge",
     colors: [
       { key: "noir", label: "Noir", sw: "#111", front: "/merch/TASSE/noir.png" },
       { key: "rouge", label: "Rouge", sw: "#c5212b", front: "/merch/TASSE/rouge.png" },
@@ -53,6 +105,7 @@ const productMap = {
 export default function ProductDetail() {
   const { slug } = useParams();
   const product = productMap[slug];
+  const navigate = useNavigate();
 
   const [colorKey, setColorKey] = useState(product?.defaultColor ?? "");
   const [showBack, setShowBack] = useState(false);
@@ -70,6 +123,37 @@ export default function ProductDetail() {
       img2.src = sel.back;
     }
   }, [sel?.front, sel?.back]);
+
+  // When slug/product changes (e.g., via color selection navigation), sync selected color
+  useEffect(() => {
+    if (product?.defaultColor) {
+      setColorKey(product.defaultColor);
+      setShowBack(false);
+    }
+  }, [slug]);
+
+  // Compute the target slug for a given color based on current slug family
+  const slugForColor = (baseSlug, color) => {
+    if (!baseSlug) return baseSlug;
+    if (baseSlug.startsWith("tee-")) {
+      return `tee-${color}`; // noir/blanc
+    }
+    if (baseSlug.startsWith("sweat-")) {
+      return `sweat-${color}`; // noir/blanc
+    }
+    if (baseSlug.startsWith("tasse-")) {
+      // feminine for noir -> noire
+      const part = color === "noir" ? "noire" : color;
+      return `tasse-${part}`; // noire/rouge
+    }
+    if (baseSlug.startsWith("casquette-")) {
+      // feminine for blanc/noir
+      const dict = { blanc: "blanche", noir: "noire", bleu: "bleu" };
+      const part = dict[color] ?? color;
+      return `casquette-${part}`;
+    }
+    return baseSlug;
+  };
 
   if (!product) {
     return (
@@ -155,7 +239,14 @@ export default function ProductDetail() {
                     background: c.sw,
                     borderColor: c.key === colorKey ? "#1e61a9" : "#2a2a2a",
                   }}
-                  onClick={() => { setColorKey(c.key); setShowBack(false); }}
+                  onClick={() => {
+                    const target = slugForColor(slug, c.key);
+                    if (target && target !== slug) {
+                      navigate(`/products/${target}`, { replace: false });
+                    }
+                    setColorKey(c.key);
+                    setShowBack(false);
+                  }}
                   type="button"
                 />
               ))}

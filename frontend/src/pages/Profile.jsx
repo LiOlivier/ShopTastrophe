@@ -51,7 +51,6 @@ export default function Profil() {
     <div className="profil">
       <h1>Mon profil</h1>
 
-      {/* Carte d'en-tête */}
       <section className="card card-entete">
         <div className="entete-user">
           <img src="/profil.png" alt="avatar" className="avatar" />
@@ -70,7 +69,6 @@ export default function Profil() {
         )}
       </section>
 
-      {/* Carte détails */}
       <section className="card card-details">
         <div className="colonnes">
           <div className="panneau">
