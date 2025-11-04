@@ -1,5 +1,5 @@
 import "./Home.css";
-import CategoryGrid from "../components/CategoryGrid";
+import HomeCategoryGrid from "../components/HomeCategoryGrid";
 
 export default function Home() {
 	return (
@@ -15,7 +15,7 @@ export default function Home() {
 				</div>
 			</div>
 			<section className="home-cat-wrap">
-				<CategoryGrid />
+				<HomeCategoryGrid />
 			</section>
 		</>
 	);
