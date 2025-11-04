@@ -45,10 +45,11 @@
 .form-row input,
 .form-row textarea {
   width: 100%;
-  padding: 10px 2px;
+  padding: 10px 12px;
   border: 1px solid #d1d5db;
   border-radius: 8px;
   font-size: 14px;
+  box-sizing: border-box; 
 }
 
 .form-row textarea {
