@@ -14,6 +14,7 @@ import FAQ from "./pages/FAQ";
 import Products from "./pages/Products";
 import Contact from "./pages/Contact";
 import Soutenir from "./pages/Soutenir";
+import Mentions from "./pages/Mentions";
 
 function App() {
   const location = useLocation();
@@ -31,6 +32,7 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/soutenir" element={<Soutenir />} />
+            <Route path="/mentions" element={<Mentions />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/profile" element={<Profile />} />

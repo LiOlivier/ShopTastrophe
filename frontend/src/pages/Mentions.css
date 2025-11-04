@@ -1,0 +1,25 @@
+.legal {
+  display: block;
+  width: 100%;
+}
+
+.legal-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: clamp(24px, 6vw, 72px) clamp(16px, 5vw, 32px);
+}
+
+.legal-title {
+  text-align: center;
+  font-size: clamp(28px, 6vw, 46px);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  margin: 0 0 clamp(24px, 4vw, 36px) 0;
+  color: #15487D;
+}
+
+.legal-block { margin: 0 0 18px 0; }
+.legal-block p { margin: 6px 0; color: #111; }
+.legal-block strong { font-weight: 800; color: #15487D; }
+
+.legal-note { margin-top: 24px; color: #374151; }
