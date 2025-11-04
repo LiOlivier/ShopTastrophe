@@ -1,0 +1,114 @@
+.support {
+  display: block;
+  width: 100%;
+}
+
+.support-container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: clamp(20px, 6vw, 64px) clamp(16px, 5vw, 32px);
+}
+
+.support-title {
+  font-size: clamp(28px, 6vw, 42px);
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0 0 8px 0;
+  color: #15487D;
+}
+
+.support-intro {
+  color: #374151;
+  margin: 0 0 18px 0;
+}
+
+.support-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.support-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+/* Idées & retours: texte centré, bouton en bas centré */
+.support-card.feedback {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: space-between;
+  min-height: 260px;
+}
+.support-card.feedback h2 { align-self: center; }
+.support-card.feedback p { margin-bottom: 16px; }
+.support-card.feedback .btn-primary {
+  align-self: center;
+  margin-top: auto;
+}
+
+.support-card h2 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  color: #15487D;
+}
+
+.support-card p {
+  margin: 0 0 12px 0;
+  color: #374151;
+}
+
+/* Donate */
+.donate { display: grid; gap: 10px; }
+.amounts { display: flex; gap: 8px; flex-wrap: wrap; }
+.amounts button {
+  background: #f4f7fb;
+  border: 1px solid #cfe0f2;
+  color: #15487D;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.custom-amount { display: grid; gap: 6px; }
+.custom-amount input {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+.btn-primary {
+  align-self: start;
+  background: #15487D;
+  color: #fff;
+  border: 2px solid #15487D;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-outline {
+  display: inline-block;
+  border: 2px solid #15487D;
+  color: #15487D;
+  padding: 8px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  margin-right: 8px;
+}
+
+.share { display: flex; gap: 10px; flex-wrap: wrap; }
+
+@media (max-width: 900px) {
+  .support-grid { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 1024px) {
+  .support-container { padding-top: 72px; padding-bottom: 72px; }
+}
