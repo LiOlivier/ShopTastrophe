@@ -48,9 +48,6 @@ export default function Footer() {
                 <a href="/cgv">Conditions Générales de Vente</a>
               </li>
               <li>
-                <a href="/privacy">Politique de Confidentialité</a>
-              </li>
-              <li>
                 <a href="/soutenir">Nous soutenir</a>
               </li>
             </ul>
