@@ -62,7 +62,7 @@
 	color: #111827;
 }
 .btn.primaire {
-	background: #27A7D5;
+	background: #15487D;
 	color: #fff;
 }
 .actions {
@@ -137,8 +137,8 @@
 }
 .champ .saisie:focus {
 	outline: none;
-	border-color: #27A7D5;
-	box-shadow: 0 0 0 3px rgba(39,167,213,.2);
+	border-color: #15487D;
+	box-shadow: 0 0 0 3px rgba(21, 72, 125, .2);
 	background: #fff;
 }
 

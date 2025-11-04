@@ -1,10 +1,10 @@
-import CategoryGrid from "../components/CategoryGrid";
+import ProductsGrid from "../components/ProductsGrid";
 import "./Products.css";
 
 export default function Products() {
   return (
     <section className="products-container">
-      <CategoryGrid />
+      <ProductsGrid />
     </section>
   );
 }
