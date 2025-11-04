@@ -11,6 +11,7 @@ const items = [
 export default function ProductsGrid({ className = "" }) {
   return (
     <section className={`products-grid-section ${className}`.trim()}>
+      <div className="grid-badge">Autumn 2025 Edition</div>
       <div className="products-grid">
         {items.map((it, i) => (
           <div key={i} className="product-card">
@@ -20,6 +21,16 @@ export default function ProductsGrid({ className = "" }) {
             <div className="product-info">
               <h3 className="product-title">{it.title}</h3>
               <div className="product-price">{it.price}</div>
+            </div>
+            {/* CTA that reveals on hover */}
+            <div className="product-cta">
+              <button
+                type="button"
+                className="add-to-cart-btn"
+                onClick={() => console.log("Ajouter au panier:", it.title)}
+              >
+                Ajouter au panier
+              </button>
             </div>
           </div>
         ))}
