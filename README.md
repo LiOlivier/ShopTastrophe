@@ -80,24 +80,29 @@ Le frontend sera disponible sur : http://localhost:5173 ou http://localhost:5174
 
 **Le problème était** : ajouter 1 article au panier, se déconnecter → le panier restait à 1, se reconnecter → ça doublait à 2, puis 4, etc.
 
-**La solution** : Synchronisation complète backend/frontend avec l'API
+**La solution** : Synchronisation complète backend/frontend avec l'API + correction du hachage des mots de passe
 
 ### 🧪 **Pour tester la correction :**
 
 1. **Ouvrir** http://localhost:5174 (frontend)
-2. **Ajouter un produit** au panier (sans être connecté) → Panier = 1 
-3. **Se connecter/créer un compte** → Le panier passe à 0 (normal, backend vide)
-4. **Ajouter 2 produits** → Backend sauvegarde en base SQLite
+2. **Créer un compte** via "Inscription" avec email/mot de passe
+3. **Se connecter** avec les mêmes identifiants → Le profil s'affiche ✅
+4. **Ajouter 2 produits** au panier → Backend sauvegarde en base SQLite
 5. **Se déconnecter** → Panier passe à 0 (localStorage guest vide)
 6. **Se reconnecter** → Panier = 2 (rechargé depuis backend) ✅
 7. **Fermer/rouvrir navigateur + se reconnecter** → Panier = 2 ✅
 
-### 🔧 **Changements techniques :**
+### 🔧 **Corrections apportées :**
 
+- **PasswordHasher** : Utilise `hashlib.sha256()` au lieu de `hash()` Python (non déterministe)
+- **Base de données** : Supprimée et recréée pour éviter les conflits d'anciens comptes
 - **AuthContext** : Utilise maintenant l'API `/auth/login` et stocke le `token`
 - **CartContext** : Synchronise avec `/cart/add`, `/cart/view`, `/cart/remove` quand connecté
 - **API client** : Nouveau fichier `frontend/src/api/client.js`
 - **Backend** : `CartRepositorySQL` sauvegarde dans `cart_items` table
+
+### ⚠️ **Note importante :**
+Les anciens comptes créés avant la correction ne fonctionnent plus. Il faut créer un nouveau compte.
 
 ## Structure du projet
 

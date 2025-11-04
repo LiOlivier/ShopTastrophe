@@ -4,7 +4,6 @@
   padding: 0 20px;
 }
 
-/* Section badge at the top center */
 .grid-badge {
   width: 100%;
   text-align: center;
@@ -86,7 +85,7 @@
   justify-content: center;
   background: transparent;
   overflow: hidden;
-  max-height: 0; /* collapsed by default */
+  max-height: 0;
   opacity: 0;
   transform: translateY(6px);
   transition: max-height 220ms ease, opacity 200ms ease, transform 200ms ease;

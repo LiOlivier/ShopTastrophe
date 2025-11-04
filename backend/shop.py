@@ -4,6 +4,7 @@ from enum import Enum, auto
 from typing import Dict, List, Optional
 import uuid
 import time
+import hashlib
 
 
 # =========================
@@ -301,8 +302,8 @@ class ThreadRepository:
 class PasswordHasher:
     @staticmethod
     def hash(password: str) -> str:
-        # Simple (à remplacer par bcrypt/argon2)
-        return f"sha256::{hash(password)}"
+        # Utilise SHA256 déterministe au lieu de hash() Python
+        return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
     @staticmethod
     def verify(password: str, stored_hash: str) -> bool:

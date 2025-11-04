@@ -2,19 +2,17 @@
   position: relative;
   min-height: 70vh;
   max-height: 80vh;
-  /* Constrain the background to this section instead of the whole page */
   background-image: url('/back.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  overflow: hidden; /* ensure any positioned children don't spill visually */
+  overflow: hidden; 
 }
 
 .home-footer {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  /* Keep close to bottom, but avoid huge gaps on zoom/dezoom */
   bottom: clamp(12px, 2.5vh, 40px);
   text-align: center;
   z-index: 20;
@@ -87,7 +85,6 @@
   .home-cta .arrow { width: 48px; }
 }
 
-/* On small screens or portrait, use the vertical background variant */
 @media (max-width: 768px), (orientation: portrait) {
   .home-blank {
     background-image: url('/vbg.png');

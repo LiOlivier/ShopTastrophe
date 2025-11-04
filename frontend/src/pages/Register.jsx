@@ -15,15 +15,34 @@ export default function Register() {
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		setError(null);
+		console.log("🚀 Tentative d'inscription...", { email, password: "***" });
+		
 		if (password !== confirmPassword) {
 			setError("Les mots de passe ne correspondent pas");
 			return;
 		}
+		
 		try {
-			await register({ name, email, password });
-			navigate("/");
+			console.log("📡 Appel API register...");
+			const success = await register({ 
+				email, 
+				password, 
+				first_name: name, 
+				last_name: "User",
+				address: "Adresse par défaut"
+			});
+			
+			console.log("📋 Résultat register:", success);
+			
+			if (success) {
+				console.log("✅ Inscription réussie, redirection...");
+				navigate("/");
+			} else {
+				setError("Impossible d'inscrire cet utilisateur");
+			}
 		} catch (err) {
-			setError("Impossible d'inscrire cet utilisateur");
+			console.error("💥 Erreur inscription:", err);
+			setError("Erreur d'inscription");
 		}
 	};
 
@@ -31,6 +50,9 @@ export default function Register() {
 			<div className="login-page">
 				<div className="login-card">
 					<h1>Inscription</h1>
+					
+
+					
 					<form onSubmit={onSubmit}>
 						<label>
 							Prénom
@@ -54,9 +76,10 @@ export default function Register() {
 							/>
 						</label>
 						{error && <div style={{ color: "crimson", marginBottom: 12 }}>{error}</div>}
-						<button type="submit" disabled={!password || password.length < 6 || password !== confirmPassword}>
+						<button type="submit">
 							Créer un compte
 						</button>
+
 					</form>
 					<p className="secondary">
 						Déjà inscrit ? <Link to="/login">Se connecter</Link>

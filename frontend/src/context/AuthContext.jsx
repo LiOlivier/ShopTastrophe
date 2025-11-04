@@ -57,6 +57,7 @@ export function AuthProvider({ children }) {
   const login = async ({ email, password }) => {
     try {
       const response = await api.login({ email, password });
+      
       if (response.ok) {
         const data = await response.json();
         const userData = { email, name: email.split("@")[0] };
@@ -75,6 +76,7 @@ export function AuthProvider({ children }) {
 
   const register = async ({ email, password, first_name, last_name, address }) => {
     try {
+      console.log("🔐 API register appelée avec:", { email, first_name, last_name, address });
       const response = await api.register({ 
         email, 
         password, 
@@ -82,15 +84,20 @@ export function AuthProvider({ children }) {
         last_name: last_name || "User",
         address: address || "Adresse par défaut"
       });
+      
+      console.log("📡 Réponse register:", response.status);
+      
       if (response.ok) {
+        console.log("✅ Register OK, tentative login auto...");
         // Après register, on fait un login automatique
         return await login({ email, password });
       } else {
-        console.error("Erreur register:", await response.text());
+        const errorText = await response.text();
+        console.error("❌ Erreur register:", response.status, errorText);
         return false;
       }
     } catch (error) {
-      console.error("Erreur API register:", error);
+      console.error("💥 Erreur API register:", error);
       return false;
     }
   };

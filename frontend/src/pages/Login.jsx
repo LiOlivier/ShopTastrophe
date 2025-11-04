@@ -14,10 +14,14 @@ export default function Login() {
 		e.preventDefault();
 		setError(null);
 		try {
-			await login({ email });
-			navigate("/");
+			const success = await login({ email, password });
+			if (success) {
+				navigate("/");
+			} else {
+				setError("Identifiants invalides");
+			}
 		} catch (err) {
-			setError("Identifiants invalides");
+			setError("Erreur de connexion");
 		}
 	};
 
