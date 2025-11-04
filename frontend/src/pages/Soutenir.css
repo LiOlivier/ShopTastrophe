@@ -36,7 +36,6 @@
   padding: 16px;
 }
 
-/* Idées & retours: texte centré, bouton en bas centré */
 .support-card.feedback {
   display: flex;
   flex-direction: column;
@@ -62,7 +61,6 @@
   color: #374151;
 }
 
-/* Donate */
 .donate { display: grid; gap: 10px; }
 .amounts { display: flex; gap: 8px; flex-wrap: wrap; }
 .amounts button {

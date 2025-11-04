@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
 import Products from "./pages/Products";
+import ProductDetail from "./pages/ProductDetail";
 import Contact from "./pages/Contact";
 import Soutenir from "./pages/Soutenir";
 import Mentions from "./pages/Mentions";
@@ -32,6 +33,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/products/:slug" element={<ProductDetail />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/soutenir" element={<Soutenir />} />
             <Route path="/mentions" element={<Mentions />} />
