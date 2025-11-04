@@ -1,5 +1,5 @@
 #core.py sert à faire la transition des instances globales entre les modules 
-from shop import (
+from .shop import (
     CartRepository,
     SessionManager, AuthService, CartService, CatalogService
 )

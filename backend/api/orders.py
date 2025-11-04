@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from core import sessions, users, carts, products  
-from shop import OrderRepository, PaymentRepository, InvoiceRepository, BillingService, DeliveryService, PaymentGateway, OrderService, UserRepository
+from ..core import sessions, users, carts, products  
+from ..shop import OrderRepository, PaymentRepository, InvoiceRepository, BillingService, DeliveryService, PaymentGateway, OrderService, UserRepository
 
 router = APIRouter(prefix="/orders", tags=["orders"])
 

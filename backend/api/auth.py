@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from core import auth_service  # on importe notre service partagé
+from ..core import auth_service  # on importe notre service partagé
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 

@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from shop import Product
-from api import auth, cart, orders
-from core import products, catalog_service 
+from .shop import Product
+from .api import auth, cart, orders
+from .core import products, catalog_service 
 from dataclasses import asdict
 
 app = FastAPI(title="ShopTastrophe 😏")

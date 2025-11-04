@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from core import cart_service, sessions, products # on importe nos services partagés
+from ..core import cart_service, sessions, products # on importe nos services partagés
     
 router = APIRouter(prefix="/cart", tags=["cart"])
 
