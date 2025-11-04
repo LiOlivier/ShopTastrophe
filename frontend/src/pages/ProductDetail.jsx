@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import "./ProductDetail.css";
 
@@ -60,6 +60,17 @@ export default function ProductDetail() {
   const sel = useMemo(() => product?.colors.find((c) => c.key === colorKey) ?? product?.colors[0], [product, colorKey]);
   const mainSrc = showBack && sel?.back ? sel.back : sel?.front;
 
+  useEffect(() => {
+    if (sel?.front) {
+      const img1 = new Image();
+      img1.src = sel.front;
+    }
+    if (sel?.back) {
+      const img2 = new Image();
+      img2.src = sel.back;
+    }
+  }, [sel?.front, sel?.back]);
+
   if (!product) {
     return (
       <section className="pdp-container">
@@ -90,6 +101,8 @@ export default function ProductDetail() {
                 aria-label="Vue Front"
                 className={`thumb${!showBack ? " active" : ""}`}
                 onClick={() => setShowBack(false)}
+                onMouseEnter={() => setShowBack(false)}
+                onFocus={() => setShowBack(false)}
               >
                 <img src={sel.front} alt={`${product.title} Front`} />
               </button>
@@ -100,16 +113,33 @@ export default function ProductDetail() {
                 aria-label="Vue Back"
                 className={`thumb${showBack ? " active" : ""}`}
                 onClick={() => setShowBack(true)}
+                onMouseEnter={() => setShowBack(true)}
+                onFocus={() => setShowBack(true)}
               >
                 <img src={sel.back} alt={`${product.title} Back`} />
               </button>
             )}
           </div>
-
-          {mainSrc && <img className="pdp-img" src={mainSrc} alt={`${product.title} ${sel?.label}`} />}
+          <div className="pdp-stage">
+            {sel?.front && (
+              <img
+                className={`pdp-img ${!showBack ? "show" : ""}`}
+                src={sel.front}
+                alt={`${product.title} ${sel?.label} Front`}
+              />
+            )}
+            {sel?.back && (
+              <img
+                className={`pdp-img ${showBack ? "show" : ""}`}
+                src={sel.back}
+                alt={`${product.title} ${sel?.label} Back`}
+              />
+            )}
+          </div>
         </div>
 
         <div className="pdp-info">
+          <div className="pdp-note">Autumn 2025 Edition</div>
           <h1 className="pdp-title">{product.title} – {sel?.label}</h1>
           <p className="pdp-price">{product.price}</p>
 
@@ -138,7 +168,6 @@ export default function ProductDetail() {
             </button>
           </div>
 
-          <div className="pdp-note">Autumn 2025 Edition</div>
         </div>
       </div>
     </section>

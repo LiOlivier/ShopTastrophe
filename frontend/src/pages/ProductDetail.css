@@ -20,19 +20,22 @@
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
   gap: 32px;
-  align-items: start;
+  align-items: center;
 }
 
 .pdp-media {
   position: relative;
+  background: transparent;
+  border: 0;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 22px;
+  box-shadow: none;
 }
 .pdp-media::after {
-  content: "";
+  content: none;
   position: absolute;
   inset: 0;
   border-radius: 8px;
@@ -41,24 +44,37 @@
   transform: translate(-10px, 10px);
   z-index: -1;
 }
-.pdp-img {
+.pdp-stage {
+  position: relative;
   width: 100%;
-  height: auto;
+  min-height: 520px;
+}
+.pdp-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  max-height: 640px;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+.pdp-img.show {
+  opacity: 1;
 }
 
 .pdp-thumbs {
   position: absolute;
-  left: 10px;
-  top: 16px;
+  left: -64px;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 .thumb {
   background: transparent;
-  border: px solid;
+  border: 2px solid #000000;
+  border-radius: 4px;
   width: 56px;
   height: 56px;
   padding: 0;
@@ -71,7 +87,7 @@
   object-fit: cover;
 }
 .thumb.active {
-  border-color: black;
+  border-color: #15487D;
 }
 
 .pdp-info {
@@ -136,7 +152,7 @@
 }
 
 .pdp-note {
-  margin-top: 16px;
+  margin: 0 0 8px 0;
   color: #9fb7d9;
   text-transform: uppercase;
   font-weight: 700;
@@ -146,5 +162,8 @@
 @media (max-width: 900px) {
   .pdp-inner {
     grid-template-columns: 1fr;
+  }
+  .pdp-stage {
+    min-height: 360px;
   }
 }
