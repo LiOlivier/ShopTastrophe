@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useAuth } from "./AuthContext";
+import { api } from "../api/client";
 
 const CartContext = createContext(null);
 
@@ -13,7 +14,7 @@ const parseEuroToCents = (priceStr) => {
 };
 
 export function CartProvider({ children }) {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const storageKey = useMemo(() => `cart:items:${user?.email || "guest"}`, [user?.email]);
 
   const load = (key) => {
@@ -33,6 +34,10 @@ export function CartProvider({ children }) {
 
   // Initial load (handles migration from legacy key "cart:items")
   const [items, setItems] = useState(() => {
+    if (user && token) {
+      // Si connecté, ne pas charger depuis localStorage
+      return [];
+    }
     const legacy = load("cart:items");
     const current = load(storageKey);
     // If user just logged in and has no saved cart, migrate legacy cart
@@ -48,69 +53,133 @@ export function CartProvider({ children }) {
   const [lastAdded, setLastAdded] = useState(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
-  // Persist for the current user namespace
+  // Persist for the current user namespace (seulement si pas connecté)
   useEffect(() => {
-    save(storageKey, items);
-  }, [items, storageKey]);
+    if (!user || !token) {
+      save(storageKey, items);
+    }
+  }, [items, storageKey, user, token]);
 
-  // When the logged-in user changes, reload items from that namespace.
-  // If a guest cart exists, keep it on logout and merge it into the user cart on next login.
+  // Charger le panier depuis le backend quand l'utilisateur se connecte
   useEffect(() => {
-    const guestKey = "cart:items:guest";
-    if (!user) {
-      // Switching to guest: load guest cart (do not clear it)
+    if (user && token) {
+      loadCartFromBackend();
+    } else {
+      // Switching to guest: load guest cart
+      const guestKey = "cart:items:guest";
       const guest = load(guestKey);
       setItems(Array.isArray(guest) ? guest : []);
-      return;
     }
-    // User logged in: merge guest cart into user cart once
-    const userItems = Array.isArray(load(storageKey)) ? load(storageKey) : [];
-    const guestItems = Array.isArray(load(guestKey)) ? load(guestKey) : [];
-    if (guestItems.length) {
-      const merged = mergeCarts(userItems, guestItems);
-      setItems(merged);
-      // clear guest cart after merge
-      try { localStorage.removeItem(guestKey); } catch (_) {}
-      save(storageKey, merged);
-    } else {
-      setItems(userItems);
-    }
-  }, [storageKey, user]);
+  }, [user, token]);
 
-  const addItem = (item, qty = 1) => {
+  const loadCartFromBackend = async () => {
+    if (!token) return;
+    try {
+      const response = await api.viewCart(token);
+      if (response.ok) {
+        const cartData = await response.json();
+        // Convertir le format backend vers frontend
+        const backendItems = cartData.items.map(item => ({
+          id: item.product_id,
+          qty: item.quantity,
+          name: `Produit ${item.product_id}`, // Placeholder
+          priceCents: 0 // Sera mis à jour quand on récupère les produits
+        }));
+        setItems(backendItems);
+      }
+    } catch (error) {
+      console.error("Erreur chargement panier:", error);
+    }
+  };
+
+  const addItem = async (item, qty = 1) => {
     // item: { id, name, priceCents, slug?, colorKey?, image? }
     if (!item || !item.id) return;
     const quantity = Math.max(1, qty|0);
-    setItems((prev) => {
-      const idx = prev.findIndex((it) => it.id === item.id && it.colorKey === item.colorKey);
-      if (idx >= 0) {
-        const copy = prev.slice();
-        copy[idx] = { ...copy[idx], qty: Math.min(99, copy[idx].qty + quantity) };
-        // set modal content to the updated line
-        setLastAdded(copy[idx]);
-        setConfirmOpen(true);
-        return copy;
+    
+    if (user && token) {
+      // Utilisateur connecté : utiliser l'API backend
+      try {
+        const response = await api.addToCart(token, item.id, quantity);
+        if (response.ok) {
+          // Recharger le panier depuis le backend
+          await loadCartFromBackend();
+          setLastAdded({ ...item, qty: quantity });
+          setConfirmOpen(true);
+        } else {
+          console.error("Erreur ajout panier:", await response.text());
+        }
+      } catch (error) {
+        console.error("Erreur API:", error);
       }
-      const next = { ...item, qty: quantity };
-      setLastAdded(next);
-      setConfirmOpen(true);
-      return [...prev, next];
-    });
+    } else {
+      // Utilisateur non connecté : utiliser localStorage
+      setItems((prev) => {
+        const idx = prev.findIndex((it) => it.id === item.id && it.colorKey === item.colorKey);
+        if (idx >= 0) {
+          const copy = prev.slice();
+          copy[idx] = { ...copy[idx], qty: Math.min(99, copy[idx].qty + quantity) };
+          setLastAdded(copy[idx]);
+          setConfirmOpen(true);
+          return copy;
+        }
+        const next = { ...item, qty: quantity };
+        setLastAdded(next);
+        setConfirmOpen(true);
+        return [...prev, next];
+      });
+    }
   };
 
-  const removeItem = (id, colorKey) => {
-    setItems((prev) => prev.filter((it) => !(it.id === id && it.colorKey === colorKey)));
+  const removeItem = async (id, colorKey) => {
+    if (user && token) {
+      // Utilisateur connecté : utiliser l'API backend
+      try {
+        const response = await api.removeFromCart(token, id, 999); // Supprimer tout
+        if (response.ok) {
+          await loadCartFromBackend();
+        }
+      } catch (error) {
+        console.error("Erreur suppression:", error);
+      }
+    } else {
+      // Utilisateur non connecté : localStorage
+      setItems((prev) => prev.filter((it) => !(it.id === id && it.colorKey === colorKey)));
+    }
   };
 
-  const updateQty = (id, colorKey, qty) => {
+  const updateQty = async (id, colorKey, qty) => {
     const q = Math.max(0, Math.min(99, qty|0));
-    setItems((prev) => prev
-      .map((it) => (it.id === id && it.colorKey === colorKey ? { ...it, qty: q } : it))
-      .filter((it) => it.qty > 0)
-    );
+    
+    if (user && token) {
+      // Pour l'API backend, on calcule la différence et on ajuste
+      const currentItem = items.find(it => it.id === id && it.colorKey === colorKey);
+      if (currentItem) {
+        const diff = q - currentItem.qty;
+        if (diff > 0) {
+          await api.addToCart(token, id, diff);
+        } else if (diff < 0) {
+          await api.removeFromCart(token, id, Math.abs(diff));
+        }
+        await loadCartFromBackend();
+      }
+    } else {
+      // localStorage
+      setItems((prev) => prev
+        .map((it) => (it.id === id && it.colorKey === colorKey ? { ...it, qty: q } : it))
+        .filter((it) => it.qty > 0)
+      );
+    }
   };
 
-  const clear = () => setItems([]);
+  const clear = () => {
+    if (user && token) {
+      // Pour le backend, on devrait avoir une API clear, pour l'instant on fait rien
+      setItems([]);
+    } else {
+      setItems([]);
+    }
+  };
 
   const count = useMemo(() => items.reduce((acc, it) => acc + it.qty, 0), [items]);
   const totalCents = useMemo(() => items.reduce((acc, it) => acc + it.priceCents * it.qty, 0), [items]);

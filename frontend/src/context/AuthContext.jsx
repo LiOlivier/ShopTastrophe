@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { api } from "../api/client";
 
 const AuthContext = createContext(null);
 
@@ -8,6 +9,14 @@ export function AuthProvider({ children }) {
     try {
       const raw = localStorage.getItem("auth:user");
       return raw ? JSON.parse(raw) : null;
+    } catch (_) {
+      return null;
+    }
+  });
+
+  const [token, setToken] = useState(() => {
+    try {
+      return localStorage.getItem("auth:token") || null;
     } catch (_) {
       return null;
     }
@@ -38,21 +47,57 @@ export function AuthProvider({ children }) {
     } catch (_) {}
   }, [user]);
 
-  const login = async ({ email, name }) => {
-    const base = { email, name: name || email.split("@")[0] };
-    const persisted = loadProfile(email) || {};
-    setUser({ ...base, ...persisted });
-    return true;
+  useEffect(() => {
+    try {
+      if (token) localStorage.setItem("auth:token", token);
+      else localStorage.removeItem("auth:token");
+    } catch (_) {}
+  }, [token]);
+
+  const login = async ({ email, password }) => {
+    try {
+      const response = await api.login({ email, password });
+      if (response.ok) {
+        const data = await response.json();
+        const userData = { email, name: email.split("@")[0] };
+        setUser(userData);
+        setToken(data.token);
+        return true;
+      } else {
+        console.error("Erreur login:", await response.text());
+        return false;
+      }
+    } catch (error) {
+      console.error("Erreur API login:", error);
+      return false;
+    }
   };
 
-  const register = async ({ email, name, password }) => {
-    const base = { email, name: name || email.split("@")[0] };
-    const persisted = loadProfile(email) || {};
-    setUser({ ...base, ...persisted });
-    return true;
+  const register = async ({ email, password, first_name, last_name, address }) => {
+    try {
+      const response = await api.register({ 
+        email, 
+        password, 
+        first_name: first_name || email.split("@")[0], 
+        last_name: last_name || "User",
+        address: address || "Adresse par défaut"
+      });
+      if (response.ok) {
+        // Après register, on fait un login automatique
+        return await login({ email, password });
+      } else {
+        console.error("Erreur register:", await response.text());
+        return false;
+      }
+    } catch (error) {
+      console.error("Erreur API register:", error);
+      return false;
+    }
   };
-
-  const logout = () => setUser(null);
+  const logout = () => {
+    setUser(null);
+    setToken(null);
+  };
 
   const updateUser = (patch) => {
     setUser((prev) => {
@@ -64,8 +109,8 @@ export function AuthProvider({ children }) {
   };
 
   const value = useMemo(
-    () => ({ user, isAuthenticated: !!user, login, register, logout, updateUser }),
-    [user]
+    () => ({ user, token, isAuthenticated: !!user, login, register, logout, updateUser }),
+    [user, token]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

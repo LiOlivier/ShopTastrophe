@@ -9,16 +9,16 @@ export default function Footer() {
         <div className="footer-grid">
           <div className="footer-col footer-socials" aria-hidden>
             <div className="social-list">
-              <a href="#" className="social-btn" aria-label="Twitter">
+              <a href="https://twitter.com/ShopTastrophe" className="social-btn" aria-label="Twitter">
                 <img src="/icone/twitter.svg" alt="Twitter" />
               </a>
-              <a href="#" className="social-btn" aria-label="Instagram">
+              <a href="https://www.instagram.com/ShopTastrophe" className="social-btn" aria-label="Instagram">
                 <img src="/icone/instagram.svg" alt="Instagram" />
               </a>
-              <a href="#" className="social-btn" aria-label="YouTube">
+              <a href="https://www.youtube.com/@nvtsu6929" className="social-btn" aria-label="YouTube">
                 <img src="/icone/youtube.svg" alt="YouTube" />
               </a>
-              <a href="#" className="social-btn" aria-label="TikTok">
+              <a href="https://www.tiktok.com/@shoptastrophe?lang=fr" className="social-btn" aria-label="TikTok">
                 <img src="/icone/tiktok.svg" alt="TikTok" />
               </a>
             </div>
