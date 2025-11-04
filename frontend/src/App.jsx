@@ -15,6 +15,7 @@ import Products from "./pages/Products";
 import Contact from "./pages/Contact";
 import Soutenir from "./pages/Soutenir";
 import Mentions from "./pages/Mentions";
+import CGV from "./pages/CGV";
 
 function App() {
   const location = useLocation();
@@ -33,6 +34,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/soutenir" element={<Soutenir />} />
             <Route path="/mentions" element={<Mentions />} />
+            <Route path="/cgv" element={<CGV />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/profile" element={<Profile />} />

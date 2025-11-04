@@ -1,0 +1,53 @@
+.cgv {
+	display: block;
+	width: 100%;
+}
+
+.cgv-container {
+	max-width: 900px;
+	margin: 0 auto;
+	padding: clamp(24px, 6vw, 72px) clamp(16px, 5vw, 32px);
+}
+
+.cgv-title {
+	text-align: center;
+	font-size: clamp(28px, 6vw, 42px);
+	font-weight: 900;
+	letter-spacing: 0.02em;
+	margin: 0 0 clamp(20px, 4vw, 32px);
+	color: #15487D;
+}
+
+.cgv-intro {
+	color: #374151;
+	margin: 0 0 16px 0;
+}
+
+.cgv h2 {
+	font-size: 20px;
+	margin: 18px 0 8px;
+	color: #15487D;
+}
+
+.cgv p {
+	margin: 6px 0;
+	color: #111;
+	line-height: 1.65;
+}
+
+.cgv a {
+	color: #15487D;
+	text-decoration: underline;
+}
+
+.cgv-note {
+	margin-top: 20px;
+	color: #374151;
+}
+
+@media (min-width: 1024px) {
+	.cgv-container {
+		padding-top: 72px;
+		padding-bottom: 72px;
+	}
+}
