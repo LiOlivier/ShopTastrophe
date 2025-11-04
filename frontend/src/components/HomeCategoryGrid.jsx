@@ -1,10 +1,10 @@
 import "./HomeCategoryGrid.css";
 
 const items = [
-  { label: "Ironique", img: "/merch/img/ironique.png", href: "/products?tag=ironique" },
-  { label: "Sarcastique", img: "/merch/img/sarcastique.png", href: "/products?tag=sarcastique" },
-  { label: "Casquette", img: "/merch/img/casquette.png", href: "/products?tag=casquette" },
-  { label: "Tasse", img: "/merch/img/tasse.png", href: "/products?tag=tasse" },
+  { label: "T‑Shirt Ironique", img: "/merch/img/ironique.png", href: "/products/tee-noir" },
+  { label: "Sweat Sarcastique", img: "/merch/img/sarcastique.png", href: "/products/sweat-blanc" },
+  { label: "Casquette Vide tête", img: "/merch/img/casquette.png", href: "/products/casquette-blanche" },
+  { label: "Tasse", img: "/merch/img/tasse.png", href: "/products/tasse-noire" },
 ];
 
 export default function HomeCategoryGrid({ className = "" }) {

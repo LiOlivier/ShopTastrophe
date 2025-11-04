@@ -22,7 +22,6 @@ export default function ProductsGrid({ className = "" }) {
               <h3 className="product-title">{it.title}</h3>
               <div className="product-price">{it.price}</div>
             </div>
-            {/* CTA that reveals on hover */}
             <div className="product-cta">
               <button
                 type="button"

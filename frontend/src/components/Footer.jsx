@@ -1,4 +1,5 @@
 import "./Footer.css";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -27,7 +28,7 @@ export default function Footer() {
             <h4>CATALOGUE</h4>
             <ul>
               <li>
-                <a href="/catalogue">Autumn 2025 Edition</a>
+                <Link to="/products">Autumn 2025 Edition</Link>
               </li>
             </ul>
           </div>

@@ -158,7 +158,6 @@
 .profile-menu .menu-item:hover { background: #f3f4f6; }
 .profile-menu .menu-item.danger { color: #b91c1c; }
 
-/* Burger button (hidden on desktop) */
 .navbar-burger {
   display: none;
   background: transparent;
@@ -172,7 +171,6 @@
 }
 .burger-img { width: 24px; height: 24px; object-fit: contain; display: block; }
 
-/* Mobile menu: drawer from the right */
 .mobile-menu { display: none; }
 .mobile-link {
   display: block;
@@ -186,7 +184,7 @@
   content: "";
   position: absolute;
   left: 0;
-  bottom: -3px; /* small gap between text and underline */
+  bottom: -3px; 
   height: 2px;
   width: 100%;
   background-color: currentColor;
@@ -200,7 +198,6 @@
   transform: scaleX(1);
 }
 
-/* Ensure any anchor inside the navbar never gets underlined on hover */
 .navbar a:hover { text-decoration: none; }
 
 @media (max-width: 640px) {
@@ -209,10 +206,9 @@
   .navbar-burger { display: inline-flex; }
   .navbar-actions { gap: 12px; }
   .icon-img { width: 24px; height: 24px; }
-  /* Logo centré en mobile */
+
   .navbar-logo { position: absolute; left: 50%; transform: translateX(-50%); }
 
-  /* Drawer + backdrop only on mobile */
   .mobile-menu {
     display: block;
     position: fixed;
