@@ -65,7 +65,17 @@ export function AuthProvider({ children }) {
       if (response.ok) {
         const data = await response.json();
         console.log("✅ Données reçues:", data);
-        const userData = { email, name: email.split("@")[0] };
+        
+        // Créer l'objet utilisateur de base
+        let userData = { email, name: email.split("@")[0] };
+        
+        // Charger le profil sauvegardé s'il existe
+        const savedProfile = loadProfile(email);
+        if (savedProfile) {
+          console.log("📋 Profil sauvegardé trouvé:", savedProfile);
+          userData = { ...userData, ...savedProfile };
+        }
+        
         setUser(userData);
         setToken(data.token);
         console.log("✅ Login réussi, token:", data.token.substring(0, 8) + "...");

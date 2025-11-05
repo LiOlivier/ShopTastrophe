@@ -1,8 +1,10 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
+from fastapi.security import HTTPBearer
 from pydantic import BaseModel
 from ..core import auth_service  # on importe notre service partagé
 
 router = APIRouter(prefix="/auth", tags=["auth"])
+security = HTTPBearer()
 
 class RegisterRequest(BaseModel):
     email: str
@@ -14,6 +16,10 @@ class RegisterRequest(BaseModel):
 class LoginRequest(BaseModel):
     email: str
     password: str
+
+class ChangePasswordRequest(BaseModel):
+    current_password: str
+    new_password: str
 
 @router.post("/register")
 def register(req: RegisterRequest):
@@ -36,3 +42,27 @@ def login(req: LoginRequest):
         return {"token": token}
     except ValueError:
         raise HTTPException(status_code=401, detail="Identifiants invalides")
+
+@router.post("/change-password")
+def change_password(req: ChangePasswordRequest, credentials = Depends(security)):
+    try:
+        # Extraire le token et valider la session
+        token = credentials.credentials
+        session = auth_service.sessions.get(token)
+        if not session:
+            raise HTTPException(status_code=401, detail="Token invalide")
+        
+        # Changer le mot de passe
+        success = auth_service.change_password(
+            user_id=session.user_id,
+            current_password=req.current_password,
+            new_password=req.new_password
+        )
+        
+        if success:
+            return {"message": "Mot de passe modifié avec succès"}
+        else:
+            raise HTTPException(status_code=400, detail="Mot de passe actuel incorrect")
+            
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))

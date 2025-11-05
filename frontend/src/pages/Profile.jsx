@@ -5,7 +5,7 @@ import { useTranslation } from "../hooks/useTranslation";
 import "./Profile.css";
 
 export default function Profil() {
-  const { user, isAuthenticated, updateUser, logout } = useAuth();
+  const { user, token, isAuthenticated, updateUser, logout } = useAuth();
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -31,10 +31,26 @@ export default function Profil() {
 
   const [form, setForm] = useState(initial);
   const [edition, setEdition] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: ""
+  });
+  const [passwordEdition, setPasswordEdition] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState("");
+  
   useEffect(() => setForm(initial), [initial]);
 
   const setChamp = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  const setPasswordChamp = (e) => setPasswordForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  
   const annuler = () => { setForm(initial); setEdition(false); };
+  const annulerPassword = () => { 
+    setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" }); 
+    setPasswordEdition(false); 
+    setPasswordMessage("");
+  };
+  
   const enregistrer = () => {
     updateUser?.({
       name: [form.prenom, form.nom].filter(Boolean).join(" "),
@@ -47,6 +63,42 @@ export default function Profil() {
       location: form.lieu,
     });
     setEdition(false);
+  };
+
+  const changerMotDePasse = async () => {
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      setPasswordMessage("Les mots de passe ne correspondent pas");
+      return;
+    }
+    
+    if (passwordForm.newPassword.length < 6) {
+      setPasswordMessage("Le mot de passe doit contenir au moins 6 caractères");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/auth/change-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token || ""}`
+        },
+        body: JSON.stringify({
+          current_password: passwordForm.currentPassword,
+          new_password: passwordForm.newPassword
+        })
+      });
+
+      if (response.ok) {
+        setPasswordMessage("Mot de passe modifié avec succès ✅");
+        annulerPassword();
+      } else {
+        const error = await response.json();
+        setPasswordMessage(error.detail || "Erreur lors du changement de mot de passe");
+      }
+    } catch (error) {
+      setPasswordMessage("Erreur de connexion");
+    }
   };
 
   return (
@@ -96,6 +148,55 @@ export default function Profil() {
         <div className="pied-actions">
           <button className="btn ghost" onClick={() => navigate("/orders")}>{t('nav.orders')}</button>
           <button className="btn ghost" onClick={() => { logout(); navigate("/"); }}>{t('nav.logout')}</button>
+        </div>
+      </section>
+
+      {/* Section changement de mot de passe */}
+      <section className="card card-details">
+        <div className="panneau">
+          <h3>Changer le mot de passe</h3>
+          {!passwordEdition ? (
+            <button className="btn sombre" onClick={() => setPasswordEdition(true)}>
+              Modifier mon mot de passe
+            </button>
+          ) : (
+            <div className="grille">
+              <Champ 
+                type="password" 
+                libelle="Mot de passe actuel" 
+                name="currentPassword" 
+                value={passwordForm.currentPassword} 
+                onChange={setPasswordChamp} 
+              />
+              <Champ 
+                type="password" 
+                libelle="Nouveau mot de passe" 
+                name="newPassword" 
+                value={passwordForm.newPassword} 
+                onChange={setPasswordChamp} 
+              />
+              <Champ 
+                type="password" 
+                libelle="Confirmer le mot de passe" 
+                name="confirmPassword" 
+                value={passwordForm.confirmPassword} 
+                onChange={setPasswordChamp} 
+              />
+              
+              {passwordMessage && (
+                <div className={`message ${passwordMessage.includes("✅") ? "success" : "error"}`}>
+                  {passwordMessage}
+                </div>
+              )}
+              
+              <div className="actions" style={{gridColumn: "1 / -1"}}>
+                <button className="btn ghost" onClick={annulerPassword}>Annuler</button>
+                <button className="btn primaire" onClick={changerMotDePasse}>
+                  Changer le mot de passe
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </section>
     </div>

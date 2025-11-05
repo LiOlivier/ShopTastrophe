@@ -354,6 +354,24 @@ class AuthService:
             raise ValueError("Identifiants invalides.")
         return self.sessions.create_session(user.id)
 
+    def change_password(self, user_id: str, current_password: str, new_password: str) -> bool:
+        user = self.users.get(user_id)
+        if not user:
+            raise ValueError("Utilisateur introuvable.")
+        
+        # Vérifier le mot de passe actuel
+        if not PasswordHasher.verify(current_password, user.password_hash):
+            return False
+        
+        # Valider le nouveau mot de passe
+        if len(new_password) < 6:
+            raise ValueError("Le nouveau mot de passe doit contenir au moins 6 caractères.")
+        
+        # Hasher et sauvegarder le nouveau mot de passe
+        user.password_hash = PasswordHasher.hash(new_password)
+        self.users.add(user)  # Met à jour l'utilisateur en base
+        return True
+
     def logout(self, token: str):
         self.sessions.destroy_session(token)
 

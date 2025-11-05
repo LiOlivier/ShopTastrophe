@@ -50,7 +50,8 @@ def list_products():
 def reset_stock():
     """Endpoint pour remettre le stock à niveau - utile pour les tests"""
     try:
-        for p in catalog_service.list_products():
+        all_products = catalog_service.list_products()
+        for p in all_products:
             if p.id == "1":  # T-Shirt
                 p.stock_qty = 100
             elif p.id == "2":  # Sweat
@@ -59,6 +60,9 @@ def reset_stock():
                 p.stock_qty = 80
             elif p.id == "4":  # Tasse
                 p.stock_qty = 120
+            
+            products.add(p)  
+            
         return {"message": "Stock remis à niveau avec succès"}
     except Exception as e:
         return {"error": f"Erreur lors de la remise à niveau du stock: {str(e)}"}
