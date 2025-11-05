@@ -1,6 +1,7 @@
 import React from "react";
 import "./ProductsGrid.css";
 import { useCart } from "../context/CartContext";
+import { useTranslation } from "../hooks/useTranslation";
 
 // Données des produits en dur (sans le T-Shirt Blanc indésirable)
 const items = [
@@ -12,6 +13,7 @@ const items = [
 
 export default function ProductsGrid({ className = "" }) {
   const { addItem, removeItem, parseEuroToCents, getItemQuantity } = useCart();
+  const { t } = useTranslation();
   
   const idFor = (href) => {
     if (href.includes("tee-noir")) return "1";
@@ -23,7 +25,7 @@ export default function ProductsGrid({ className = "" }) {
 
   return (
     <section className={`products-grid-section ${className}`.trim()}>
-      <div className="grid-badge">Autumn 2025 Edition</div>
+      <div className="grid-badge">{t('home.featuredProducts') || 'Autumn 2025 Edition'}</div>
       <div className="products-grid">
         {items.map((it, i) => {
           const productId = idFor(it.href);
@@ -52,7 +54,7 @@ export default function ProductsGrid({ className = "" }) {
                     className="add-to-cart-btn"
                     onClick={() => addItem(productData)}
                   >
-                    Ajouter au panier
+                    {t('products.addToCart')}
                   </button>
                 ) : (
                   <div className="quantity-controls">

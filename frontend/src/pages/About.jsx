@@ -1,35 +1,20 @@
 import "./About.css";
+import { useTranslation } from "../hooks/useTranslation";
 
 export default function About() {
+  const { t } = useTranslation();
   return (
     <section className="about">
       <div className="about-container">
-        <h1 className="about-title">Le Projet ShopTastrophe</h1>
+        <h1 className="about-title">{t('about.title')}</h1>
 
-        <p>
-          Depuis 2025, ShopTastrophe imagine des collections différemment, en
-          mêlant esprit créatif, humour assumé et engagements concrets sur nos
-          matières et nos partenaires.
-        </p>
+        <p>{t('about.paragraph1')}</p>
 
-        <p>
-          Nous privilégions des textiles de qualité et, lorsque c’est possible,
-          des fibres certifiées. Les encres et traitements sont sélectionnés avec
-          soin afin de garantir un rendu durable tout en limitant notre impact.
-        </p>
+        <p>{t('about.paragraph2')}</p>
 
-        <p>
-          La confection est réalisée dans des ateliers qui respectent les
-          conditions de travail et la sécurité des équipes. Nous avançons étape
-          par étape, en privilégiant des volumes raisonnés et des circuits de
-          production transparents.
-        </p>
+        <p>{t('about.paragraph3')}</p>
 
-        <p>
-          Notre logistique en Europe et la gestion de la boutique en ligne sont
-          opérées avec des partenaires de confiance, pour vous livrer vite et
-          bien, tout en gardant le sens du détail qui fait notre identité.
-        </p>
+        <p>{t('about.paragraph4')}</p>
       </div>
     </section>
   );

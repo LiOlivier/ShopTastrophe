@@ -1,7 +1,9 @@
 import "./Footer.css";
 import { Link } from "react-router-dom";
+import { useTranslation } from "../hooks/useTranslation";
 
 export default function Footer() {
+  const { t } = useTranslation();
   const year = new Date().getFullYear();
   return (
     <footer className="site-footer">
@@ -25,7 +27,7 @@ export default function Footer() {
           </div>
 
           <div className="footer-col">
-            <h4>CATALOGUE</h4>
+            <h4>{t('footer.links')}</h4>
             <ul>
               <li>
                 <Link to="/products">Autumn 2025 Edition</Link>
@@ -34,28 +36,28 @@ export default function Footer() {
           </div>
 
           <div className="footer-col">
-            <h4>INFORMATIONS</h4>
+            <h4>{t('footer.legal')}</h4>
             <ul>
               <li>
-                <a href="/faq">FAQ</a>
+                <Link to="/faq">{t('faq.title') || 'FAQ'}</Link>
               </li>
               <li>
-                <a href="/contact">Contact</a>
+                <Link to="/contact">{t('nav.contact')}</Link>
               </li>
               <li>
-                <a href="/mentions">Mentions Légales</a>
+                <Link to="/mentions">{t('footer.legal')}</Link>
               </li>
               <li>
-                <a href="/cgv">Conditions Générales de Vente</a>
+                <Link to="/cgv">{t('footer.cgv') || 'CGV'}</Link>
               </li>
               <li>
-                <a href="/soutenir">Nous soutenir</a>
+                <Link to="/soutenir">{t('nav.support')}</Link>
               </li>
             </ul>
           </div>
 
           <div className="footer-col footer-payments">
-            <h4>MODES DE PAIEMENT</h4>
+            <h4>{t('footer.followUs')}</h4>
             <div className="payments">
               <span className="pay-icon" title="Apple Pay" aria-hidden>
                 <img src="/icone/applepay.svg" alt="Apple Pay" />
@@ -73,7 +75,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="footer-copy">© {year} ShopTastrophe. Tous droits réservés.</div>
+        <div className="footer-copy">© {year} ShopTastrophe. {t('footer.legal') === 'Legal Notice' ? 'All rights reserved.' : 'Tous droits réservés.'}</div>
       </div>
     </footer>
   );

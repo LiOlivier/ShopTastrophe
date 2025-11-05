@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useTranslation } from "../hooks/useTranslation";
 import "./ProductDetail.css";
 
 // Helpers to build image paths using acronym convention for tees/sweats
@@ -108,6 +109,7 @@ export default function ProductDetail() {
   const product = productMap[slug];
   const navigate = useNavigate();
   const { addItem, parseEuroToCents } = useCart();
+  const { t } = useTranslation();
 
   const [colorKey, setColorKey] = useState(product?.defaultColor ?? "");
   const [showBack, setShowBack] = useState(false);
@@ -158,8 +160,8 @@ export default function ProductDetail() {
     return (
       <section className="pdp-container">
         <div className="pdp-inner">
-          <p>Produit introuvable.</p>
-          <Link className="pdp-back" to="/products">Revenir aux produits</Link>
+          <p>{t('messages.error') || 'Product not found.'}</p>
+          <Link className="pdp-back" to="/products">{t('products.backToProducts')}</Link>
         </div>
       </section>
     );
@@ -222,12 +224,12 @@ export default function ProductDetail() {
         </div>
 
         <div className="pdp-info">
-          <div className="pdp-note">Autumn 2025 Edition</div>
+          <div className="pdp-note">{t('product.edition') || 'Autumn 2025 Edition'}</div>
           <h1 className="pdp-title">{product.title} – {sel?.label}</h1>
           <p className="pdp-price">{product.price}</p>
 
           <div className="pdp-section">
-            <div className="pdp-section-title">Couleur</div>
+            <div className="pdp-section-title">{t('product.color')}</div>
             <div className="color-row">
               {product.colors.map((c) => (
                 <button

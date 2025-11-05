@@ -1,48 +1,26 @@
 import { useState } from "react";
+import { useTranslation } from "../hooks/useTranslation";
 import "./FAQ.css";
 
-const faqs = [
-  {
-    q: "Quelle est la coupe de vos produits ?",
-    a: "Des coupes modernes et confortables. Si vous hésitez entre deux tailles, prenez la plus grande pour un tombé plus loose."
-  },
-  {
-    q: "Comment choisir ma taille ?",
-    a: "Consultez le guide des tailles sur chaque fiche produit. Mesures à plat et conseils de fit y sont indiqués."
-  },
-  {
-    q: "Quels sont vos modes de paiement ?",
-    a: "Vous pouvez payer par Apple Pay, Visa, Mastercard et PayPal. Les transactions sont sécurisées."
-  },
-  {
-    q: "Puis‑je modifier ou annuler ma commande ?",
-    a: "Tant que la commande n'est pas expédiée, c'est possible. Contactez le support au plus vite depuis votre espace commandes."
-  },
-  {
-    q: "Quel est le délai moyen de livraison ?",
-    a: "En France métropolitaine, 2 à 4 jours ouvrés selon le transporteur et la période."
-  },
-  {
-    q: "Comment suivre ma livraison ?",
-    a: "Un lien de suivi est envoyé par e‑mail dès l'expédition et reste disponible dans votre espace commandes."
-  },
-  {
-    q: "Proposez‑vous des e‑cartes cadeaux ?",
-    a: "Oui, de 10€ à 200€. La carte est envoyée par e‑mail avec un code utilisable en une ou plusieurs fois."
-  },
-  {
-    q: "Comment contacter le support ?",
-    a: "Depuis la page Contact ou votre espace profil/commandes. Réponse sous 24 à 48h ouvrées."
-  }
-];
-
 export default function FAQ() {
-  const [open, setOpen] = useState(() => faqs.map(() => false));
+  const { t } = useTranslation();
+  const [open, setOpen] = useState(() => new Array(8).fill(false));
   const toggle = (i) => setOpen((s) => s.map((v, idx) => (idx === i ? !v : v)));
+
+  const faqs = [
+    { q: t('faq.q1'), a: t('faq.a1') },
+    { q: t('faq.q2'), a: t('faq.a2') },
+    { q: t('faq.q3'), a: t('faq.a3') },
+    { q: t('faq.q4'), a: t('faq.a4') },
+    { q: t('faq.q5'), a: t('faq.a5') },
+    { q: t('faq.q6'), a: t('faq.a6') },
+    { q: t('faq.q7'), a: t('faq.a7') },
+    { q: t('faq.q8'), a: t('faq.a8') }
+  ];
 
   return (
     <section className="faq-container">
-      <h1 className="faq-title">FAQ</h1>
+      <h1 className="faq-title">{t('faq.title')}</h1>
       <div className="faq-list" role="list">
         {faqs.map((item, i) => {
           const panelId = `faq-panel-${i}`;

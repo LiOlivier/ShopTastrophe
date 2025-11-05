@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
+import { LanguageProvider } from "./context/LanguageContext";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
@@ -25,11 +26,12 @@ function App() {
   const location = useLocation();
   const isHome = location.pathname === "/";
   return (
-    <AuthProvider>
-      <CartProvider>
-        <div className="App">
-          <Navbar />
-          <main className={`app-main${isHome ? " home" : ""}`}>
+    <LanguageProvider>
+      <AuthProvider>
+        <CartProvider>
+          <div className="App">
+            <Navbar />
+            <main className={`app-main${isHome ? " home" : ""}`}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Navigate to="/" replace />} />
@@ -55,6 +57,7 @@ function App() {
         </div>
       </CartProvider>
     </AuthProvider>
+    </LanguageProvider>
   );
 }
 

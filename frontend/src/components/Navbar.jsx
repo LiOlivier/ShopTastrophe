@@ -2,11 +2,15 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
+import { useLanguage } from "../context/LanguageContext";
+import { useTranslation } from "../hooks/useTranslation";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const { isAuthenticated, logout } = useAuth();
+  const { language, toggleLanguage } = useLanguage();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const { count } = useCart();
@@ -34,16 +38,16 @@ export default function Navbar() {
       <div className="navbar-inner">
         <button
           className="navbar-burger"
-          aria-label="Ouvrir le menu"
+          aria-label={t('nav.menu')}
           aria-controls="mobile-menu"
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((v) => !v)}
         >
-          <img src="/bar.png" alt="Menu" className="burger-img" />
+          <img src="/bar.png" alt={t('nav.menu')} className="burger-img" />
         </button>
 
         <div className="navbar-logo">
-          <Link to="/" className="brand" aria-label="Accueil">
+          <Link to="/" className="brand" aria-label={t('nav.home')}>
             <img src="/logo.png" alt="ShopTastrophe" className="logo" />
           </Link>
         </div>
@@ -51,44 +55,45 @@ export default function Navbar() {
         <ul className="navbar-links" aria-label="Navigation principale">
           <li>
             <Link to="/products" className="nav-link">
-              Nos produits
+              {t('nav.products')}
             </Link>
           </li>
           <li>
             <Link to="/about" className="nav-link">
-              À propos
+              {t('nav.about')}
             </Link>
           </li>
           <li>
             <Link to="/contact" className="nav-link">
-              Contact
+              {t('nav.contact')}
             </Link>
           </li>
-                    <li>
+          <li>
             <Link to="/soutenir" className="nav-link">
-              Nous soutenir
+              {t('nav.support')}
             </Link>
           </li>
         </ul>
 
         <div className="navbar-actions">
-          <button title="Langue" className="icon-btn" aria-label="Langue">
+          <button 
+            title={t('nav.language')} 
+            className="icon-btn" 
+            aria-label={t('nav.language')}
+            onClick={toggleLanguage}
+          >
             <img
-              src="/fr.png"
-              onError={(e) => {
-                e.currentTarget.onerror = null;
-                e.currentTarget.src = "/france.png";
-              }}
-              alt="Langue"
+              src={language === 'fr' ? "/france.png" : "/en/en.png"}
+              alt={language === 'fr' ? "Français" : "English"}
               className="icon-img"
             />
           </button>
-          <button title="Panier" className="icon-btn cart-btn" aria-label="Panier" onClick={() => navigate("/cart") }>
-            <img src="/sac.png" alt="Panier" className="icon-img" />
-            {count > 0 ? <span className="cart-badge" aria-label={`${count} articles dans le panier`}>{count}</span> : null}
+          <button title={t('nav.cart')} className="icon-btn cart-btn" aria-label={t('nav.cart')} onClick={() => navigate("/cart") }>
+            <img src="/sac.png" alt={t('nav.cart')} className="icon-img" />
+            {count > 0 ? <span className="cart-badge" aria-label={`${count} ${t('cart.items')}`}>{count}</span> : null}
           </button>
-          <button title="Profil" className="icon-btn" aria-label="Profil" onClick={onProfileClick}>
-            <img src="/profil.png" alt="Profil" className="icon-img profile-icon" />
+          <button title={t('nav.profile')} className="icon-btn" aria-label={t('nav.profile')} onClick={onProfileClick}>
+            <img src="/profil.png" alt={t('nav.profile')} className="icon-img profile-icon" />
           </button>
         </div>
       </div>
@@ -106,16 +111,16 @@ export default function Navbar() {
         aria-modal={menuOpen ? "true" : "false"}
       >
         <Link to="/products" className="mobile-link" onClick={() => setMenuOpen(false)}>
-          Nos produits
+          {t('nav.products')}
         </Link>
         <Link to="/about" className="mobile-link" onClick={() => setMenuOpen(false)}>
-          À propos
+          {t('nav.about')}
         </Link>
         <Link to="/contact" className="mobile-link" onClick={() => setMenuOpen(false)}>
-          Contact
+          {t('nav.contact')}
         </Link>
         <Link to="/soutenir" className="mobile-link" onClick={() => setMenuOpen(false)}>
-          Nous soutenir
+          {t('nav.support')}
         </Link>
       </div>
     </nav>

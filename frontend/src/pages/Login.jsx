@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useTranslation } from "../hooks/useTranslation";
 import "./Auth.css";
 
 export default function Login() {
@@ -9,6 +10,7 @@ export default function Login() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState(null);
+    const { t } = useTranslation();
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
@@ -18,31 +20,31 @@ export default function Login() {
 			if (success) {
 				navigate("/");
 			} else {
-				setError("Identifiants invalides");
+				setError(t('messages.error') || 'Invalid credentials');
 			}
 		} catch (err) {
-			setError("Erreur de connexion");
+			setError(t('messages.error'));
 		}
 	};
 
 		return (
 			<div className="login-page">
 				<div className="login-card">
-					<h1>Se connecter</h1>
+					<h1>{t('auth.login')}</h1>
 					<form onSubmit={onSubmit}>
 						<label>
-							Email
+							{t('auth.email')}
 							<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
 						</label>
 						<label>
-							Mot de passe
+							{t('auth.password')}
 							<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
 						</label>
 						{error && <div style={{ color: "crimson", marginBottom: 12 }}>{error}</div>}
-						<button type="submit">Connexion</button>
+						<button type="submit">{t('auth.loginButton')}</button>
 					</form>
 					<p className="secondary">
-						Pas de compte ? <Link to="/register">Inscrivez-vous</Link>
+						{t('auth.noAccount')} <Link to="/register">{t('auth.registerLink')}</Link>
 					</p>
 				</div>
 			</div>

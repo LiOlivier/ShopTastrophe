@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useTranslation } from "../hooks/useTranslation";
 import "./Auth.css";
 
 export default function Register() {
@@ -11,6 +12,7 @@ export default function Register() {
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [error, setError] = useState(null);
+    const { t } = useTranslation();
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
@@ -18,7 +20,7 @@ export default function Register() {
 		console.log("🚀 Tentative d'inscription...", { email, password: "***" });
 		
 		if (password !== confirmPassword) {
-			setError("Les mots de passe ne correspondent pas");
+			setError(t('auth.confirmPassword') + ' ' + (t('messages.error') || ''));
 			return;
 		}
 		
@@ -38,36 +40,36 @@ export default function Register() {
 				console.log("✅ Inscription réussie, redirection...");
 				navigate("/");
 			} else {
-				setError("Impossible d'inscrire cet utilisateur");
+				setError(t('messages.error'));
 			}
 		} catch (err) {
 			console.error("💥 Erreur inscription:", err);
-			setError("Erreur d'inscription");
+			setError(t('messages.error'));
 		}
 	};
 
 		return (
 			<div className="login-page">
 				<div className="login-card">
-					<h1>Inscription</h1>
+					<h1>{t('auth.register')}</h1>
 					
 
 					
 					<form onSubmit={onSubmit}>
 						<label>
-							Prénom
+							{t('auth.name')}
 							<input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
 						</label>
 						<label>
-							Email
+							{t('auth.email')}
 							<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
 						</label>
 						<label>
-							Mot de passe
+							{t('auth.password')}
 							<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
 						</label>
 						<label>
-							Confirmer le mot de passe
+							{t('auth.confirmPassword')}
 							<input
 								type="password"
 								value={confirmPassword}
@@ -77,12 +79,12 @@ export default function Register() {
 						</label>
 						{error && <div style={{ color: "crimson", marginBottom: 12 }}>{error}</div>}
 						<button type="submit">
-							Créer un compte
+							{t('auth.registerButton')}
 						</button>
 
 					</form>
 					<p className="secondary">
-						Déjà inscrit ? <Link to="/login">Se connecter</Link>
+						{t('auth.alreadyAccount')} <Link to="/login">{t('auth.loginLink')}</Link>
 					</p>
 				</div>
 			</div>

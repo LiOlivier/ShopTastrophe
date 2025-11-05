@@ -3,23 +3,25 @@ import { useAuth } from "../context/AuthContext";
 import { api } from "../api/client";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "../hooks/useTranslation";
 import "./Cart.css";
 
 export default function Cart() {
 	const { items, updateQty, removeItem, clear, totalCents } = useCart();
 	const { user, isAuthenticated, token } = useAuth();
+	const { t } = useTranslation();
 	const [isOrdering, setIsOrdering] = useState(false);
 	const navigate = useNavigate();
 	const isEmpty = items.length === 0;
 
 	const handleCheckout = async () => {
 		if (!isAuthenticated || !token) {
-			alert("Veuillez vous connecter pour passer commande");
+			alert(t('auth.login') + ' ' + (t('messages.error') || ''));
 			return;
 		}
 
 		if (isEmpty) {
-			alert("Votre panier est vide");
+			alert(t('cart.empty'));
 			return;
 		}
 
@@ -34,7 +36,7 @@ export default function Cart() {
 					const result = await response.json();
 					console.log("✅ Commande validée:", result);
 					
-					alert(`Commande validée avec succès ! 🎉\nNuméro: ${result.order_id}\nTotal: ${(result.total / 100).toFixed(2)}€`);
+					alert(`${t('messages.success')} 🎉\n${t('orders.orderNumber') || 'Order'}: ${result.order_id}\nTotal: ${(result.total / 100).toFixed(2)}€`);
 					
 					// Vider le panier après commande réussie
 					clear();
@@ -44,7 +46,7 @@ export default function Cart() {
 				} else {
 					const error = await response.text();
 					console.error("❌ Erreur checkout:", error);
-					alert(`Erreur lors de la commande: ${error}`);
+					alert(`${t('messages.error')}: ${error}`);
 				}
 			} catch (apiError) {
 				console.warn("⚠️ Backend indisponible, simulation de commande:", apiError);
@@ -74,7 +76,7 @@ export default function Cart() {
 				existingOrders.push(simulatedOrder);
 				localStorage.setItem(userKey, JSON.stringify(existingOrders));
 				
-				alert(`Commande simulée avec succès ! 🎉\n(Backend indisponible)\nNuméro: ${simulatedOrderId}\nTotal: ${total.toFixed(2)}€`);
+				alert(`${t('messages.success')} 🎉\n(Backend indisponible)\n${t('orders.orderNumber') || 'Order'}: ${simulatedOrderId}\nTotal: ${total.toFixed(2)}€`);
 				
 				// Vider le panier
 				clear();
@@ -84,7 +86,7 @@ export default function Cart() {
 			}
 		} catch (error) {
 			console.error("💥 Erreur checkout:", error);
-			alert("Erreur de connexion lors de la commande");
+			alert(t('messages.error'));
 		} finally {
 			setIsOrdering(false);
 		}
@@ -104,9 +106,9 @@ export default function Cart() {
 	return (
 		<section className="cart">
 			<div className="cart-container">
-				<h1 className="cart-title">Panier</h1>
+				<h1 className="cart-title">{t('cart.title')}</h1>
 				{isEmpty ? (
-					<p className="cart-empty">Votre panier est vide pour l’instant.</p>
+					<p className="cart-empty">{t('cart.empty')}</p>
 				) : (
 								<div className="cart-grid">
 						<ul className="cart-list" aria-label="Articles du panier">
@@ -143,12 +145,12 @@ export default function Cart() {
 									<aside className="cart-summary">
 										{address ? (
 											<div className="address-block">
-												<div className="address-title">Adresse de livraison</div>
+												<div className="address-title">{t('profile.personalInfo') || 'Address'}</div>
 												<pre className="address-text">{address}</pre>
 											</div>
 										) : null}
 							<div className="summary-row">
-								<span>Total</span>
+								<span>{t('cart.total') || 'Total'}</span>
 								<strong>{(totalCents / 100).toFixed(2)}€</strong>
 							</div>
 							<button 
@@ -157,10 +159,10 @@ export default function Cart() {
 								onClick={handleCheckout}
 								disabled={isOrdering || !isAuthenticated}
 							>
-								{isOrdering ? "Commande en cours..." : "Valider la commande"}
+								{isOrdering ? (t('messages.loading') || 'Processing...') : (t('cart.checkout') || 'Checkout')}
 							</button>
 							<button className="btn-outline w-full" type="button" onClick={clear}>
-								Vider le panier
+								{t('cart.clear') || 'Clear cart'}
 							</button>
 						</aside>
 					</div>
