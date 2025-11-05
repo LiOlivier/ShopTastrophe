@@ -55,6 +55,7 @@ cd frontend
 
 ##  Structure du projet
 ```
+
 backend/                    # L'API
 ├── main.py                 # Point d'entrée  
 ├── shop.py                 # Classes métier (User, Product...)
@@ -64,6 +65,7 @@ backend/                    # L'API
     ├── cart.py             # Panier
     └── orders.py           # Commandes
 
+
 frontend/                   # L'interface React
 ├── src/
 │   ├── components/         # Composants réutilisables
@@ -71,6 +73,7 @@ frontend/                   # L'interface React
 │   ├── context/           # États globaux (Auth, Cart)
 │   └── api/               # Appels API
 └── public/                # Images et trucs statiques
+
 ```
 
 ## � API (si ça t'intéresse)
