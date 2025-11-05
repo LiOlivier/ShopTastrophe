@@ -3,8 +3,8 @@ import { api } from "../api/client";
 
 const AuthContext = createContext(null);
 
+// Fournit le contexte d'authentification à l'application
 export function AuthProvider({ children }) {
-  // Initialize synchronously from localStorage so a page refresh keeps the session
   const [user, setUser] = useState(() => {
     try {
       const raw = localStorage.getItem("auth:user");
@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
       return null;
     }
   });
-
+// Initialisation du token d'authentification depuis le localStorage
   const [token, setToken] = useState(() => {
     try {
       return localStorage.getItem("auth:token") || null;
@@ -22,7 +22,6 @@ export function AuthProvider({ children }) {
     }
   });
 
-  // Helper: per-user profile storage so data survives logout (client-side only)
   const profileKey = (email) => `profile:${(email || "").toLowerCase()}`;
   const loadProfile = (email) => {
     try {
@@ -53,7 +52,7 @@ export function AuthProvider({ children }) {
       else localStorage.removeItem("auth:token");
     } catch (_) {}
   }, [token]);
-
+// Fonction de login
   const login = async ({ email, password }) => {
     try {
       console.log("🔐 Tentative de login avec:", email);
@@ -90,7 +89,7 @@ export function AuthProvider({ children }) {
       return false;
     }
   };
-
+// Fonction d'enregistrement
   const register = async ({ email, password, first_name, last_name, address }) => {
     try {
       console.log("🔐 API register appelée avec:", { email, first_name, last_name, address });
@@ -120,7 +119,7 @@ export function AuthProvider({ children }) {
       return false;
     }
   };
-  
+  // Fonction de logout
   const logout = () => {
     console.log("🚪 Logout en cours...");
     
@@ -134,7 +133,7 @@ export function AuthProvider({ children }) {
       setToken(null);
     }
   };
-
+// Fonction de mise à jour du profil utilisateur
   const updateUser = (patch) => {
     setUser((prev) => {
       if (!prev) return prev;

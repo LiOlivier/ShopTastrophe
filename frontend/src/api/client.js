@@ -14,6 +14,15 @@ export const api = {
     body: JSON.stringify(data)
   }),
 
+  changePassword: (data, token) => fetch(`${API_BASE}/auth/change-password`, {
+    method: "POST",
+    headers: { 
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify(data)
+  }),
+
   // Products
   getProducts: () => fetch(`${API_BASE}/products`),
   

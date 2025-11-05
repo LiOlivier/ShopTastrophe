@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTranslation } from "../hooks/useTranslation";
+import { api } from "../api/client";
+import PasswordInput from "../components/PasswordInput";
 import "./Profile.css";
 
 export default function Profil() {
@@ -66,6 +68,10 @@ export default function Profil() {
   };
 
   const changerMotDePasse = async () => {
+    console.log("🔐 Début changement mot de passe");
+    console.log("📋 Form data:", passwordForm);
+    console.log("🔑 Token:", token);
+    
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
       setPasswordMessage("Les mots de passe ne correspondent pas");
       return;
@@ -77,26 +83,26 @@ export default function Profil() {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/auth/change-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token || ""}`
-        },
-        body: JSON.stringify({
-          current_password: passwordForm.currentPassword,
-          new_password: passwordForm.newPassword
-        })
-      });
+      console.log("🌐 Envoi requête API...");
+      const response = await api.changePassword({
+        current_password: passwordForm.currentPassword,
+        new_password: passwordForm.newPassword
+      }, token);
+
+      console.log("📡 Réponse:", response.status, response.ok);
 
       if (response.ok) {
+        const data = await response.json();
+        console.log("✅ Succès:", data);
         setPasswordMessage("Mot de passe modifié avec succès ✅");
         annulerPassword();
       } else {
         const error = await response.json();
+        console.log("❌ Erreur:", error);
         setPasswordMessage(error.detail || "Erreur lors du changement de mot de passe");
       }
     } catch (error) {
+      console.log("💥 Exception:", error);
       setPasswordMessage("Erreur de connexion");
     }
   };
@@ -161,23 +167,20 @@ export default function Profil() {
             </button>
           ) : (
             <div className="grille">
-              <Champ 
-                type="password" 
-                libelle="Mot de passe actuel" 
+              <PasswordInput
+                label="Mot de passe actuel" 
                 name="currentPassword" 
                 value={passwordForm.currentPassword} 
                 onChange={setPasswordChamp} 
               />
-              <Champ 
-                type="password" 
-                libelle="Nouveau mot de passe" 
+              <PasswordInput
+                label="Nouveau mot de passe" 
                 name="newPassword" 
                 value={passwordForm.newPassword} 
                 onChange={setPasswordChamp} 
               />
-              <Champ 
-                type="password" 
-                libelle="Confirmer le mot de passe" 
+              <PasswordInput
+                label="Confirmer le mot de passe" 
                 name="confirmPassword" 
                 value={passwordForm.confirmPassword} 
                 onChange={setPasswordChamp} 

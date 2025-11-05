@@ -31,7 +31,6 @@ class ProductModel(SQLModel, table=True):
 
 class CartItemModel(SQLModel, table=True):
     __tablename__ = "cart_items"
-    # composite primary key (user_id, product_id) simulated by unique constraint + surrogate id
     id: Optional[int] = Field(default=None, primary_key=True)
     user_id: str = Field(index=True)
     product_id: str = Field(index=True)

@@ -369,7 +369,7 @@ class AuthService:
         
         # Hasher et sauvegarder le nouveau mot de passe
         user.password_hash = PasswordHasher.hash(new_password)
-        self.users.add(user)  # Met à jour l'utilisateur en base
+        self.users.update(user)  # Met à jour l'utilisateur en base
         return True
 
     def logout(self, token: str):

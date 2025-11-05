@@ -174,3 +174,23 @@
 	justify-content: flex-end;
 	margin-top: 16px;
 }
+
+/* Styles spécifiques pour les PasswordInput dans le profil */
+.profil .password-input-container {
+	width: 100%;
+}
+
+.profil .password-input {
+	background: #f9fafb;
+	border: 1px solid #e5e7eb;
+}
+
+.profil .password-input:focus {
+	background: #fff;
+	border-color: #15487d;
+}
+
+.profil .password-label {
+	color: #374151;
+	font-size: 0.9rem;
+}

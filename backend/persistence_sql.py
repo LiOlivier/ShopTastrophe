@@ -20,6 +20,19 @@ class UserRepositorySQL:
             s.add(m)
             s.commit()
 
+    def update(self, user: User):
+        with get_session() as s:
+            m = s.get(UserModel, user.id)
+            if m:
+                m.email = user.email
+                m.password_hash = user.password_hash
+                m.first_name = user.first_name
+                m.last_name = user.last_name
+                m.address = user.address
+                m.is_admin = user.is_admin
+                s.add(m)
+                s.commit()
+
     def get(self, user_id: str) -> Optional[User]:
         with get_session() as s:
             m = s.get(UserModel, user_id)

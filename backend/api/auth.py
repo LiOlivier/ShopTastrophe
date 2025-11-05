@@ -48,13 +48,13 @@ def change_password(req: ChangePasswordRequest, credentials = Depends(security))
     try:
         # Extraire le token et valider la session
         token = credentials.credentials
-        session = auth_service.sessions.get(token)
+        session = auth_service.sessions.get_user_id(token)
         if not session:
             raise HTTPException(status_code=401, detail="Token invalide")
         
         # Changer le mot de passe
         success = auth_service.change_password(
-            user_id=session.user_id,
+            user_id=session,
             current_password=req.current_password,
             new_password=req.new_password
         )

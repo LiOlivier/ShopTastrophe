@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTranslation } from "../hooks/useTranslation";
+import PasswordInput from "../components/PasswordInput";
 import "./Auth.css";
 
 export default function Register() {
@@ -50,10 +51,8 @@ export default function Register() {
 
 		return (
 			<div className="login-page">
-				<div className="login-card">
+				<div className="login-card auth-form">
 					<h1>{t('auth.register')}</h1>
-					
-
 					
 					<form onSubmit={onSubmit}>
 						<label>
@@ -64,24 +63,24 @@ export default function Register() {
 							{t('auth.email')}
 							<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
 						</label>
-						<label>
-							{t('auth.password')}
-							<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-						</label>
-						<label>
-							{t('auth.confirmPassword')}
-							<input
-								type="password"
-								value={confirmPassword}
-								onChange={(e) => setConfirmPassword(e.target.value)}
-								required
-							/>
-						</label>
+						<PasswordInput
+							label={t('auth.password')}
+							name="password"
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							required
+						/>
+						<PasswordInput
+							label={t('auth.confirmPassword')}
+							name="confirmPassword"
+							value={confirmPassword}
+							onChange={(e) => setConfirmPassword(e.target.value)}
+							required
+						/>
 						{error && <div style={{ color: "crimson", marginBottom: 12 }}>{error}</div>}
 						<button type="submit">
 							{t('auth.registerButton')}
 						</button>
-
 					</form>
 					<p className="secondary">
 						{t('auth.alreadyAccount')} <Link to="/login">{t('auth.loginLink')}</Link>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTranslation } from "../hooks/useTranslation";
+import PasswordInput from "../components/PasswordInput";
 import "./Auth.css";
 
 export default function Login() {
@@ -29,17 +30,20 @@ export default function Login() {
 
 		return (
 			<div className="login-page">
-				<div className="login-card">
+				<div className="login-card auth-form">
 					<h1>{t('auth.login')}</h1>
 					<form onSubmit={onSubmit}>
 						<label>
 							{t('auth.email')}
 							<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
 						</label>
-						<label>
-							{t('auth.password')}
-							<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-						</label>
+						<PasswordInput
+							label={t('auth.password')}
+							name="password"
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							required
+						/>
 						{error && <div style={{ color: "crimson", marginBottom: 12 }}>{error}</div>}
 						<button type="submit">{t('auth.loginButton')}</button>
 					</form>

@@ -5,9 +5,9 @@ import { useTranslation } from "../hooks/useTranslation";
 
 // Données des produits en dur (sans le T-Shirt Blanc indésirable)
 const items = [
-  { title: "T‑Shirt Noir", price: "€30,00", alt: "T-Shirt Noir (Front)", src: "/merch/TEESHIRT/BTF.png", href: "/products/tee-noir" },
-  { title: "Sweat Blanc", price: "€60,00", alt: "Sweat Blanc (Front)", src: "/merch/SWEAT/WSF.png", href: "/products/sweat-blanc" },
-  { title: "Casquette Blanche", price: "€20,00", alt: "Casquette Blanche", src: "/merch/CASQUETTE/blanc.png", href: "/products/casquette-blanche" },
+  { title: "T‑Shirt Ironique", price: "€30,00", alt: "T-Shirt Noir (Front)", src: "/merch/TEESHIRT/BTF.png", href: "/products/tee-noir" },
+  { title: "Sweat Sarcastique", price: "€60,00", alt: "Sweat Blanc (Front)", src: "/merch/SWEAT/WSF.png", href: "/products/sweat-blanc" },
+  { title: "Vide Tête", price: "€20,00", alt: "Casquette Blanche", src: "/merch/CASQUETTE/blanc.png", href: "/products/casquette-blanche" },
   { title: "Chatastrophe", price: "€15,00", alt: "Tasse Noire", src: "/merch/TASSE/noir.png", href: "/products/tasse-noire" }
 ];
 
