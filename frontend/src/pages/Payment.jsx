@@ -240,7 +240,7 @@ export default function Payment() {
 
             <div className="payment-info">
               <p className="test-info">
-                💡 <strong>Mode test :</strong> Utilisez n'importe quel numéro sauf ceux finissant par 0000 (qui simulent un refus)
+                 <strong>Méthode pour test:</strong> Utilisez n'importe quel numéro sauf ceux finissant par 0000 (qui simulent un refus)
               </p>
             </div>
 

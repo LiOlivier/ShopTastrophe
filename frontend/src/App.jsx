@@ -7,6 +7,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
+import OrderTracking from "./pages/OrderTracking";
 import Payment from "./pages/Payment";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -46,6 +47,7 @@ function App() {
             <Route path="/cgv" element={<CGV />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/orders" element={<Orders />} />
+            <Route path="/order/:orderId" element={<OrderTracking />} />
             <Route path="/payment/:orderId" element={<Payment />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />

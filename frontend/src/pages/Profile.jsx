@@ -40,13 +40,40 @@ export default function Profil() {
   });
   const [passwordEdition, setPasswordEdition] = useState(false);
   const [passwordMessage, setPasswordMessage] = useState("");
+  const [validationMessage, setValidationMessage] = useState("");
   
   useEffect(() => setForm(initial), [initial]);
 
-  const setChamp = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  // Fonctions de validation
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePhone = (phone) => {
+    // Permet seulement les chiffres, espaces, tirets, parenthèses et le signe +
+    const phoneRegex = /^[\d\s\-\(\)\+]+$/;
+    return phoneRegex.test(phone);
+  };
+
+  const setChamp = (e) => {
+    const { name, value } = e.target;
+    
+    // Validation spéciale pour le téléphone - ne permettre que les chiffres et certains caractères
+    if (name === 'telephone') {
+      const cleanValue = value.replace(/[^\d\s\-\(\)\+]/g, '');
+      setForm((f) => ({ ...f, [name]: cleanValue }));
+    } else {
+      setForm((f) => ({ ...f, [name]: value }));
+    }
+  };
   const setPasswordChamp = (e) => setPasswordForm((f) => ({ ...f, [e.target.name]: e.target.value }));
   
-  const annuler = () => { setForm(initial); setEdition(false); };
+  const annuler = () => { 
+    setForm(initial); 
+    setEdition(false); 
+    setValidationMessage("");
+  };
   const annulerPassword = () => { 
     setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" }); 
     setPasswordEdition(false); 
@@ -54,6 +81,22 @@ export default function Profil() {
   };
   
   const enregistrer = () => {
+    // Réinitialiser le message de validation
+    setValidationMessage("");
+    
+    // Validation de l'email
+    if (form.email && !validateEmail(form.email)) {
+      setValidationMessage("❌ L'adresse email n'est pas valide. Veuillez saisir une adresse email complète (ex: nom@domaine.com)");
+      return;
+    }
+    
+    // Validation du téléphone
+    if (form.telephone && !validatePhone(form.telephone)) {
+      setValidationMessage("❌ Le numéro de téléphone ne peut contenir que des chiffres, espaces, tirets, parenthèses et le signe +");
+      return;
+    }
+    
+    // Si tout est valide, enregistrer
     updateUser?.({
       name: [form.prenom, form.nom].filter(Boolean).join(" "),
       email: form.email,
@@ -65,6 +108,7 @@ export default function Profil() {
       location: form.lieu,
     });
     setEdition(false);
+    setValidationMessage("✅ Profil mis à jour avec succès");
   };
 
   const changerMotDePasse = async () => {
@@ -120,11 +164,18 @@ export default function Profil() {
           </div>
         </div>
         {!edition ? (
-          <button className="btn sombre" onClick={() => setEdition(true)}>{t('profile.edit')}</button>
+          <button className="btn sombre" onClick={() => { setEdition(true); setValidationMessage(""); }}>{t('profile.edit')}</button>
         ) : (
           <div className="actions">
             <button className="btn ghost" onClick={annuler}>{t('profile.cancel')}</button>
             <button className="btn primaire" onClick={enregistrer}>{t('profile.save')}</button>
+          </div>
+        )}
+        
+        {/* Message de validation */}
+        {validationMessage && (
+          <div className={`validation-message ${validationMessage.includes('✅') ? 'success' : 'error'}`}>
+            {validationMessage}
           </div>
         )}
       </section>
@@ -136,8 +187,8 @@ export default function Profil() {
             <div className="grille">
               <Champ libelle={t('profile.firstName')} name="prenom" value={form.prenom} onChange={setChamp} disabled={!edition} />
               <Champ libelle={t('profile.lastName')} name="nom" value={form.nom} onChange={setChamp} disabled={!edition} />
-              <Champ type="email" libelle={t('profile.email')} name="email" value={form.email} onChange={setChamp} disabled={!edition} />
-              <Champ libelle={t('profile.phone')} name="telephone" value={form.telephone} onChange={setChamp} disabled={!edition} />
+              <Champ type="email" libelle={t('profile.email')} name="email" value={form.email} onChange={setChamp} disabled={!edition} required />
+              <Champ type="tel" libelle={t('profile.phone')} name="telephone" value={form.telephone} onChange={setChamp} disabled={!edition} placeholder="Ex: 01 23 45 67 89" />
             </div>
           </div>
           <div className="panneau">

@@ -220,13 +220,38 @@ export default function Orders() {
 									</div>
 								)}
 								
-								{/* Bouton de paiement pour les commandes créées ou validées */}
-								{(order.status === "CREE" || order.status === "VALIDEE") && (
-									<div style={{ borderTop: "1px solid #ddd", paddingTop: "1rem", marginTop: "1rem" }}>
+								{/* Actions de la commande */}
+								<div style={{ borderTop: "1px solid #ddd", paddingTop: "1rem", marginTop: "1rem" }}>
+									<div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+										{/* Bouton de paiement pour les commandes créées ou validées */}
+										{(order.status === "CREE" || order.status === "VALIDEE") && (
+											<button
+												onClick={() => navigate(`/payment/${order.id}`)}
+												style={{
+													backgroundColor: "#28a745",
+													color: "white",
+													border: "none",
+													padding: "0.75rem 1.5rem",
+													borderRadius: "8px",
+													fontSize: "1rem",
+													fontWeight: "bold",
+													cursor: "pointer",
+													transition: "background-color 0.3s",
+													flex: "1",
+													minWidth: "200px"
+												}}
+												onMouseOver={(e) => e.target.style.backgroundColor = "#218838"}
+												onMouseOut={(e) => e.target.style.backgroundColor = "#28a745"}
+											>
+												💳 Payer maintenant ({(order.total_cents / 100).toFixed(2)}€)
+											</button>
+										)}
+										
+										{/* Bouton de suivi pour toutes les commandes */}
 										<button
-											onClick={() => navigate(`/payment/${order.id}`)}
+											onClick={() => navigate(`/order/${order.id}`)}
 											style={{
-												backgroundColor: "#28a745",
+												backgroundColor: "#007bff",
 												color: "white",
 												border: "none",
 												padding: "0.75rem 1.5rem",
@@ -235,15 +260,16 @@ export default function Orders() {
 												fontWeight: "bold",
 												cursor: "pointer",
 												transition: "background-color 0.3s",
-												width: "100%"
+												flex: "1",
+												minWidth: "200px"
 											}}
-											onMouseOver={(e) => e.target.style.backgroundColor = "#218838"}
-											onMouseOut={(e) => e.target.style.backgroundColor = "#28a745"}
+											onMouseOver={(e) => e.target.style.backgroundColor = "#0056b3"}
+											onMouseOut={(e) => e.target.style.backgroundColor = "#007bff"}
 										>
-											💳 Payer maintenant ({(order.total_cents / 100).toFixed(2)}€)
+											📦 Suivre la commande
 										</button>
 									</div>
-								)}
+								</div>
 							</div>
 						))}
 					</div>
