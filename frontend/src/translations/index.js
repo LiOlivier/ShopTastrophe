@@ -262,10 +262,10 @@ export const translations = {
       newsletter: "Newsletter",
       emailPlaceholder: "Votre email",
       subscribe: "S'abonner",
-      links: "Liens utiles",
-      legal: "Mentions légales",
+      links: "Catalogue",
+      legal: "Liens utiles",
       cgv: "CGV",
-      followUs: "Suivez-nous"
+      followUs: "Méthodes de paiement"
     },
     
     // Messages
@@ -547,9 +547,9 @@ export const translations = {
     footer: {
       newsletter: "Newsletter",
       emailPlaceholder: "Your email",
-      subscribe: "Subscribe",
-      links: "Useful Links",
-      legal: "Legal Notice",
+      subscribe: "Payment Methods",
+      links: "Product",
+      legal: "Useful Links",
       cgv: "Terms",
       followUs: "Follow Us"
     },
