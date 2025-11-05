@@ -17,8 +17,21 @@ export default function Profil() {
   if (!isAuthenticated) return null;
 
   const initial = useMemo(() => {
-    const [prenom = "", ...rest] = (user?.name || "").trim().split(" ");
-    
+    const tokens = (user?.name || "").trim().split(/\s+/).filter(Boolean);
+    let prenom = "";
+    let nom = "";
+    if (tokens.length === 0) {
+      prenom = "";
+      nom = "";
+    } else if (tokens.length === 1) {
+      // Un seul mot fourni -> on le prend comme prénom
+      prenom = tokens[0];
+      nom = "";
+    } else {
+      prenom = tokens[0];
+      nom = tokens.slice(1).join(" ");
+    }
+
     // Préfixer automatiquement le téléphone avec +33
     let telephone = user?.phone || "";
     
@@ -36,7 +49,7 @@ export default function Profil() {
     
     return {
       prenom,
-      nom: rest.join(" "),
+      nom,
       email: user?.email || "",
       telephone,
       pays: user?.country || "",
@@ -267,6 +280,11 @@ export default function Profil() {
 
   return (
     <div className="profil">
+      {passwordSuccess && (
+        <div className="toast success-toast" role="status">
+          Mot de passe modifié avec succès
+        </div>
+      )}
       <h1>{t('profile.title')}</h1>
 
       <section className="card card-entete">

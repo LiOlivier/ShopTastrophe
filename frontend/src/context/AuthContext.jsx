@@ -106,7 +106,14 @@ export function AuthProvider({ children }) {
       console.log("📡 Réponse register:", response.status, response.ok);
       
       if (response.ok) {
-        console.log("✅ Register OK, tentative login auto...");
+        console.log("✅ Register OK, sauvegarde du profil local et tentative login auto...");
+        // Sauvegarder le profil localement pour que le login récupère le bon nom
+        try {
+          const fullName = (first_name || "") + (last_name ? " " + last_name : "");
+          saveProfile(email, { name: fullName || email.split("@")[0] });
+        } catch (e) {
+          console.warn("Impossible de sauvegarder le profil local:", e);
+        }
         // Après register, on fait un login automatique
         return await login({ email, password });
       } else {

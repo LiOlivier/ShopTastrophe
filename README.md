@@ -57,21 +57,41 @@ cd frontend
 ## 📂 Structure du projet
 ```
 backend/                    # L'API
-├── main.py                 # Point d'entrée  
-├── shop.py                 # Classes métier (User, Product...)
-├── core.py                 # Services globaux
-└── api/                    # Routes
-    ├── auth.py             # Login/register
-    ├── cart.py             # Panier
-    └── orders.py           # Commandes
+├── main.py                 # Point d'entrée FastAPI
+├── shop.py                 # Classes métier (User, Product, Services...)
+├── core.py                 # Configuration des services globaux
+├── models.py               # Modèles de données
+├── db.py                   # Configuration base de données
+├── persistence_sql.py      # Repositories (accès aux données)
+├── api/                    # Routes REST
+│   ├── auth.py             # Authentification (login/register)
+│   ├── cart.py             # Gestion du panier
+│   └── orders.py           # Gestion des commandes
+└── test/                   # Tests automatisés
+    ├── test_auth.py        # Tests d'authentification
+    ├── test_email_validation.py  # Tests validation email
+    └── test_cart_persistence.py  # Tests persistance panier
 
-frontend/                   # L'interface React
+frontend/                   # Interface React
 ├── src/
 │   ├── components/         # Composants réutilisables
-│   ├── pages/             # Pages (Home, Products, Cart...)
-│   ├── context/           # États globaux (Auth, Cart)
-│   └── api/               # Appels API
-└── public/                # Images et trucs statiques
+│   │   ├── Navbar.jsx      # Barre de navigation
+│   │   ├── ProductCard.jsx # Carte produit
+│   │   └── ...
+│   ├── pages/             # Pages principales
+│   │   ├── Home.jsx        # Page d'accueil
+│   │   ├── Products.jsx    # Catalogue
+│   │   ├── Cart.jsx        # Panier
+│   │   ├── Profile.jsx     # Profil utilisateur
+│   │   └── ...
+│   ├── context/           # États globaux (React Context)
+│   │   ├── AuthContext.jsx # Authentification
+│   │   └── CartContext.jsx # Panier
+│   └── api/               # Communication avec l'API
+│       └── client.js       # Client HTTP
+└── public/                # Assets statiques
+    ├── merch/             # Images produits
+    └── icone/             # Icônes
 ```
 
 ## � API (si ça t'intéresse)
@@ -129,6 +149,7 @@ python test_cart_persistence.py
 python .\test\test_cart_persistence.py
 python .\test\test_auth.py
 
-
+## Run BackEnd
+- py -m uvicorn test_minimal_server:app --reload --port 8001
 ---
 *Made with ❤️ et beaucoup de café par des étudiants motivés*

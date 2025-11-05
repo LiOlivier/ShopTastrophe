@@ -38,15 +38,28 @@ except Exception:
     pass
 
 
-@app.get("/")
+@app.get("/", responses={
+    200: {"description": "Bienvenue sur ShopTastrophe 😏"}
+})
 def root():
+    """Accueil"""
     return {"message": "Bienvenue sur ShopTastrophe 😏"}
 
-@app.get("/products")
+@app.get("/products", responses={
+    200: {"description": "Liste des produits"},
+    404: {"description": "Aucun produit trouvé"}
+})
 def list_products():
-    return [asdict(p) for p in catalog_service.list_products()]
+    """Liste tous les produits"""
+    produits = catalog_service.list_products()
+    if not produits:
+        return []
+    return [asdict(p) for p in produits]
 
-@app.post("/admin/reset-stock")
+@app.post("/admin/reset-stock", responses={
+    200: {"description": "Stock remis à niveau avec succès"},
+    500: {"description": "Erreur lors de la remise à niveau du stock"}
+})
 def reset_stock():
     """Endpoint pour remettre le stock à niveau - utile pour les tests"""
     try:
@@ -60,9 +73,7 @@ def reset_stock():
                 p.stock_qty = 80
             elif p.id == "4":  # Tasse
                 p.stock_qty = 120
-            
-            products.add(p)  
-            
+            products.add(p)
         return {"message": "Stock remis à niveau avec succès"}
     except Exception as e:
         return {"error": f"Erreur lors de la remise à niveau du stock: {str(e)}"}
