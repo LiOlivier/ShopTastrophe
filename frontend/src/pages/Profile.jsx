@@ -70,11 +70,12 @@ export default function Profil() {
       return false;
     }
     
-    // Vérification des extensions de domaine valides
+    // Vérification des extensions de domaine valides (sans .co)
     const validExtensions = [
       'com', 'fr', 'org', 'net', 'edu', 'gov', 'mil', 'int',
       'eu', 'uk', 'de', 'it', 'es', 'ca', 'au', 'jp', 'cn',
-      'info', 'biz', 'name', 'pro', 'coop', 'museum'
+      'ru', 'br', 'in', 'mx', 'ar', 'cl', 'pe', 've', 'ec', 
+      'bo', 'py', 'uy', 'info', 'biz', 'name', 'pro', 'coop', 'museum'
     ];
     
     const parts = email.split('@');

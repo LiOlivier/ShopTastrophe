@@ -15,7 +15,7 @@ def create_test_user():
     
     # Données de test avec email valide
     user_data = {
-        "email": f"test_{timestamp}@exemple.fr",  # Email avec extension valide
+        "email": f"test_{timestamp}@hotmail.org",  # Email avec extension valide
         "password": "motdepasse123",
         "first_name": "Test",
         "last_name": "User",

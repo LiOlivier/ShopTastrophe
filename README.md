@@ -124,6 +124,11 @@ cd frontend/src/Test
 python test_auth.py
 python test_cart_persistence.py
 
+## Exécution Test dans ./backend
+
+python .\test\test_cart_persistence.py
+python .\test\test_auth.py
+
 
 ---
 *Made with ❤️ et beaucoup de café par des étudiants motivés*
