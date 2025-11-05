@@ -56,20 +56,27 @@ export function AuthProvider({ children }) {
 
   const login = async ({ email, password }) => {
     try {
+      console.log("🔐 Tentative de login avec:", email);
+      console.log("🌐 URL API:", `http://127.0.0.1:8000/auth/login`);
+      
       const response = await api.login({ email, password });
+      console.log("📡 Réponse API login:", response.status, response.ok);
       
       if (response.ok) {
         const data = await response.json();
+        console.log("✅ Données reçues:", data);
         const userData = { email, name: email.split("@")[0] };
         setUser(userData);
         setToken(data.token);
+        console.log("✅ Login réussi, token:", data.token.substring(0, 8) + "...");
         return true;
       } else {
-        console.error("Erreur login:", await response.text());
+        const errorText = await response.text();
+        console.error("❌ Erreur login:", response.status, errorText);
         return false;
       }
     } catch (error) {
-      console.error("Erreur API login:", error);
+      console.error("💥 Erreur API login:", error);
       return false;
     }
   };
@@ -77,6 +84,8 @@ export function AuthProvider({ children }) {
   const register = async ({ email, password, first_name, last_name, address }) => {
     try {
       console.log("🔐 API register appelée avec:", { email, first_name, last_name, address });
+      console.log("🌐 URL API:", `http://127.0.0.1:8000/auth/register`);
+      
       const response = await api.register({ 
         email, 
         password, 
@@ -85,7 +94,7 @@ export function AuthProvider({ children }) {
         address: address || "Adresse par défaut"
       });
       
-      console.log("📡 Réponse register:", response.status);
+      console.log("📡 Réponse register:", response.status, response.ok);
       
       if (response.ok) {
         console.log("✅ Register OK, tentative login auto...");
@@ -101,9 +110,19 @@ export function AuthProvider({ children }) {
       return false;
     }
   };
+  
   const logout = () => {
-    setUser(null);
-    setToken(null);
+    console.log("🚪 Logout en cours...");
+    
+    // Si on avait un token, on notifie le CartContext pour qu'il vide le backend
+    if (token) {
+      // Le CartContext va détecter le changement et gérer le nettoyage
+      setToken(null);
+      setUser(null);
+    } else {
+      setUser(null);
+      setToken(null);
+    }
   };
 
   const updateUser = (patch) => {

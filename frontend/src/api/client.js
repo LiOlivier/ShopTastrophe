@@ -16,6 +16,49 @@ export const api = {
 
   // Products
   getProducts: () => fetch(`${API_BASE}/products`),
+  
+  getProduct: async (productId) => {
+    try {
+      // Pour l'instant, on récupère tous les produits et on filtre
+      const response = await fetch(`${API_BASE}/products`);
+      if (!response.ok) return response;
+      
+      const products = await response.json();
+      console.log("🔍 Recherche produit ID:", productId, "dans:", products.map(p => p.id));
+      
+      const product = products.find(p => 
+        p.id === productId || 
+        p.id === String(productId) || 
+        String(p.id) === String(productId)
+      );
+      
+      console.log("📦 Produit trouvé:", product);
+      
+      if (product) {
+        return {
+          ok: true,
+          json: async () => ({
+            ...product,
+            price: product.price_cents / 100 // Convertir centimes en euros
+          })
+        };
+      } else {
+        console.error("❌ Produit non trouvé pour ID:", productId);
+        return {
+          ok: false,
+          status: 404,
+          json: async () => ({ error: "Product not found" })
+        };
+      }
+    } catch (error) {
+      console.error("💥 Erreur getProduct:", error);
+      return {
+        ok: false,
+        status: 500,
+        json: async () => ({ error: error.message })
+      };
+    }
+  },
 
   // Cart
   addToCart: (token, product_id, qty = 1) => fetch(`${API_BASE}/cart/add`, {

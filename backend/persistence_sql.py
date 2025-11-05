@@ -61,6 +61,7 @@ class ProductRepositorySQL:
                 price_cents=product.price_cents,
                 stock_qty=product.stock_qty,
                 active=product.active,
+                image=getattr(product, "image", None),
             )
             s.merge(m)
             s.commit()
@@ -77,6 +78,7 @@ class ProductRepositorySQL:
                 price_cents=m.price_cents,
                 stock_qty=m.stock_qty,
                 active=m.active,
+                image=getattr(m, "image", None),
             )
 
     def list_active(self) -> List[Product]:
@@ -90,6 +92,7 @@ class ProductRepositorySQL:
                     price_cents=m.price_cents,
                     stock_qty=m.stock_qty,
                     active=m.active,
+                    image=getattr(m, "image", None),
                 )
                 for m in rows
             ]

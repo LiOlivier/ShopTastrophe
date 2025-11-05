@@ -26,6 +26,7 @@ class ProductModel(SQLModel, table=True):
     price_cents: int
     stock_qty: int
     active: bool = True
+    image: Optional[str] = None
 
 
 class CartItemModel(SQLModel, table=True):

@@ -3,7 +3,7 @@
   --ink: #111827;
   --muted: #f3f4f6;
   --line: #e5e7eb;
-  --accent: #27A7D5;
+  --accent: #15487d; /* Primary color for Login/Register buttons */
   --muted-text: #6b7280;
 }
 
@@ -79,7 +79,7 @@
 }
 
 .login-card button:hover {
-  background: #1F95C3;
+  background: #0f3a66; /* Slightly darker hover for #15487d */
 }
 
 .login-card .secondary {

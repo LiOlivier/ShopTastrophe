@@ -45,6 +45,7 @@ class Product:
     price_cents: int
     stock_qty: int
     active: bool = True
+    image: Optional[str] = None
 
 
 @dataclass
