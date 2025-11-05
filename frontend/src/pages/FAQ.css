@@ -8,7 +8,7 @@
 	font-size: clamp(24px, 3.6vw, 36px);
 	font-weight: 800;
 	letter-spacing: 1px;
-	font-family: inherit; /* align with Newsletter title */
+	font-family: inherit; 
 	margin: 0 0 18px 0;
 	color: #15487D;
 }

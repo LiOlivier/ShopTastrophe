@@ -1,172 +1,117 @@
-# ShopTastrophe 😏
+# 🛒 ShopTastrophe
 
-Une application e-commerce avec FastAPI (backend) et React (frontend).
+Petit e-commerce développé en **React** + **FastAPI** pour un projet étudiant. Gestion de produits, panier, auth et commandes 🎉
 
-## Configuration de la base de données
+## 🚀 Installation
 
-### Option 1: Base de données SQLite (Recommandée pour le développement)
+### Prérequis
+- Python 3.8+ 
+- Node.js 16+
+- Un terminal qui marche
 
-L'application utilise par défaut SQLite avec le fichier `shop.db` qui sera créé automatiquement.
+### Comment faire tourner le truc
 
-```powershell
-# Installer les dépendances Python
-py -m pip install -r requirements.txt
-
-# La base de données SQLite sera créée automatiquement au premier démarrage
+**1. Récupérer le code**
+```bash
+git clone [ton-repo-ici]
+cd ShopTastrophe
 ```
 
-## Test de persistance des paniers
+**2. Backend (l'API)**
+```bash
+# Installer les trucs Python
+pip install -r requirements.txt
 
-Pour tester que les paniers se conservent après déconnexion :
-
-1. **Créer un compte et se connecter**
-2. **Ajouter des produits au panier** 
-3. **Redémarrer le serveur ou se déconnecter**
-4. **Se reconnecter** → Le panier doit contenir les mêmes articles !
-
-```powershell
-# Script de test automatique
-py test_cart_persistence.py
+# Lancer le serveur
+python -m uvicorn backend.main:app --reload --port 8000
 ```
+➡️ API dispo sur **http://localhost:8000**
 
-### Option 2: Base de données PostgreSQL/MySQL (Production)
-
-Pour utiliser une autre base de données, modifiez la variable d'environnement `DATABASE_URL` :
-
-```powershell
-# Exemple PostgreSQL
-$env:DATABASE_URL="postgresql://user:password@localhost/shopdb"
-
-# Exemple MySQL
-$env:DATABASE_URL="mysql+pymysql://user:password@localhost/shopdb"
-```
-
-## Démarrage rapide
-
-### Backend (FastAPI)
-
-```powershell
-# Se placer dans le dossier du projet
-cd "c:\Users\lioli\Desktop\BUT3FA\Qualité Dév\ShopTastrophe"
-
-# Installer les dépendances
-py -m pip install -r requirements.txt
-
-# Démarrer le serveur de développement
-py -m uvicorn backend.main:app --reload --port 8000
-```
-
-Le backend sera disponible sur : http://127.0.0.1:8000
-
-- API Documentation: http://127.0.0.1:8000/docs
-- Produits: http://127.0.0.1:8000/products
-
-### Frontend (React/Vite)
-
-```powershell
-# Se placer dans le dossier frontend
+**3. Frontend (le site)**
+```bash
+# Aller dans le dossier frontend
 cd frontend
 
-# Installer les dépendances
-npm install
+## 🎯 Ce que ça fait
 
-# Démarrer le serveur de développement
-npm run dev
+- **Catalogue** : Des produits avec différentes couleurs/tailles
+- **Panier** : Ajouter des trucs, les supprimer, tout ça
+- **Comptes** : S'inscrire, se connecter (chacun son panier)
+- **Commandes** : Valider ses achats et voir l'historique
+- **Responsive** : Ça marche sur mobile et desktop
+
+## 🛠️ Stack technique
+
+**Frontend :**
+- React 18 + Vite
+- React Router pour la navigation  
+- Context API pour l'état global
+- CSS vanilla (pas de framework, on est pas des fainéants)
+
+**Backend :**
+- FastAPI (Python)
+- SQLite pour stocker les données
+- JWT pour l'auth
+- Documentation auto avec Swagger
+
+## 📂 Structure du projet
+```
+backend/                    # L'API
+├── main.py                 # Point d'entrée  
+├── shop.py                 # Classes métier (User, Product...)
+├── core.py                 # Services globaux
+└── api/                    # Routes
+    ├── auth.py             # Login/register
+    ├── cart.py             # Panier
+    └── orders.py           # Commandes
+
+frontend/                   # L'interface React
+├── src/
+│   ├── components/         # Composants réutilisables
+│   ├── pages/             # Pages (Home, Products, Cart...)
+│   ├── context/           # États globaux (Auth, Cart)
+│   └── api/               # Appels API
+└── public/                # Images et trucs statiques
 ```
 
-Le frontend sera disponible sur : http://localhost:5173 ou http://localhost:5174
+## � API (si ça t'intéresse)
 
-## Test de persistance des paniers 🛒
+L'API REST est documentée automatiquement sur **http://localhost:8000/docs**
 
-**Le problème était** : ajouter 1 article au panier, se déconnecter → le panier restait à 1, se reconnecter → ça doublait à 2, puis 4, etc.
-
-**La solution** : Synchronisation complète backend/frontend avec l'API + correction du hachage des mots de passe
-
-### 🧪 **Pour tester la correction :**
-
-1. **Ouvrir** http://localhost:5174 (frontend)
-2. **Créer un compte** via "Inscription" avec email/mot de passe
-3. **Se connecter** avec les mêmes identifiants → Le profil s'affiche ✅
-4. **Ajouter 2 produits** au panier → Backend sauvegarde en base SQLite
-5. **Se déconnecter** → Panier passe à 0 (localStorage guest vide)
-6. **Se reconnecter** → Panier = 2 (rechargé depuis backend) ✅
-7. **Fermer/rouvrir navigateur + se reconnecter** → Panier = 2 ✅
-
-### 🔧 **Corrections apportées :**
-
-- **PasswordHasher** : Utilise `hashlib.sha256()` au lieu de `hash()` Python (non déterministe)
-- **Base de données** : Supprimée et recréée pour éviter les conflits d'anciens comptes
-- **AuthContext** : Utilise maintenant l'API `/auth/login` et stocke le `token`
-- **CartContext** : Synchronise avec `/cart/add`, `/cart/view`, `/cart/remove` quand connecté
-- **API client** : Nouveau fichier `frontend/src/api/client.js`
-- **Backend** : `CartRepositorySQL` sauvegarde dans `cart_items` table
-
-### ⚠️ **Note importante :**
-Les anciens comptes créés avant la correction ne fonctionnent plus. Il faut créer un nouveau compte.
-
-## Structure du projet
-
-```
-ShopTastrophe/
-├── backend/                 # API FastAPI
-│   ├── main.py             # Point d'entrée de l'application
-│   ├── shop.py             # Classes métier (User, Product, etc.)
-│   ├── models.py           # Modèles SQLModel pour la base
-│   ├── db.py               # Configuration base de données
-│   ├── core.py             # Instances globales et services
-│   ├── persistence_sql.py  # Repositories SQL
-│   └── api/                # Routes API
-│       ├── auth.py         # Authentification
-│       ├── cart.py         # Panier
-│       └── orders.py       # Commandes
-├── frontend/               # Application React
-│   ├── src/
-│   │   ├── components/     # Composants réutilisables
-│   │   ├── pages/          # Pages de l'application
-│   │   ├── context/        # Contextes React (Auth, Cart)
-│   │   └── api/            # Client API
-│   └── public/             # Assets statiques
-└── requirements.txt        # Dépendances Python
-```
-
-## API Endpoints
-
-### Authentification
+Quelques endpoints utiles :
 - `POST /auth/register` - Créer un compte
 - `POST /auth/login` - Se connecter
-
-### Produits
 - `GET /products` - Liste des produits
-
-### Panier
 - `POST /cart/add` - Ajouter au panier
-- `GET /cart/view` - Voir le panier
-- `DELETE /cart/remove` - Retirer du panier
+- `POST /orders/checkout` - Finaliser commande
 
-### Commandes
-- `POST /orders/checkout` - Finaliser une commande
-- `GET /orders/list` - Historique des commandes
+## 🐛 Si ça marche pas
 
-## Données de test
+**Port déjà utilisé ?**
+```bash
+# Changer le port du backend
+python -m uvicorn backend.main:app --reload --port 8001
 
-Au premier démarrage, l'application ajoute automatiquement des produits de démonstration :
-- T-Shirt Ironique - 25.00€
-- Sweat Sarcastique - 60.00€  
-- Casquette Stylée - 20.00€
-- Chatastrophe - 15.00€
-
-## Problèmes courants
-
-### Erreur d'import SQLModel/SQLAlchemy
-```powershell
-py -m pip install --upgrade sqlmodel sqlalchemy
+# Ou du frontend (dans package.json)
+npm run dev -- --port 5174
 ```
 
-### Le serveur ne démarre pas
-Vérifiez que le port 8000 n'est pas utilisé par une autre application :
-```powershell
-netstat -an | findstr :8000
+**Problème d'import Python ?**
+```bash
+pip install --upgrade fastapi uvicorn sqlmodel
 ```
 
-### Erreurs de CORS
-Le backend est configuré pour accepter les requêtes depuis `http://localhost:5173` (port par défaut de Vite).
+**CORS qui fait chier ?**
+Vérifie que le frontend tourne bien sur `localhost:5173`, sinon ajuste dans `main.py`
+
+## 🎓 Contexte
+
+Projet réalisé pour le BUT 3 - Qualité de Développement. On a mis en pratique :
+- Architecture propre (séparation frontend/backend)
+- API REST bien documentée
+- Gestion d'état côté client
+- Persistence des données
+- Tests (enfin... on devrait)
+
+---
+*Made with ❤️ et beaucoup de café par des étudiants motivés*

@@ -174,7 +174,6 @@ export default function Orders() {
 									</div>
 								</div>
 								
-								{/* Détail des articles */}
 								{order.items && order.items.length > 0 ? (
 									<div style={{ borderTop: "1px solid #ddd", paddingTop: "1rem" }}>
 										<h4 style={{ margin: "0 0 0.5rem 0", fontSize: "1rem", color: "#333" }}>
