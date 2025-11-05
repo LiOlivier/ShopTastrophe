@@ -114,20 +114,20 @@ Projet réalisé pour le BUT 3 - Qualité de Développement. On a mis en pratiqu
 - Tests (enfin... on devrait)
 
 ## Numéro de carte : 4111 1111 1111 1111
-Mois d'expiration : 12
-Année d'expiration : 2025
-CVC : 123
+- Mois d'expiration : 12
+- Année d'expiration : 2025
+- CVC : 123
 
 ## Environnement Test 
 
-cd frontend/src/Test
-python test_auth.py
-python test_cart_persistence.py
+- cd frontend/src/Test
+- python test_auth.py
+- python test_cart_persistence.py
 
 ## Exécution Test dans ./backend
 
-python .\test\test_cart_persistence.py
-python .\test\test_auth.py
+- python .\test\test_cart_persistence.py
+- python .\test\test_auth.py
 
 
 ---
