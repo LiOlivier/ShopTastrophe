@@ -110,10 +110,15 @@ export default function Profil() {
       let newValue = value;
       
       // Si le champ est vide ou ne commence pas par +33, l'ajouter
-      if (!newValue.startsWith('+33')) {
+      if (!newValue || !newValue.startsWith('+33')) {
         // Extraire seulement les chiffres de ce que l'utilisateur tape
         const userDigits = newValue.replace(/[^\d]/g, '');
-        newValue = '+33' + (userDigits ? ' ' + userDigits : '');
+        newValue = '+33' + (userDigits ? ' ' + userDigits : ' ');
+      }
+      
+      // Si l'utilisateur essaie de supprimer "+33", on le remet
+      if (newValue.length < 3 || !newValue.startsWith('+33')) {
+        newValue = '+33 ';
       }
       
       // Nettoyer le format général
