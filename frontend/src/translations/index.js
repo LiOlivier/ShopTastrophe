@@ -263,9 +263,10 @@ export const translations = {
       emailPlaceholder: "Votre email",
       subscribe: "S'abonner",
       links: "Catalogue",
-      legal: "Liens utiles",
+      legal: "Informations",
       cgv: "CGV",
-      followUs: "Méthodes de paiement"
+      mentions: "Mentions légales",
+      followUs: "Modes de paiement"
     },
     
     // Messages
@@ -273,15 +274,6 @@ export const translations = {
       error: "Une erreur est survenue",
       success: "Opération réussie",
       loading: "Chargement..."
-    },
-    
-    // Legal
-    legal: {
-      cgvTitle: "Conditions Générales de Vente",
-      cgvIntro: "Les présentes conditions générales de vente s'appliquent aux commandes effectuées via notre service de vente en ligne.",
-      cgvNote: "Note : on fait de notre mieux pour que tout se passe bien. Si quelque chose cloche, écris-nous — on répond vite.",
-      mentionsTitle: "Mentions Légales",
-      mentionsContent: "ShopTastrophe - Projet étudiant - France - Contact : contact@shoptastrophe.test"
     }
   },
   
@@ -547,11 +539,12 @@ export const translations = {
     footer: {
       newsletter: "Newsletter",
       emailPlaceholder: "Your email",
-      subscribe: "Payment Methods",
-      links: "Product",
-      legal: "Useful Links",
+      subscribe: "Subscribe",
+      links: "Catalog",
+      legal: "Information",
       cgv: "Terms",
-      followUs: "Follow Us"
+      mentions: "Legal Notice",
+      followUs: "Payment Methods"
     },
     
     // Messages

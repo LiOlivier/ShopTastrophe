@@ -1,15 +1,15 @@
-.legal {
+.mentions {
   display: block;
   width: 100%;
 }
 
-.legal-container {
+.mentions-container {
   max-width: 900px;
   margin: 0 auto;
   padding: clamp(24px, 6vw, 72px) clamp(16px, 5vw, 32px);
 }
 
-.legal-title {
+.mentions-title {
   text-align: center;
   font-size: clamp(28px, 6vw, 46px);
   font-weight: 800;
@@ -19,8 +19,36 @@
   color: #15487D;
 }
 
-.legal-block { margin: 0 0 18px 0; }
-.legal-block p { margin: 6px 0; color: #111; }
-.legal-block strong { font-weight: 800; color: #15487D; }
+.mentions-content {
+  line-height: 1.6;
+}
 
-.legal-note { margin-top: 24px; color: #374151; }
+.mentions-section { 
+  margin: 0 0 2rem 0; 
+}
+
+.mentions-section h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #15487D;
+  margin: 0 0 0.5rem 0;
+}
+
+.mentions-section p { 
+  margin: 6px 0; 
+  color: #111; 
+  white-space: pre-line;
+}
+
+.mentions-contact {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border-left: 4px solid #15487D;
+}
+
+.mentions-contact strong { 
+  font-weight: 800; 
+  color: #15487D; 
+}

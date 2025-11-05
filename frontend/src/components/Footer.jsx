@@ -45,7 +45,7 @@ export default function Footer() {
                 <Link to="/contact">{t('nav.contact')}</Link>
               </li>
               <li>
-                <Link to="/mentions">{t('footer.legal')}</Link>
+                <Link to="/mentions">{t('footer.mentions')}</Link>
               </li>
               <li>
                 <Link to="/cgv">{t('footer.cgv') || 'CGV'}</Link>
