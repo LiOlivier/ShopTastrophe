@@ -1,0 +1,356 @@
+/* Styles pour la page Orders */
+
+.orders-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.orders-title {
+  color: #333;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+/* Message de chargement */
+.orders-loading {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Message d'erreur */
+.orders-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.orders-error button {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  margin-left: 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.orders-error button:hover {
+  background: #b91c1c;
+}
+
+/* Section vide - pas de commandes */
+.orders-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 16px;
+  margin: 2rem 0;
+  border: 1px solid #e2e8f0;
+}
+
+.orders-empty-icon {
+  font-size: 4rem;
+  color: #94a3b8;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.orders-empty-title {
+  font-size: 1.5rem;
+  color: #475569;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.orders-empty-subtitle {
+  color: #64748b;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.orders-empty-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+}
+
+.orders-empty-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -5px rgba(59, 130, 246, 0.4);
+  text-decoration: none;
+  color: white;
+}
+
+.orders-empty-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.orders-empty-feature {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.orders-empty-feature:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.orders-empty-feature-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.orders-empty-feature-title {
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.5rem;
+}
+
+.orders-empty-feature-text {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+/* Minimal empty-state text styling (only the texts) */
+.orders-empty-minimal {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.orders-empty-title-minimal {
+  font-size: 1.25rem;
+  color: #334155; /* slate-700 */
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.orders-empty-text-minimal {
+  display: inline-block;
+  color: #475569; /* slate-600 */
+  background: #f1f5f9; /* slate-100 */
+  border: 1px solid #e2e8f0; /* slate-200 */
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 1.05rem;
+}
+
+/* Section avec commandes */
+.orders-summary {
+  background: #f1f5f9;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border-left: 4px solid #3b82f6;
+}
+
+.orders-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.order-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.order-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.order-number {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 1.1rem;
+}
+
+.order-status {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.order-status.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.order-status.shipped {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.order-status.delivered {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.order-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.order-detail {
+  text-align: center;
+}
+
+.order-detail-label {
+  color: #64748b;
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.order-detail-value {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.order-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.order-action-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  border: 1px solid;
+  cursor: pointer;
+}
+
+.order-action-primary {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.order-action-primary:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+  text-decoration: none;
+  color: white;
+}
+
+.order-action-secondary {
+  background: transparent;
+  color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.order-action-secondary:hover {
+  background: #3b82f6;
+  color: white;
+  text-decoration: none;
+}
+
+/* Login prompt */
+.orders-login-prompt {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.orders-login-prompt h1 {
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+.orders-login-prompt p {
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+.orders-login-prompt a {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.orders-login-prompt a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .orders-container {
+    padding: 1rem;
+  }
+  
+  .orders-empty {
+    padding: 3rem 1rem;
+  }
+  
+  .orders-empty-features {
+    grid-template-columns: 1fr;
+    margin-top: 2rem;
+  }
+  
+  .order-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .order-actions {
+    flex-direction: column;
+  }
+  
+  .order-details {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

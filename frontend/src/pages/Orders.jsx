@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useTranslation } from "../hooks/useTranslation";
 import { api } from "../api/client";
 import { Link, useNavigate } from "react-router-dom";
+import "./Orders.css";
 
 export default function Orders() {
 	const { user, isAuthenticated, token } = useAuth();
@@ -100,80 +101,80 @@ export default function Orders() {
 
 	if (!isAuthenticated) {
 		return (
-			<div style={{ padding: "2rem", textAlign: "center" }}>
-				<h1>{t('orders.title')}</h1>
-				<p>{t('orders.pleaseLogin')} <Link to="/login">{t('nav.login')}</Link> {t('orders.toViewHistory')}</p>
+			<div className="orders-container">
+				<div className="orders-login-prompt">
+					<h1>{t('orders.title')}</h1>
+					<p>{t('orders.pleaseLogin')} <Link to="/login">{t('nav.login')}</Link> {t('orders.toViewHistory')}</p>
+				</div>
 			</div>
 		);
 	}
 
 	return (
-		<div style={{ padding: "2rem" }}>
-			<h1>{t('orders.title')}</h1>
+		<div className="orders-container">
+			<h1 className="orders-title">{t('orders.title')}</h1>
 			
-			{loading && <p>{t('messages.loading')}</p>}
+			{loading && (
+				<div className="orders-loading">
+					<div>📦</div>
+					<p>{t('messages.loading')}</p>
+				</div>
+			)}
 			
 			{error && (
-				<div style={{ color: "red", marginBottom: "1rem" }}>
+				<div className="orders-error">
 					{error}
-					<button onClick={loadOrders} style={{ marginLeft: "1rem" }}>
+					<button onClick={loadOrders}>
 						{t('orders.retry')}
 					</button>
 				</div>
 			)}
 			
 			{!loading && !error && orders.length === 0 && (
-				<div style={{ textAlign: "center", padding: "2rem" }}>
-					<p>{t('orders.noOrders')}</p>
-					<Link to="/products" style={{ color: "blue", textDecoration: "underline" }}>
-						{t('orders.discoverProducts')}
-					</Link>
+				<div className="orders-empty-minimal">
+					<p className="orders-empty-title-minimal">Aucune commande pour le moment</p>
+					<p className="orders-empty-text-minimal">{t('orders.noOrders')}</p>
 				</div>
 			)}
 			
 			{!loading && orders.length > 0 && (
 				<div>
-					<p>{t('orders.youHave')} {orders.length} {t('orders.orderCount')}</p>
-					<div style={{ display: "grid", gap: "1rem", marginTop: "1rem" }}>
-						{orders.map((order) => (
-							<div 
-								key={order.id} 
-								style={{ 
-									border: "1px solid #ddd", 
-									borderRadius: "8px", 
-									padding: "1rem",
-									backgroundColor: "#f9f9f9"
-								}}
-							>
-								<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-									<div>
-										<strong>{t('orders.orderNumber')} {order.id}</strong>
-										<div style={{ color: "#666", fontSize: "0.9rem" }}>
-											{order.created_at ? 
-												new Date(order.created_at * 1000).toLocaleDateString('fr-FR', {
-													year: 'numeric',
-													month: 'long', 
-													day: 'numeric',
-													hour: '2-digit',
-													minute: '2-digit'
-												}) : 
-												t('orders.unknownDate')
-											}
-										</div>
+					<div className="orders-summary">
+						<p>📋 {t('orders.youHave')} {orders.length} {t('orders.orderCount')}</p>
+					</div>
+					<div className="orders-list">{orders.map((order) => (
+						<div key={order.id} className="order-card">
+							<div className="order-header">
+								<div>
+									<div className="order-number">
+										{t('orders.orderNumber')} {order.id}
 									</div>
-									<div style={{ textAlign: "right" }}>
-										<div style={{ fontSize: "1.1rem", fontWeight: "bold" }}>
-											{(order.total_cents / 100).toFixed(2)}€
-										</div>
-										<div style={{ 
-											color: order.status === "LIVREE" ? "green" : "orange",
-											fontSize: "0.9rem",
-											fontWeight: "bold"
-										}}>
-											{formatStatus(order.status)}
-										</div>
+									<div style={{ color: "#666", fontSize: "0.9rem" }}>
+										{order.created_at ?
+											new Date(order.created_at * 1000).toLocaleDateString('fr-FR', {
+												year: 'numeric',
+												month: 'long',
+												day: 'numeric',
+												hour: '2-digit',
+												minute: '2-digit'
+											}) :
+											t('orders.unknownDate')
+										}
 									</div>
 								</div>
+								<div style={{ textAlign: "right" }}>
+									<div style={{ fontSize: "1.1rem", fontWeight: "bold" }}>
+										{(order.total_cents / 100).toFixed(2)}€
+									</div>
+									<div style={{
+										color: order.status === "LIVREE" ? "green" : "orange",
+										fontSize: "0.9rem",
+										fontWeight: "bold"
+									}}>
+										{formatStatus(order.status)}
+									</div>
+								</div>
+							</div>
 								
 								{order.items && order.items.length > 0 ? (
 									<div style={{ borderTop: "1px solid #ddd", paddingTop: "1rem" }}>

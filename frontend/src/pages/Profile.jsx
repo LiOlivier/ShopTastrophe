@@ -166,7 +166,7 @@ export default function Profil() {
     }
     
     // Validation du téléphone
-    if (form.telephone) {
+    if (form.telephone && form.telephone.trim() !== '+33' && form.telephone.trim() !== '+33 ') {
       const phoneRegex = /^[\d\s\-\(\)\+]+$/;
       const isValidFormat = phoneRegex.test(form.telephone);
       const startsWithFranceCode = form.telephone.trim().startsWith('+33');
@@ -190,10 +190,15 @@ export default function Profil() {
     }
     
     // Si tout est valide, enregistrer
+    // Ne pas envoyer "+33 " vide, envoyer une chaîne vide à la place
+    const phoneToSave = (form.telephone.trim() === '+33' || form.telephone.trim() === '+33 ') 
+      ? '' 
+      : form.telephone;
+    
     updateUser?.({
       name: [form.prenom, form.nom].filter(Boolean).join(" "),
       email: form.email,
-      phone: form.telephone,
+      phone: phoneToSave,
       country: form.pays,
       state: form.region,
       zip: form.codePostal,
