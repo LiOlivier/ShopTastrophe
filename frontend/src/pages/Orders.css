@@ -205,6 +205,18 @@
   color: #1e293b;
   font-size: 1.1rem;
 }
+.order-date {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+.order-info {
+  text-align: right;
+}
+.order-total {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+}
 
 .order-status {
   padding: 0.5rem 1rem;
@@ -213,6 +225,8 @@
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.025em;
+  display: inline-block;
+  margin-top: 4px;
 }
 
 .order-status.pending {
@@ -258,6 +272,8 @@
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
 }
 
 .order-action-btn {
@@ -269,6 +285,46 @@
   transition: all 0.2s ease;
   border: 1px solid;
   cursor: pointer;
+}
+
+/* Aesthetic details card for items */
+.order-items {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 1rem;
+}
+
+.order-items-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  color: #334155;
+}
+
+.order-items-list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.order-item-left { display: flex; align-items: center; gap: 0.75rem; }
+.order-item-qty { font-weight: 800; color: #2563eb; min-width: 30px; text-align: right; }
+.order-item-name { font-weight: 500; color: #0f172a; }
+.order-item-amount { font-weight: 700; color: #16a34a; }
+
+.order-items-empty {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 1rem;
+  color: #94a3b8;
+  font-style: italic;
 }
 
 .order-action-primary {

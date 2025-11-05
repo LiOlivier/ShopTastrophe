@@ -58,6 +58,7 @@
   color: #ffffff;
   transform: translateY(-1px);
   box-shadow: 0 10px 20px rgba(21, 72, 125, 0.18);
+  text-decoration: none; /* prevent underline on hover */
 }
 .home-cta:hover .arrow {
   border-left-color: #ffffff;

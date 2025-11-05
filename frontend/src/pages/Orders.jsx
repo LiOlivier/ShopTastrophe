@@ -99,6 +99,18 @@ export default function Orders() {
 		return statusMap[status] || status;
 	};
 
+	// Classe de statut pour styling (badge)
+	const statusClass = (status) => {
+		switch (status) {
+			case "LIVREE":
+				return "order-status delivered";
+			case "EXPEDIEE":
+				return "order-status shipped";
+			default:
+				return "order-status pending";
+		}
+	};
+
 	if (!isAuthenticated) {
 		return (
 			<div className="orders-container">
@@ -149,7 +161,7 @@ export default function Orders() {
 									<div className="order-number">
 										{t('orders.orderNumber')} {order.id}
 									</div>
-									<div style={{ color: "#666", fontSize: "0.9rem" }}>
+									<div className="order-date">
 										{order.created_at ?
 											new Date(order.created_at * 1000).toLocaleDateString('fr-FR', {
 												year: 'numeric',
@@ -162,114 +174,41 @@ export default function Orders() {
 										}
 									</div>
 								</div>
-								<div style={{ textAlign: "right" }}>
-									<div style={{ fontSize: "1.1rem", fontWeight: "bold" }}>
-										{(order.total_cents / 100).toFixed(2)}€
-									</div>
-									<div style={{
-										color: order.status === "LIVREE" ? "green" : "orange",
-										fontSize: "0.9rem",
-										fontWeight: "bold"
-									}}>
-										{formatStatus(order.status)}
-									</div>
+								<div className="order-info">
+									<div className="order-total">{(order.total_cents / 100).toFixed(2)}€</div>
+									<div className={statusClass(order.status)}>{formatStatus(order.status)}</div>
 								</div>
 							</div>
 								
 								{order.items && order.items.length > 0 ? (
-									<div style={{ borderTop: "1px solid #ddd", paddingTop: "1rem" }}>
-										<h4 style={{ margin: "0 0 0.5rem 0", fontSize: "1rem", color: "#333" }}>
-											📦 {t('orders.orderedItems')} ({order.items.length}) :
-										</h4>
-										<div style={{ display: "grid", gap: "0.5rem" }}>
+									<div className="order-items">
+										<h4 className="order-items-title">📦 {t('orders.orderedItems')} ({order.items.length}) :</h4>
+										<div className="order-items-list">
 											{order.items.map((item, index) => (
-												<div key={index} style={{ 
-													display: "flex", 
-													justifyContent: "space-between", 
-													alignItems: "center",
-													padding: "0.75rem",
-													backgroundColor: "#ffffff",
-													border: "1px solid #e0e0e0",
-													borderRadius: "6px",
-													fontSize: "0.95rem"
-												}}>
-													<div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-														<span style={{ 
-															fontWeight: "bold", 
-															color: "#007bff",
-															minWidth: "30px"
-														}}>
-															{item.qty}x
-														</span>
-														<span style={{ fontWeight: "500" }}>
-															{item.product_name || `${t('orders.product')} #${item.product_id}`}
-														</span>
+												<div key={index} className="order-item">
+													<div className="order-item-left">
+														<span className="order-item-qty">{item.qty}x</span>
+														<span className="order-item-name">{item.product_name || `${t('orders.product')} #${item.product_id}`}</span>
 													</div>
-													<div style={{ 
-														fontWeight: "bold",
-														color: "#28a745"
-													}}>
-														{((item.unit_price_cents * item.qty) / 100).toFixed(2)}€
-													</div>
+													<div className="order-item-amount">{((item.unit_price_cents * item.qty) / 100).toFixed(2)}€</div>
 												</div>
 											))}
 										</div>
 									</div>
 								) : (
-									<div style={{ borderTop: "1px solid #ddd", paddingTop: "1rem", color: "#999", fontStyle: "italic" }}>
-										⚠️ {t('orders.itemDetailsUnavailable')}
-									</div>
+									<div className="order-items-empty">⚠️ {t('orders.itemDetailsUnavailable')}</div>
 								)}
 								
 								{/* Actions de la commande */}
-								<div style={{ borderTop: "1px solid #ddd", paddingTop: "1rem", marginTop: "1rem" }}>
-									<div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-										{/* Bouton de paiement pour les commandes créées ou validées */}
-										{(order.status === "CREE" || order.status === "VALIDEE") && (
-											<button
-												onClick={() => navigate(`/payment/${order.id}`)}
-												style={{
-													backgroundColor: "#28a745",
-													color: "white",
-													border: "none",
-													padding: "0.75rem 1.5rem",
-													borderRadius: "8px",
-													fontSize: "1rem",
-													fontWeight: "bold",
-													cursor: "pointer",
-													transition: "background-color 0.3s",
-													flex: "1",
-													minWidth: "200px"
-												}}
-												onMouseOver={(e) => e.target.style.backgroundColor = "#218838"}
-												onMouseOut={(e) => e.target.style.backgroundColor = "#28a745"}
-											>
-												💳 Payer maintenant ({(order.total_cents / 100).toFixed(2)}€)
-											</button>
-										)}
-										
-										{/* Bouton de suivi pour toutes les commandes */}
-										<button
-											onClick={() => navigate(`/order/${order.id}`)}
-											style={{
-												backgroundColor: "#007bff",
-												color: "white",
-												border: "none",
-												padding: "0.75rem 1.5rem",
-												borderRadius: "8px",
-												fontSize: "1rem",
-												fontWeight: "bold",
-												cursor: "pointer",
-												transition: "background-color 0.3s",
-												flex: "1",
-												minWidth: "200px"
-											}}
-											onMouseOver={(e) => e.target.style.backgroundColor = "#0056b3"}
-											onMouseOut={(e) => e.target.style.backgroundColor = "#007bff"}
-										>
-											📦 Suivre la commande
+								<div className="order-actions">
+									{(order.status === "CREE" || order.status === "VALIDEE") && (
+										<button className="order-action-btn order-action-primary" onClick={() => navigate(`/payment/${order.id}`)}>
+											💳 Payer maintenant ({(order.total_cents / 100).toFixed(2)}€)
 										</button>
-									</div>
+									)}
+									<button className="order-action-btn order-action-secondary" onClick={() => navigate(`/order/${order.id}`)}>
+										📦 Suivre la commande
+									</button>
 								</div>
 							</div>
 						))}

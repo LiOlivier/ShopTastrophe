@@ -269,7 +269,10 @@ export default function OrderTracking() {
           <div className="details-grid">
             <div className="detail-card">
               <h4>💰 Montant total</h4>
-              <p className="total-amount">{(order.total_cents / 100).toFixed(2)} €</p>
+              <p className="total-amount">
+                <span className="amount-number">{(order.total_cents / 100).toFixed(2)}</span>
+                <span className="amount-euro">€</span>
+              </p>
             </div>
             
             <div className="detail-card">
