@@ -150,10 +150,10 @@ ShopTastrophe/
 ## Données de test
 
 Au premier démarrage, l'application ajoute automatiquement des produits de démonstration :
-- T-Shirt Ironique - 24.99€
-- Sweat Sarcastique - 64.99€  
-- Casquette Stylée - 19.99€
-- Mug Caféiné - 12.99€
+- T-Shirt Ironique - 25.00€
+- Sweat Sarcastique - 60.00€  
+- Casquette Stylée - 20.00€
+- Chatastrophe - 15.00€
 
 ## Problèmes courants
 

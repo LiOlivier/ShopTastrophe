@@ -1,11 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .shop import Product
-from .api import auth, cart, orders
-from .core import products, catalog_service 
+from backend.shop import Product
+from backend.core import products, catalog_service 
 from dataclasses import asdict
 
-app = FastAPI(title="ShopTastrophe 😏")
+app = FastAPI(title="ShopTastrophe Test 😏")
 
 app.add_middleware(
     CORSMiddleware,
@@ -20,9 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(auth.router)
-app.include_router(cart.router)
-app.include_router(orders.router)
+# PAS d'import des routers d'API pour tester
 
 try:
     if not catalog_service.list_products():

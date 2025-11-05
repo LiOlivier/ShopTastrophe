@@ -26,23 +26,61 @@ export default function Cart() {
 		setIsOrdering(true);
 		try {
 			console.log("🛒 Début checkout...");
-			const response = await api.checkout(token);
 			
-			if (response.ok) {
-				const result = await response.json();
-				console.log("✅ Commande validée:", result);
+			try {
+				const response = await api.checkout(token);
 				
-				alert(`Commande validée avec succès ! 🎉\nNuméro: ${result.order_id}\nTotal: ${(result.total / 100).toFixed(2)}€`);
+				if (response.ok) {
+					const result = await response.json();
+					console.log("✅ Commande validée:", result);
+					
+					alert(`Commande validée avec succès ! 🎉\nNuméro: ${result.order_id}\nTotal: ${(result.total / 100).toFixed(2)}€`);
+					
+					// Vider le panier après commande réussie
+					clear();
+					
+					// Rediriger vers les commandes
+					navigate("/orders");
+				} else {
+					const error = await response.text();
+					console.error("❌ Erreur checkout:", error);
+					alert(`Erreur lors de la commande: ${error}`);
+				}
+			} catch (apiError) {
+				console.warn("⚠️ Backend indisponible, simulation de commande:", apiError);
 				
-				// Vider le panier après commande réussie
+				// Calcul du total
+				const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+				const simulatedOrderId = "CMD-" + Date.now();
+				
+				// Créer la commande simulée
+				const simulatedOrder = {
+					id: simulatedOrderId,
+					status: "VALIDEE",
+					total_cents: Math.round(total * 100),
+					created_at: Date.now() / 1000,
+					items: items.map(item => ({
+						product_id: item.id,
+						product_name: item.name,
+						unit_price_cents: Math.round(item.price * 100),
+						qty: item.quantity
+					}))
+				};
+				
+				// Sauvegarder dans localStorage pour l'utilisateur
+				const userName = user?.name || user?.email?.split('@')[0] || 'guest';
+				const userKey = `orders_${userName}`;
+				const existingOrders = JSON.parse(localStorage.getItem(userKey) || '[]');
+				existingOrders.push(simulatedOrder);
+				localStorage.setItem(userKey, JSON.stringify(existingOrders));
+				
+				alert(`Commande simulée avec succès ! 🎉\n(Backend indisponible)\nNuméro: ${simulatedOrderId}\nTotal: ${total.toFixed(2)}€`);
+				
+				// Vider le panier
 				clear();
 				
 				// Rediriger vers les commandes
 				navigate("/orders");
-			} else {
-				const error = await response.text();
-				console.error("❌ Erreur checkout:", error);
-				alert(`Erreur lors de la commande: ${error}`);
 			}
 		} catch (error) {
 			console.error("💥 Erreur checkout:", error);
@@ -81,15 +119,21 @@ export default function Cart() {
 										<div className="cart-price">{(it.priceCents / 100).toFixed(2)}€</div>
 									</div>
 									<div className="cart-qty">
-										<label className="sr-only" htmlFor={`qty-${idx}`}>Quantité</label>
-										<input
-											id={`qty-${idx}`}
-											type="number"
-											min="0"
-											max="99"
-											value={it.qty}
-											onChange={(e) => updateQty(it.id, it.colorKey, Number(e.target.value))}
-										/>
+										<button 
+											className="qty-btn minus"
+											onClick={() => updateQty(it.id, it.colorKey, Math.max(0, it.qty - 1))}
+											aria-label="Diminuer la quantité"
+										>
+											-
+										</button>
+										<span className="qty-display">{it.qty}</span>
+										<button 
+											className="qty-btn plus"
+											onClick={() => updateQty(it.id, it.colorKey, it.qty + 1)}
+											aria-label="Augmenter la quantité"
+										>
+											+
+										</button>
 									</div>
 									<div className="cart-line-total">{((it.priceCents * it.qty) / 100).toFixed(2)}€</div>
 									<button className="cart-remove" onClick={() => removeItem(it.id, it.colorKey)} aria-label="Retirer l'article">×</button>

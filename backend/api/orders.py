@@ -56,7 +56,16 @@ def list_orders(token: str):
                 "status": getattr(o, "status", "UNKNOWN"),
                 "total_cents": getattr(o, "total_cents", lambda: 0)()
                 if callable(getattr(o, "total_cents", None)) else getattr(o, "total_cents", 0),
-                "created_at": getattr(o, "created_at", None)
+                "created_at": getattr(o, "created_at", None),
+                "items": [
+                    {
+                        "product_id": getattr(item, "product_id", None),
+                        "product_name": getattr(item, "name", None),
+                        "unit_price_cents": getattr(item, "unit_price_cents", 0),
+                        "qty": getattr(item, "quantity", 0)
+                    }
+                    for item in getattr(o, "items", [])
+                ]
             }
             for o in user_orders
         ]

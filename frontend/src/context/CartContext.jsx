@@ -120,24 +120,27 @@ export function CartProvider({ children }) {
     return cartData.items.map((item) => {
       // Mapping avec les vraies images des produits
       const productImages = {
-        "1": "/merch/TEESHIRT/WTF.png",        // T-Shirt Ironique
-        "2": "/merch/SWEAT/WSF.png",           // Sweat Sarcastique  
-        "3": "/merch/CASQUETTE/bleum.png",     // Casquette Stylée
-        "4": "/merch/TASSE/noir.png"           // Mug Caféiné
+        "1": "/merch/TEESHIRT/BTF.png",        // T-Shirt Noir 
+        "2": "/merch/SWEAT/WSF.png",           // Sweat Blanc  
+        "3": "/merch/CASQUETTE/blanc.png",     // Casquette Blanche
+        "4": "/merch/TASSE/noir.png",          // Tasse Noire
+        "5": "/merch/TEESHIRT/T-shirt%20Blanc%20Recto.jpg"  // T-Shirt Blanc
       };
       
       const productNames = {
-        "1": "T-Shirt Ironique",
-        "2": "Sweat Sarcastique",
-        "3": "Casquette Stylée", 
-        "4": "Mug Caféiné"
+        "1": "T-Shirt Noir",
+        "2": "Sweat Blanc",
+        "3": "Casquette Blanche", 
+        "4": "Tasse Noire",
+        "5": "T-Shirt Blanc"
       };
       
       const productPrices = {
-        "1": 3000,
-        "2": 6000,
-        "3": 2000,
-        "4": 1500
+        "1": 3000,  // €30,00 - T-Shirt Noir
+        "2": 6000,  // €60,00 - Sweat Blanc
+        "3": 2000,  // €20,00 - Casquette Blanche
+        "4": 1500,  // €15,00 - Tasse Noire
+        "5": 2000   // €20,00 - T-Shirt Blanc
       };
       
       return {
@@ -337,6 +340,10 @@ export function CartProvider({ children }) {
     count,
     totalCents,
     parseEuroToCents,
+    getItemQuantity: (id) => {
+      const item = items.find(item => item.id === id);
+      return item ? item.qty : 0;
+    },
     // modal state
     lastAdded,
     confirmOpen,
