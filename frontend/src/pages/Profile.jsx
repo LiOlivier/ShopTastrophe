@@ -18,11 +18,27 @@ export default function Profil() {
 
   const initial = useMemo(() => {
     const [prenom = "", ...rest] = (user?.name || "").trim().split(" ");
+    
+    // Préfixer automatiquement le téléphone avec +33
+    let telephone = user?.phone || "";
+    
+    // Si le téléphone est vide, on met +33 par défaut
+    if (!telephone) {
+      telephone = "+33 ";
+    } else if (!telephone.startsWith('+33')) {
+      // Si c'est un numéro français qui commence par 0, on remplace le 0 par +33
+      if (telephone.startsWith('0')) {
+        telephone = '+33 ' + telephone.substring(1);
+      } else {
+        telephone = '+33 ' + telephone;
+      }
+    }
+    
     return {
       prenom,
       nom: rest.join(" "),
       email: user?.email || "",
-      telephone: user?.phone || "",
+      telephone,
       pays: user?.country || "",
       region: user?.state || "",
       codePostal: user?.zip || "",
@@ -40,29 +56,76 @@ export default function Profil() {
   });
   const [passwordEdition, setPasswordEdition] = useState(false);
   const [passwordMessage, setPasswordMessage] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState(false);
   const [validationMessage, setValidationMessage] = useState("");
+  const [profileSuccess, setProfileSuccess] = useState(false);
   
   useEffect(() => setForm(initial), [initial]);
 
   // Fonctions de validation
   const validateEmail = (email) => {
+    // Vérification du format général
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    if (!emailRegex.test(email)) {
+      return false;
+    }
+    
+    // Vérification des extensions de domaine valides
+    const validExtensions = [
+      'com', 'fr', 'org', 'net', 'edu', 'gov', 'mil', 'int',
+      'eu', 'uk', 'de', 'it', 'es', 'ca', 'au', 'jp', 'cn',
+      'info', 'biz', 'name', 'pro', 'coop', 'museum'
+    ];
+    
+    const parts = email.split('@');
+    if (parts.length !== 2) return false;
+    
+    const domain = parts[1];
+    const domainParts = domain.split('.');
+    const extension = domainParts[domainParts.length - 1].toLowerCase();
+    
+    return validExtensions.includes(extension);
   };
 
   const validatePhone = (phone) => {
-    // Permet seulement les chiffres, espaces, tirets, parenthèses et le signe +
     const phoneRegex = /^[\d\s\-\(\)\+]+$/;
-    return phoneRegex.test(phone);
+    const isValidFormat = phoneRegex.test(phone);
+    
+    const startsWithFranceCode = phone.trim().startsWith('+33');
+    
+    if (startsWithFranceCode) {
+      const phoneAfterCode = phone.replace('+33', '').replace(/[^\d]/g, '');
+      const hasValidLength = phoneAfterCode.length <= 9;
+      return isValidFormat && hasValidLength;
+    }
+    
+    return false; // Doit commencer par +33
   };
 
   const setChamp = (e) => {
     const { name, value } = e.target;
     
-    // Validation spéciale pour le téléphone - ne permettre que les chiffres et certains caractères
+    // Validation spéciale pour le téléphone
     if (name === 'telephone') {
-      const cleanValue = value.replace(/[^\d\s\-\(\)\+]/g, '');
-      setForm((f) => ({ ...f, [name]: cleanValue }));
+      let newValue = value;
+      
+      // Si le champ est vide ou ne commence pas par +33, l'ajouter
+      if (!newValue.startsWith('+33')) {
+        // Extraire seulement les chiffres de ce que l'utilisateur tape
+        const userDigits = newValue.replace(/[^\d]/g, '');
+        newValue = '+33' + (userDigits ? ' ' + userDigits : '');
+      }
+      
+      // Nettoyer le format général
+      const cleanValue = newValue.replace(/[^\d\s\-\(\)\+]/g, '');
+      
+      // Compter les chiffres après +33
+      const digitsAfter33 = cleanValue.replace('+33', '').replace(/[^\d]/g, '');
+      
+      // Limiter à 9 chiffres maximum après +33
+      if (digitsAfter33.length <= 9) {
+        setForm((f) => ({ ...f, [name]: cleanValue }));
+      }
     } else {
       setForm((f) => ({ ...f, [name]: value }));
     }
@@ -73,11 +136,13 @@ export default function Profil() {
     setForm(initial); 
     setEdition(false); 
     setValidationMessage("");
+    setProfileSuccess(false);
   };
   const annulerPassword = () => { 
     setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" }); 
     setPasswordEdition(false); 
     setPasswordMessage("");
+    setPasswordSuccess(false);
   };
   
   const enregistrer = () => {
@@ -86,14 +151,32 @@ export default function Profil() {
     
     // Validation de l'email
     if (form.email && !validateEmail(form.email)) {
-      setValidationMessage("❌ L'adresse email n'est pas valide. Veuillez saisir une adresse email complète (ex: nom@domaine.com)");
+      setValidationMessage("❌ L'adresse email n'est pas valide. Utilisez une extension connue (.com, .fr, .org, etc.)");
       return;
     }
     
     // Validation du téléphone
-    if (form.telephone && !validatePhone(form.telephone)) {
-      setValidationMessage("❌ Le numéro de téléphone ne peut contenir que des chiffres, espaces, tirets, parenthèses et le signe +");
-      return;
+    if (form.telephone) {
+      const phoneRegex = /^[\d\s\-\(\)\+]+$/;
+      const isValidFormat = phoneRegex.test(form.telephone);
+      const startsWithFranceCode = form.telephone.trim().startsWith('+33');
+      
+      if (!isValidFormat) {
+        setValidationMessage("❌ Le numéro de téléphone ne peut contenir que des chiffres, espaces, tirets, parenthèses et le signe +");
+        return;
+      }
+      
+      if (!startsWithFranceCode) {
+        setValidationMessage("❌ Le numéro de téléphone doit commencer par +33");
+        return;
+      }
+      
+      // Compter les chiffres après +33
+      const digitsAfter33 = form.telephone.replace('+33', '').replace(/[^\d]/g, '');
+      if (digitsAfter33.length > 9) {
+        setValidationMessage("❌ Le numéro de téléphone ne peut pas contenir plus de 9 chiffres après +33");
+        return;
+      }
     }
     
     // Si tout est valide, enregistrer
@@ -108,7 +191,14 @@ export default function Profil() {
       location: form.lieu,
     });
     setEdition(false);
-    setValidationMessage("✅ Profil mis à jour avec succès");
+    setValidationMessage("Profil mis à jour avec succès");
+    setProfileSuccess(true);
+    
+    // Maintenir le message pendant 3 secondes
+    setTimeout(() => {
+      setValidationMessage("");
+      setProfileSuccess(false);
+    }, 3000);
   };
 
   const changerMotDePasse = async () => {
@@ -138,8 +228,16 @@ export default function Profil() {
       if (response.ok) {
         const data = await response.json();
         console.log("✅ Succès:", data);
-        setPasswordMessage("Mot de passe modifié avec succès ✅");
-        annulerPassword();
+        setPasswordMessage("Mot de passe modifié avec succès !");
+        setPasswordSuccess(true);
+        setPasswordEdition(false);
+        setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
+        
+        // Maintenir le message pendant 5 secondes
+        setTimeout(() => {
+          setPasswordMessage("");
+          setPasswordSuccess(false);
+        }, 5000);
       } else {
         const error = await response.json();
         console.log("❌ Erreur:", error);
@@ -164,7 +262,7 @@ export default function Profil() {
           </div>
         </div>
         {!edition ? (
-          <button className="btn sombre" onClick={() => { setEdition(true); setValidationMessage(""); }}>{t('profile.edit')}</button>
+          <button className="btn sombre" onClick={() => { setEdition(true); setValidationMessage(""); setProfileSuccess(false); }}>{t('profile.edit')}</button>
         ) : (
           <div className="actions">
             <button className="btn ghost" onClick={annuler}>{t('profile.cancel')}</button>
@@ -174,7 +272,7 @@ export default function Profil() {
         
         {/* Message de validation */}
         {validationMessage && (
-          <div className={`validation-message ${validationMessage.includes('✅') ? 'success' : 'error'}`}>
+          <div className={`validation-message ${profileSuccess ? 'success' : 'error'}`}>
             {validationMessage}
           </div>
         )}
@@ -188,7 +286,7 @@ export default function Profil() {
               <Champ libelle={t('profile.firstName')} name="prenom" value={form.prenom} onChange={setChamp} disabled={!edition} />
               <Champ libelle={t('profile.lastName')} name="nom" value={form.nom} onChange={setChamp} disabled={!edition} />
               <Champ type="email" libelle={t('profile.email')} name="email" value={form.email} onChange={setChamp} disabled={!edition} required />
-              <Champ type="tel" libelle={t('profile.phone')} name="telephone" value={form.telephone} onChange={setChamp} disabled={!edition} placeholder="Ex: 01 23 45 67 89" />
+              <Champ type="tel" libelle={t('profile.phone')} name="telephone" value={form.telephone} onChange={setChamp} disabled={!edition} placeholder="Ex: +33 1 23 45 67 89" />
             </div>
           </div>
           <div className="panneau">
@@ -238,7 +336,7 @@ export default function Profil() {
               />
               
               {passwordMessage && (
-                <div className={`message ${passwordMessage.includes("✅") ? "success" : "error"}`}>
+                <div className={`validation-message ${passwordSuccess ? "success" : "error"}`}>
                   {passwordMessage}
                 </div>
               )}

@@ -26,7 +26,7 @@ try:
         p1 = Product(id="1", name="T-Shirt Ironique", description="Coton bio", price_cents=3000, stock_qty=12)
         p2 = Product(id="2", name="Sweat Sarcastique", description="Molleton doux", price_cents=6000, stock_qty=100)
         p3 = Product(id="3", name="Casquette Stylée", description="Bleu marine, taille unique", price_cents=2000, stock_qty=20)
-        p4 = Product(id="4", name="Chatastrophe", description="Céramique blanche 30cl", price_cents=1500, stock_qty=15)
+        p4 = Product(id="4", name="ChatasTrophe", description="Céramique blanche 30cl", price_cents=1500, stock_qty=15)
         products.add(p1)
         products.add(p2)
         products.add(p3)

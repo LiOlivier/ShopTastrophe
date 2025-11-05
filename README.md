@@ -118,5 +118,12 @@ Mois d'expiration : 12
 Année d'expiration : 2025
 CVC : 123
 
+## Environnement Test 
+
+cd frontend/src/Test
+python test_auth.py
+python test_cart_persistence.py
+
+
 ---
 *Made with ❤️ et beaucoup de café par des étudiants motivés*

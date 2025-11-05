@@ -194,3 +194,24 @@
 	color: #374151;
 	font-size: 0.9rem;
 }
+
+/* Messages de validation */
+.validation-message {
+	font-size: 0.85rem;
+	margin-top: 0.25rem;
+	padding: 0.375rem 0.75rem;
+	border-radius: 0.375rem;
+	font-weight: 500;
+}
+
+.validation-message.success {
+	color: #16a34a;
+	background-color: #dcfce7;
+	border: 1px solid #bbf7d0;
+}
+
+.validation-message.error {
+	color: #dc2626;
+	background-color: #fef2f2;
+	border: 1px solid #fecaca;
+}

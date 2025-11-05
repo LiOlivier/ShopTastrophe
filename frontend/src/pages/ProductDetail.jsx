@@ -83,7 +83,7 @@ const productMap = {
     ],
   },
   "tasse-noire": {
-    title: "ChataseTrophe",
+    title: "ChatasTrophe",
     price: "€15,00",
     kind: "TASSE",
     defaultColor: "noir",
@@ -93,7 +93,7 @@ const productMap = {
     ],
   },
   "tasse-rouge": {
-    title: "ChataseTrophe",
+    title: "ChatasTrophe",
     price: "€15,00",
     kind: "TASSE",
     defaultColor: "rouge",
