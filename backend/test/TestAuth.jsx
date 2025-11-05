@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { api } from "../api/client";
+import { api } from "../../frontend/src/api/client";
 
 export default function TestAuth() {
   const [result, setResult] = useState("");
@@ -9,8 +9,8 @@ export default function TestAuth() {
     try {
       // Créer un compte de test
       const registerResponse = await api.register({
-        email: "test@shoptest.com",
-        password: "test123",
+        email: "olivier@gmail.c",
+        password: "123",
         first_name: "Test",
         last_name: "User", 
         address: "123 Test Street"

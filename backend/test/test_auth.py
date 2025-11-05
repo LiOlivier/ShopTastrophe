@@ -9,9 +9,13 @@ BASE_URL = "http://127.0.0.1:8000"
 def create_test_user():
     print("👤 Création d'un utilisateur de test...")
     
-    # Données de test
+    # Générer un email unique avec timestamp
+    import time
+    timestamp = int(time.time())
+    
+    # Données de test avec email valide
     user_data = {
-        "email": "test@example.com",
+        "email": f"test_{timestamp}@exemple.fr",  # Email avec extension valide
         "password": "motdepasse123",
         "first_name": "Test",
         "last_name": "User",
@@ -31,11 +35,11 @@ def create_test_user():
         else:
             print(f"❌ Erreur: {response.status_code}")
             
-        # Test de connexion
+        # Test de connexion avec email valide
         print("\n🔑 Test de connexion...")
         login_data = {
-            "email": "test@example.com",
-            "password": "motdepasse123"
+            "email": user_data["email"],  # Utilise l'email du user créé
+            "password": user_data["password"]
         }
         
         response = requests.post(f"{BASE_URL}/auth/login", json=login_data)

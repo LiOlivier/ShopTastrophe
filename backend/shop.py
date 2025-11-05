@@ -334,6 +334,10 @@ class AuthService:
         self.sessions = sessions
 
     def register(self, email: str, password: str, first_name: str, last_name: str, address: str, is_admin: bool=False) -> User:
+        # Validation de l'email
+        if not self._validate_email(email):
+            raise ValueError("Format d'email invalide. Utilisez des extensions comme .com, .fr, .org, etc.")
+            
         if self.users.get_by_email(email):
             raise ValueError("Email déjà utilisé.")
         user = User(
@@ -347,6 +351,24 @@ class AuthService:
         )
         self.users.add(user)
         return user
+
+    def _validate_email(self, email: str) -> bool:
+        """Valide le format de l'email avec les extensions autorisées"""
+        import re
+        
+        # Extensions autorisées (même liste que le frontend)
+        allowed_extensions = ['com', 'fr', 'org', 'net', 'edu', 'gov', 'mil', 'int', 'eu', 'uk', 'de', 'it', 'es', 'ca', 'au', 'jp', 'cn', 'ru', 'br', 'in', 'mx', 'ar', 'cl', 'pe', 've', 'ec', 'bo', 'py', 'uy', 'gf', 'sr', 'gy', 'fk', 'bv', 'gs', 'hm', 'nf', 'cc', 'cx', 'tf', 'aq']
+        
+        # Pattern de base pour email
+        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,})$'
+        match = re.match(pattern, email)
+        
+        if not match:
+            return False
+            
+        # Vérifier l'extension
+        extension = match.group(1).lower()
+        return extension in allowed_extensions
 
     def login(self, email: str, password: str) -> str:
         user = self.users.get_by_email(email)
