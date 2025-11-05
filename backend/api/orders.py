@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from ..core import sessions, users, carts, products  
-from ..shop import OrderRepository, PaymentRepository, InvoiceRepository, BillingService, DeliveryService, PaymentGateway, OrderService, UserRepository
+from ..shop import OrderRepository, PaymentRepository, InvoiceRepository, BillingService, DeliveryService, PaymentGateway, OrderService, UserRepository, OrderStatus
 
 router = APIRouter(prefix="/orders", tags=["orders"])
 
@@ -21,6 +21,14 @@ order_service = OrderService(
 # --- Requêtes ---
 class CheckoutRequest(BaseModel):
     token: str
+
+class PaymentRequest(BaseModel):
+    token: str
+    order_id: str
+    card_number: str
+    exp_month: int
+    exp_year: int
+    cvc: str
 
 # --- ROUTES ---
 
@@ -71,3 +79,38 @@ def list_orders(token: str):
         ]
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Erreur lors de la récupération des commandes : {e}")
+
+
+@router.post("/pay")
+def process_payment(req: PaymentRequest):
+    user_id = sessions.get_user_id(req.token)
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Token invalide.")
+    
+    try:
+        # Vérifier que la commande appartient à l'utilisateur
+        order = orders.get(req.order_id)
+        if not order or order.user_id != user_id:
+            raise HTTPException(status_code=404, detail="Commande introuvable.")
+        
+        if order.status not in [OrderStatus.CREE, OrderStatus.VALIDEE]:
+            raise HTTPException(status_code=400, detail="Cette commande ne peut pas être payée.")
+        
+        # Traiter le paiement
+        payment = order_service.pay_by_card(
+            order_id=req.order_id,
+            card_number=req.card_number,
+            exp_month=req.exp_month,
+            exp_year=req.exp_year,
+            cvc=req.cvc
+        )
+        
+        if payment and payment.succeeded:
+            return {"message": "Paiement réussi ✅", "order_id": req.order_id, "payment_id": payment.id}
+        else:
+            raise HTTPException(status_code=400, detail="Paiement refusé")
+            
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur lors du paiement : {e}")

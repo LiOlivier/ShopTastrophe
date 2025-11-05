@@ -36,13 +36,11 @@ export default function Cart() {
 					const result = await response.json();
 					console.log("✅ Commande validée:", result);
 					
-					alert(`${t('messages.success')} 🎉\n${t('orders.orderNumber') || 'Order'}: ${result.order_id}\nTotal: ${(result.total / 100).toFixed(2)}€`);
-					
 					// Vider le panier après commande réussie
 					clear();
 					
-					// Rediriger vers les commandes
-					navigate("/orders");
+					// Rediriger vers la page de paiement avec l'ID de la commande
+					navigate(`/payment/${result.order_id}`);
 				} else {
 					const error = await response.text();
 					console.error("❌ Erreur checkout:", error);

@@ -113,5 +113,10 @@ Projet réalisé pour le BUT 3 - Qualité de Développement. On a mis en pratiqu
 - Persistence des données
 - Tests (enfin... on devrait)
 
+## Numéro de carte : 4111 1111 1111 1111
+Mois d'expiration : 12
+Année d'expiration : 2025
+CVC : 123
+
 ---
 *Made with ❤️ et beaucoup de café par des étudiants motivés*

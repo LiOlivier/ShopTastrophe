@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useTranslation } from "../hooks/useTranslation";
 import { api } from "../api/client";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Orders() {
 	const { user, isAuthenticated, token } = useAuth();
 	const { t } = useTranslation();
+	const navigate = useNavigate();
 	const [orders, setOrders] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
@@ -216,6 +217,31 @@ export default function Orders() {
 								) : (
 									<div style={{ borderTop: "1px solid #ddd", paddingTop: "1rem", color: "#999", fontStyle: "italic" }}>
 										⚠️ {t('orders.itemDetailsUnavailable')}
+									</div>
+								)}
+								
+								{/* Bouton de paiement pour les commandes créées ou validées */}
+								{(order.status === "CREE" || order.status === "VALIDEE") && (
+									<div style={{ borderTop: "1px solid #ddd", paddingTop: "1rem", marginTop: "1rem" }}>
+										<button
+											onClick={() => navigate(`/payment/${order.id}`)}
+											style={{
+												backgroundColor: "#28a745",
+												color: "white",
+												border: "none",
+												padding: "0.75rem 1.5rem",
+												borderRadius: "8px",
+												fontSize: "1rem",
+												fontWeight: "bold",
+												cursor: "pointer",
+												transition: "background-color 0.3s",
+												width: "100%"
+											}}
+											onMouseOver={(e) => e.target.style.backgroundColor = "#218838"}
+											onMouseOut={(e) => e.target.style.backgroundColor = "#28a745"}
+										>
+											💳 Payer maintenant ({(order.total_cents / 100).toFixed(2)}€)
+										</button>
 									</div>
 								)}
 							</div>

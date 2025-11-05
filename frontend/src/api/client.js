@@ -1,7 +1,7 @@
 const API_BASE = "http://127.0.0.1:8000";
 
 export const api = {
-  // Auth
+  // Authentification
   register: (data) => fetch(`${API_BASE}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -28,7 +28,6 @@ export const api = {
   
   getProduct: async (productId) => {
     try {
-      // Pour l'instant, on récupère tous les produits et on filtre
       const response = await fetch(`${API_BASE}/products`);
       if (!response.ok) return response;
       
@@ -48,7 +47,7 @@ export const api = {
           ok: true,
           json: async () => ({
             ...product,
-            price: product.price_cents / 100 // Convertir centimes en euros
+            price: product.price_cents / 100 //conversion en euros
           })
         };
       } else {
@@ -89,6 +88,12 @@ export const api = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ token })
+  }),
+
+  processPayment: (data, token) => fetch(`${API_BASE}/orders/pay`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...data, token })
   }),
 
   listOrders: (token) => fetch(`${API_BASE}/orders/list?token=${encodeURIComponent(token)}`)
