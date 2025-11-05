@@ -18,12 +18,31 @@ export default function Soutenir() {
               <li>{t('support.prototypes')}</li>
               <li>{t('support.expenses')}</li>
             </ul>
-            <form className="donate" onSubmit={(e) => e.preventDefault()}>
+            <form
+              className="donate"
+              action="https://www.paypal.com/cgi-bin/webscr"
+              method="post"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {/* PayPal Payments Standard donation */}
+              <input type="hidden" name="cmd" value="_donations" />
+              <input type="hidden" name="business" value="liolivier98@gmail.com" />
+              <input type="hidden" name="currency_code" value="EUR" />
+              <input type="hidden" name="item_name" value="Support ShopTastrophe" />
+
               <div className="custom-amount">
                 <label htmlFor="don-amount">{t('support.enterAmount')}</label>
-                <input id="don-amount" type="number" min="1" step="1" placeholder="€" />
+                <input
+                  id="don-amount"
+                  name="amount"
+                  type="number"
+                  min="1"
+                  step="1"
+                  placeholder="€"
+                />
               </div>
-              <button className="btn-primary" type="submit">{t('support.supportButton')}</button>
+              <button className="btn-primary" type="submit">Support</button>
             </form>
           </div>
 
