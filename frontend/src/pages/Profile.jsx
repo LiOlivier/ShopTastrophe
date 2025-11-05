@@ -88,6 +88,11 @@ export default function Profil() {
   };
 
   const validatePhone = (phone) => {
+    // Si c'est juste "+33 " ou "+33", c'est valide (champ vide avec préfixe)
+    if (phone.trim() === '+33' || phone.trim() === '+33 ') {
+      return true;
+    }
+    
     const phoneRegex = /^[\d\s\-\(\)\+]+$/;
     const isValidFormat = phoneRegex.test(phone);
     
