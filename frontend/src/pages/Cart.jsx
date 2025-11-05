@@ -1,11 +1,56 @@
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
+import { api } from "../api/client";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Cart.css";
 
 export default function Cart() {
 	const { items, updateQty, removeItem, clear, totalCents } = useCart();
-	const { user, isAuthenticated } = useAuth();
+	const { user, isAuthenticated, token } = useAuth();
+	const [isOrdering, setIsOrdering] = useState(false);
+	const navigate = useNavigate();
 	const isEmpty = items.length === 0;
+
+	const handleCheckout = async () => {
+		if (!isAuthenticated || !token) {
+			alert("Veuillez vous connecter pour passer commande");
+			return;
+		}
+
+		if (isEmpty) {
+			alert("Votre panier est vide");
+			return;
+		}
+
+		setIsOrdering(true);
+		try {
+			console.log("🛒 Début checkout...");
+			const response = await api.checkout(token);
+			
+			if (response.ok) {
+				const result = await response.json();
+				console.log("✅ Commande validée:", result);
+				
+				alert(`Commande validée avec succès ! 🎉\nNuméro: ${result.order_id}\nTotal: ${(result.total / 100).toFixed(2)}€`);
+				
+				// Vider le panier après commande réussie
+				clear();
+				
+				// Rediriger vers les commandes
+				navigate("/orders");
+			} else {
+				const error = await response.text();
+				console.error("❌ Erreur checkout:", error);
+				alert(`Erreur lors de la commande: ${error}`);
+			}
+		} catch (error) {
+			console.error("💥 Erreur checkout:", error);
+			alert("Erreur de connexion lors de la commande");
+		} finally {
+			setIsOrdering(false);
+		}
+	};
 
 		const address = (() => {
 		if (!isAuthenticated || !user) return null;
@@ -62,8 +107,13 @@ export default function Cart() {
 								<span>Total</span>
 								<strong>{(totalCents / 100).toFixed(2)}€</strong>
 							</div>
-							<button className="primary-btn w-full" type="button" onClick={() => alert("Checkout à implémenter")}>
-								Valider la commande
+							<button 
+								className="primary-btn w-full" 
+								type="button" 
+								onClick={handleCheckout}
+								disabled={isOrdering || !isAuthenticated}
+							>
+								{isOrdering ? "Commande en cours..." : "Valider la commande"}
 							</button>
 							<button className="btn-outline w-full" type="button" onClick={clear}>
 								Vider le panier
