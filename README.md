@@ -32,7 +32,6 @@ python -m uvicorn backend.main:app --reload --port 8000
 # Aller dans le dossier frontend
 cd frontend
 
-## 🎯 Ce que ça fait
 
 - **Catalogue** : Des produits avec différentes couleurs/tailles
 - **Panier** : Ajouter des trucs, les supprimer, tout ça
@@ -40,7 +39,7 @@ cd frontend
 - **Commandes** : Valider ses achats et voir l'historique
 - **Responsive** : Ça marche sur mobile et desktop
 
-## 🛠️ Stack technique
+## Stack tech
 
 **Frontend :**
 - React 18 + Vite
@@ -54,7 +53,7 @@ cd frontend
 - JWT pour l'auth
 - Documentation auto avec Swagger
 
-## 📂 Structure du projet
+##  Structure du projet
 ```
 backend/                    # L'API
 ├── main.py                 # Point d'entrée  
@@ -104,9 +103,9 @@ pip install --upgrade fastapi uvicorn sqlmodel
 **CORS qui fait chier ?**
 Vérifie que le frontend tourne bien sur `localhost:5173`, sinon ajuste dans `main.py`
 
-## 🎓 Contexte
+##  Contexte
 
-Projet réalisé pour le BUT 3 - Qualité de Développement. On a mis en pratique :
+Projet réalisé pour le BUT 3 - Qualité de Développement. On a mis en pratique nos compétences en tant que développeur fs et repris la base d'un code rudimentaire:
 - Architecture propre (séparation frontend/backend)
 - API REST bien documentée
 - Gestion d'état côté client
