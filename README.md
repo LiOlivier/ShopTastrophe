@@ -32,7 +32,6 @@ python -m uvicorn backend.main:app --reload --port 8000
 # Aller dans le dossier frontend
 cd frontend
 
-## 🎯 Ce que ça fait
 
 - **Catalogue** : Des produits avec différentes couleurs/tailles
 - **Panier** : Ajouter des trucs, les supprimer, tout ça
@@ -40,7 +39,7 @@ cd frontend
 - **Commandes** : Valider ses achats et voir l'historique
 - **Responsive** : Ça marche sur mobile et desktop
 
-## 🛠️ Stack technique
+## Stack tech
 
 **Frontend :**
 - React 18 + Vite
@@ -54,8 +53,9 @@ cd frontend
 - JWT pour l'auth
 - Documentation auto avec Swagger
 
-## 📂 Structure du projet
+##  Structure du projet
 ```
+
 backend/                    # L'API
 ├── main.py                 # Point d'entrée FastAPI
 ├── shop.py                 # Classes métier (User, Product, Services...)
@@ -72,6 +72,7 @@ backend/                    # L'API
     ├── test_email_validation.py  # Tests validation email
     └── test_cart_persistence.py  # Tests persistance panier
 
+<<<<<<< HEAD
 frontend/                   # Interface React
 ├── src/
 │   ├── components/         # Composants réutilisables
@@ -92,6 +93,17 @@ frontend/                   # Interface React
 └── public/                # Assets statiques
     ├── merch/             # Images produits
     └── icone/             # Icônes
+=======
+
+frontend/                   # L'interface React
+├── src/
+│   ├── components/         # Composants réutilisables
+│   ├── pages/             # Pages (Home, Products, Cart...)
+│   ├── context/           # États globaux (Auth, Cart)
+│   └── api/               # Appels API
+└── public/                # Images et trucs statiques
+
+>>>>>>> f081138d89bdc1fa998248ba5cf2d81a224c250f
 ```
 
 ## � API (si ça t'intéresse)
@@ -124,9 +136,9 @@ pip install --upgrade fastapi uvicorn sqlmodel
 **CORS qui fait chier ?**
 Vérifie que le frontend tourne bien sur `localhost:5173`, sinon ajuste dans `main.py`
 
-## 🎓 Contexte
+##  Contexte
 
-Projet réalisé pour le BUT 3 - Qualité de Développement. On a mis en pratique :
+Projet réalisé pour le BUT 3 - Qualité de Développement. On a mis en pratique nos compétences en tant que développeur fs et repris la base d'un code rudimentaire:
 - Architecture propre (séparation frontend/backend)
 - API REST bien documentée
 - Gestion d'état côté client
@@ -134,20 +146,20 @@ Projet réalisé pour le BUT 3 - Qualité de Développement. On a mis en pratiqu
 - Tests (enfin... on devrait)
 
 ## Numéro de carte : 4111 1111 1111 1111
-Mois d'expiration : 12
-Année d'expiration : 2025
-CVC : 123
+- Mois d'expiration : 12
+- Année d'expiration : 2025
+- CVC : 123
 
 ## Environnement Test 
 
-cd frontend/src/Test
-python test_auth.py
-python test_cart_persistence.py
+- cd frontend/src/Test
+- python test_auth.py
+- python test_cart_persistence.py
 
 ## Exécution Test dans ./backend
 
-python .\test\test_cart_persistence.py
-python .\test\test_auth.py
+- python .\test\test_cart_persistence.py
+- python .\test\test_auth.py
 
 ## Run BackEnd
 - py -m uvicorn test_minimal_server:app --reload --port 8001

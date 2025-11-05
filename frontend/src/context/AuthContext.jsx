@@ -55,15 +55,15 @@ export function AuthProvider({ children }) {
 // Fonction de login
   const login = async ({ email, password }) => {
     try {
-      console.log("🔐 Tentative de login avec:", email);
-      console.log("🌐 URL API:", `http://127.0.0.1:8000/auth/login`);
+      console.log(" Tentative de login avec:", email);
+      console.log(" URL API:", `http://127.0.0.1:8000/auth/login`);
       
       const response = await api.login({ email, password });
-      console.log("📡 Réponse API login:", response.status, response.ok);
+      console.log(" Réponse API login:", response.status, response.ok);
       
       if (response.ok) {
         const data = await response.json();
-        console.log("✅ Données reçues:", data);
+        console.log(" Données reçues:", data);
         
         // Créer l'objet utilisateur de base
         let userData = { email, name: email.split("@")[0] };
@@ -77,23 +77,23 @@ export function AuthProvider({ children }) {
         
         setUser(userData);
         setToken(data.token);
-        console.log("✅ Login réussi, token:", data.token.substring(0, 8) + "...");
+        console.log(" Login réussi, token:", data.token.substring(0, 8) + "...");
         return true;
       } else {
         const errorText = await response.text();
-        console.error("❌ Erreur login:", response.status, errorText);
+        console.error(" Erreur login:", response.status, errorText);
         return false;
       }
     } catch (error) {
-      console.error("💥 Erreur API login:", error);
+      console.error(" Erreur API login:", error);
       return false;
     }
   };
 // Fonction d'enregistrement
   const register = async ({ email, password, first_name, last_name, address }) => {
     try {
-      console.log("🔐 API register appelée avec:", { email, first_name, last_name, address });
-      console.log("🌐 URL API:", `http://127.0.0.1:8000/auth/register`);
+      console.log(" API register appelée avec:", { email, first_name, last_name, address });
+      console.log(" URL API:", `http://127.0.0.1:8000/auth/register`);
       
       const response = await api.register({ 
         email, 
@@ -106,7 +106,7 @@ export function AuthProvider({ children }) {
       console.log("📡 Réponse register:", response.status, response.ok);
       
       if (response.ok) {
-        console.log("✅ Register OK, sauvegarde du profil local et tentative login auto...");
+        console.log(" Register OK, sauvegarde du profil local et tentative login auto...");
         // Sauvegarder le profil localement pour que le login récupère le bon nom
         try {
           const fullName = (first_name || "") + (last_name ? " " + last_name : "");
@@ -118,11 +118,11 @@ export function AuthProvider({ children }) {
         return await login({ email, password });
       } else {
         const errorText = await response.text();
-        console.error("❌ Erreur register:", response.status, errorText);
+        console.error(" Erreur register:", response.status, errorText);
         return false;
       }
     } catch (error) {
-      console.error("💥 Erreur API register:", error);
+      console.error(" Erreur API register:", error);
       return false;
     }
   };

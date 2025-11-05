@@ -64,13 +64,13 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link to="/contact" className="nav-link">
-              {t('nav.contact')}
+            <Link to="/soutenir" className="nav-link">
+              {t('nav.support')}
             </Link>
           </li>
           <li>
-            <Link to="/soutenir" className="nav-link">
-              {t('nav.support')}
+            <Link to="/contact" className="nav-link">
+              {t('nav.contact')}
             </Link>
           </li>
         </ul>

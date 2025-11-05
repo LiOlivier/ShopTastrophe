@@ -199,7 +199,6 @@ export default function Orders() {
 									<div className="order-items-empty">⚠️ {t('orders.itemDetailsUnavailable')}</div>
 								)}
 								
-								{/* Actions de la commande */}
 								<div className="order-actions">
 									{(order.status === "CREE" || order.status === "VALIDEE") && (
 										<button className="order-action-btn order-action-primary" onClick={() => navigate(`/payment/${order.id}`)}>
